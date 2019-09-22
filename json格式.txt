@@ -1,7 +1,7 @@
 
 {
  Header{id,absent, Note, barcode}
- Question {Level, type, score, Expected,info}
+ Question {Level, type, score, Expected,topic}
 }
 
 

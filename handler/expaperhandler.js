@@ -2,7 +2,8 @@ var config = require('../config/main/config.js');
 var fs = require('fs');
 var querystring = require('querystring');
 var path = require('path');
-var dbexc=require('../models/db/sqlhanlder.js'); //
+var sqlhandler = require('../models/db/sqlhandler.js'); //
+var context=require('../config/main/jsonconfig.js');
 
 /** 增加试卷，此业务需要执行以下几个操作！
  * 1.建立json对象
@@ -11,35 +12,26 @@ var dbexc=require('../models/db/sqlhanlder.js'); //
  * **/
 module.exports.addExpaper = function (req, res) {
 
-    var message = {
-        username: req.body.id,
-        content: req.body.topic
-    };
-    writeNewsDate(JSON.stringify(message), function () {
-        res.send(config.dataPath);
+
+    writeNewsDate(JSON.stringify(context.jsonobj(req)), function (content) {
+
+        sqlhandler.addSql(req,res,context.sqlobj(req,content));
+
+        //res.send(JSON.stringify(context.jsonobj(req)));
     });
-    dbexc.addSql(message);
+
 
 };
 
 
-module.exports.delExpaper = function (req, res) {};
+module.exports.delExpaper = function (req, res) {
+};
 
-module.exports.editExpaper = function (req, res) {};
+module.exports.editExpaper = function (req, res) {
+};
 
-module.exports.getExpaper = function (req, res) {};
-
-
-
-
-
-
-
-
-
-
-
-
+module.exports.getExpaper = function (req, res) {
+};
 
 
 //封装读取json
@@ -53,16 +45,19 @@ function readNewsData(callback) {
     });
 }
 
-//封装写入json
+//封装写入jsonvar
 function writeNewsDate(data, callback) {
-    var count = fs.readdirSync(config.dataPath).length + 1;
-    config.dataPath = path.join(config.dataPath, "expaper" + count + ".json");
-    fs.writeFile(config.dataPath, data, function (err) {
+    var dataPath = path.join(config.dataPath, "data1");  //获取data路径
+    var count=fs.readdirSync(dataPath).length+1
+    dataPath=path.join(dataPath,"expaper"+count+".json");
+
+    fs.writeFile(dataPath, data, function (err) {
         if (err) {
             throw err;
         }
-        callback();
+        callback(dataPath);
     });
+
 
 }
 

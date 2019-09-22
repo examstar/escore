@@ -1,5 +1,6 @@
 var path=require('path');
 module.exports={
-    "port":80,
-    "dataPath":path.join(__dirname,'../../public/data')
+    "port":3000,
+    "dataPath":path.join(__dirname,'../../public/data'),
+    "dataPathDir":path.join(__dirname,'../../public/data')
 };
