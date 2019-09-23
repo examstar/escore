@@ -2,6 +2,21 @@
 
 # 项目启动
 
+# 启动：
+
+##  ！注意！
+
+1.在/config/mysql里面配置数据库账户密码！
+
+2.在/config/main里面配置项目，默认即可。
+
+3.因为idea并不会下载node_modules文件。所以我在项目中打包了一份.
+
+4.运行： node ./bin/www 或 使用idea直接启动www
+
+5.打开 http://localhost:3000/expaper
+
+
 ## 1.mysql数据库配置
 
 采用mysql数据库
@@ -33,16 +48,6 @@ express框架
 
 使用node.js的experss框架。
 
-
-# 启动：
-
-在/config/main里面配置项目，默认即可
-
-在/config/mysql里面配置数据库账户密码
-
-运行： node /bin/www 或 使用idea直接启动www
-
-打开 http://localhost:3000/expaper
 
 # 目录结构
 
