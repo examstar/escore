@@ -24,7 +24,7 @@
 
 采用mysql数据库
 
-ORM:sequelize
+ORM持久化数据库:sequelize
 
 ## 2.Vue.js配置
 
