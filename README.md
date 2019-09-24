@@ -12,7 +12,7 @@
 
 3.因为idea并不会下载node_modules文件。所以我在项目中打包了一份.
 
-4.运行： node ./bin/www 或 使用idea直接启动www
+4.运行： node ./services/bin/www 或 使用idea直接启动www
 
 5.打开 http://localhost:3000/expaper
 
