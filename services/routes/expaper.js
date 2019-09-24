@@ -14,24 +14,31 @@ router.get('/index', function (req, res, next) {
     res.render('expaper.ejs', {});
 });
 
+/**  去list主页**/
+router.get('/expaperlist', function (req, res, next) {
+    res.render('expaperlist.ejs',{});
+});
+
 /** 实际上要进入虚拟路径/expaper/add_expaper （并不需要）**/
 router.get('/add_expaper', function (req, res, next) {
     handler.addExpaper(req, res);
 });
+
 /** 路由添加试卷 实际上要进入虚拟路径/expaper/add_expaper （并不需要）**/
 router.post('/add_expaper', function (req, res, next) {
     handler.addExpaper(req, res);
 });
 
 /**  试图增加一个jsonp函数 **/
-router.get('/getscript', function (req, res,next) {
+router.get('/api/getscript', function (req, res,next) {
     handler.getscript(req,res)
 });
 
-router.get('/expaperlist', function (req, res, next) {
-    res.render('expaperlist.ejs',{});
-});
 
+/**  删除！ **/
+router.get('/del_expaper', function (req, res, next) {
+   handler.delExpaper(req,res);
+});
 
 router.use('/public',express.static(path.join(__dirname,'..','public')));
 

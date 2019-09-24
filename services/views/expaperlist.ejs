@@ -29,7 +29,7 @@
             <input type="button" value="add" class="btn btn-primary" @click="add">
             <label>
                 关键字:
-                <input type="text" class="form-control" v-model="keywords" >
+                <input type="text" class="form-control" v-model="keywords">
             </label>
 
         </div>
@@ -50,7 +50,9 @@
             <td>{{item.id}}</td>
             <td>{{item.name}}</td>
             <td>{{item.created_at | dataFormat('yyyy-mm-dd')}}</td>
-            <td><a href="" @click.prevent="del2(item.id)">delete</a></td>
+<!--            <td><a href="" @click.prevent="del2(item.id)">delete</a></td>-->
+            <td><a href="" @click.prevent="delmsg(item.id)">delete</a></td>
+
         </tr>
         </tbody>
     </table>
@@ -58,6 +60,8 @@
 
 
 <script>
+
+    Vue.http.options.root='http://127.0.0.1:3000/';
 
 
     Vue.filter('dataFormat', function (DateStr, pattern) {
@@ -91,8 +95,14 @@
         },
         methods: {
             add() {
-                var car = {id: this.id, name: this.name, created_at: new Date()}
-                this.list.push(car)
+                // var car = {id: this.id, name: this.name, created_at: new Date()}
+                // this.list.push(car)
+                this.$http.post('add_expaper',{name:this.name,id:this.id},{emulateJSON:true}).then(result => {
+                    //this.list = result.body;
+                    console.log(result.body)
+                    this.getAllList()
+                })
+
             },
             del(id) {
                 this.list.some(() => {
@@ -110,11 +120,17 @@
                 })
                 this.list.splice(index, 1)
             },
+            delmsg(id){
+                this.$http.get('del_expaper?id='+id).then(result => {
+                    this.getAllList()
+                })
+            },
             search(keywords) {
                 var newList = []
                 this.list.forEach(item => {
                     if (item.name.indexOf(keywords) != -1) {
                         newList.push(item)
+
                     }
                 })
                 return newList
@@ -127,19 +143,18 @@
                     }
                 })
             },
-            getAllList(){
-                this.$http.get('http://127.0.0.1:3000/getscript?callback=aaa').then(result=>{
-                    this.list=result.body;
+            getAllList() {
+                this.$http.get('api/getscript?callback=aaa').then(result => {
+                    this.list = result.body;
                     console.log(result.body)
                 })
             },
 
         },
-        created(){
+        created() {
             this.getAllList()
         },
     });
-
 
 
 </script>

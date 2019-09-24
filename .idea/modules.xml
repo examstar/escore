@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/mynodejs.iml" filepath="$PROJECT_DIR$/mynodejs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/expaper-web.iml" filepath="$PROJECT_DIR$/expaper-web.iml" />
     </modules>
   </component>
 </project>

@@ -29,6 +29,7 @@ module.exports.addExpaper = function (req, res) {
     });
 };
 
+/** json函数业务，从数据库选择全部数据给前端**/
 module.exports.getscript=function(req,res){
 
     sqlhandler.getAll(req,res,function (data) {
@@ -38,9 +39,22 @@ module.exports.getscript=function(req,res){
 
 };
 
-
+/** 删除试卷，此业务需要执行以下几个操作！
+ * 1.在数据库查找id，获取content path
+ * 2.删除sql数据
+ * 3.删除文件
+ * **/
 module.exports.delExpaper = function (req, res) {
+    sqlhandler.delSql(req,res,function (content_path) {
+        fs.unlink(content_path,function (err) {
+            if (err){
+                console.log("删除文件出错，需要手动删除：‘content_path’");
+                throw err;
+            }
+        })
+    });
 };
+
 
 module.exports.editExpaper = function (req, res) {
 };
