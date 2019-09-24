@@ -27,7 +27,14 @@ module.exports.addExpaper = function (req, res) {
             }
         });
     });
+};
 
+module.exports.getscript=function(req,res){
+
+    sqlhandler.getAll(req,res,function (data) {
+        var scriptStr = `${JSON.stringify(data)}`;
+        res.send(scriptStr);
+    });
 
 };
 

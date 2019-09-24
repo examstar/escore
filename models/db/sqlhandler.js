@@ -2,7 +2,6 @@
 var Expaper = require('./expaper');
 
 module.exports.addSql=function (req,res,message,callback) {
-
     //如果没有post数据或者数据为空,直接返回
     if (message.name == undefined ||message.name == ''
         || message.content_path == undefined || message.content_path == '') {
@@ -14,5 +13,14 @@ module.exports.addSql=function (req,res,message,callback) {
     Expaper.create(message).then(function(msg){
         console.log(msg);
         res.redirect('/');
+    });
+};
+
+
+/**  查找全部条目  **/
+module.exports.getAll=function(req,res,callback){
+    Expaper.findAll().then(function(msgs) {
+        //res.render('other/index.ejs', { messages: msgs });
+        callback(msgs);
     });
 };

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../public/lib/vue.js"></script>
+    <link rel="stylesheet" href="../public/stylesheets/bootstrap.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+
+</head>
+<body>
+<div id="app">
+
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">试卷预览页</h3>
+        </div>
+        <div class="panel-body form-inline">
+            <label>
+                Id:
+                <input type="text" class="form-control" v-model="id">
+            </label>
+            <label>
+                Name:
+                <input type="text" class="form-control" v-model="name" @keyup.enter="add">
+            </label>
+
+            <input type="button" value="add" class="btn btn-primary" @click="add">
+            <label>
+                关键字:
+                <input type="text" class="form-control" v-model="keywords" >
+            </label>
+
+        </div>
+    </div>
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Ctime</th>
+            <th>Operation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--        之前-->
+        <tr v-for="item in search(keywords)" :key="item.id">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.created_at | dataFormat('yyyy-mm-dd')}}</td>
+            <td><a href="" @click.prevent="del2(item.id)">delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+
+
+    Vue.filter('dataFormat', function (DateStr, pattern) {
+        var dt = new Date(DateStr)
+
+        var y = dt.getFullYear()
+        var m = (dt.getMonth() + 1).toString().padStart(2, '0')
+        var d = dt.getDate().toString().padStart(2, '0')
+
+        if (pattern && pattern.toLowerCase() === 'yyyy-mm-dd') {
+            return `${y}-${m}-${d}`
+        } else {
+            var hh = dt.getHours().toString().padStart(2, '0')
+            var mm = dt.getMinutes().toString().padStart(2, '0')
+            var ss = dt.getSeconds().toString().padStart(2, '0')
+            return `${y}-${m}-${d} ${hh}-${mm}-${ss}`
+        }
+    });
+
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            id: '',
+            name: '',
+            keywords: '',
+            list: [
+                {id: 1, name: '奔驰', created_at: new Date()},
+                {id: 2, name: 'bmw', created_at: new Date()}
+            ]
+        },
+        methods: {
+            add() {
+                var car = {id: this.id, name: this.name, created_at: new Date()}
+                this.list.push(car)
+            },
+            del(id) {
+                this.list.some(() => {
+                    if (id == item.id) {
+                        this.list.splice(i, 1)
+                        return true;
+                    }
+                })
+            },
+            del2(id) {
+                var index = this.list.findIndex(item => {
+                    if (item.id == id) {
+                        return true;
+                    }
+                })
+                this.list.splice(index, 1)
+            },
+            search(keywords) {
+                var newList = []
+                this.list.forEach(item => {
+                    if (item.name.indexOf(keywords) != -1) {
+                        newList.push(item)
+                    }
+                })
+                return newList
+            },
+            search2(keywords) {
+                return his.list.filter(item => {
+                    if (item.name.includes(keywords)) {
+
+                        return item
+                    }
+                })
+            },
+            getAllList(){
+                this.$http.get('http://127.0.0.1:3000/getscript?callback=aaa').then(result=>{
+                    this.list=result.body;
+                    console.log(result.body)
+                })
+            },
+
+        },
+        created(){
+            this.getAllList()
+        },
+    });
+
+
+
+</script>
+</body>
+</html>

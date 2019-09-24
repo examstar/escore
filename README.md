@@ -16,6 +16,9 @@
 
 5.打开 http://localhost:3000/expaper
 
+# 更新 
++ 试卷预览页：http://127.0.0.1:3000/expaperlist
+- 还没有其他功能，只能读取数据
 
 ## 1.mysql数据库配置
 

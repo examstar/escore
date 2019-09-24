@@ -16,7 +16,8 @@ module.exports.jsonobj=function (req) {
             "type": req.body.type,
             "score":req.body.score,
             "expected":req.body.expected
-        }
+        },
+
     };
     return jsonmessage;
 };
