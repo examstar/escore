@@ -61,8 +61,7 @@
 
 <script>
 
-    Vue.http.options.root='http://127.0.0.1:3000/';
-
+    Vue.http.options.root='http://127.0.0.1:3000/'
 
     Vue.filter('dataFormat', function (DateStr, pattern) {
         var dt = new Date(DateStr)
@@ -97,7 +96,7 @@
             add() {
                 // var car = {id: this.id, name: this.name, created_at: new Date()}
                 // this.list.push(car)
-                this.$http.post('add_expaper',{name:this.name,id:this.id},{emulateJSON:true}).then(result => {
+                this.$http.post('/add_expaper',{name:this.name,id:this.id},{emulateJSON:true}).then(result => {
                     //this.list = result.body;
                     console.log(result.body)
                     this.getAllList()
@@ -121,7 +120,7 @@
                 this.list.splice(index, 1)
             },
             delmsg(id){
-                this.$http.get('del_expaper?id='+id).then(result => {
+                this.$http.get('/del_expaper?id='+id).then(result => {
                     this.getAllList()
                 })
             },

@@ -11,6 +11,7 @@ var context = require('../config/main/jsonconfig.js');
  * 3.把元数据写入到数据库
  * **/
 module.exports.addExpaper = function (req, res) {
+    setCORSallow(req,res);
 
     /** 先在磁盘写json文件 然后把信息写入数据库 如果出错则回滚操作删除文件 （模拟事务锁）**/
     writeNewsDate(JSON.stringify(context.jsonobj(req)), function (content) {
@@ -29,9 +30,10 @@ module.exports.addExpaper = function (req, res) {
     });
 };
 
-/** json函数业务，从数据库选择全部数据给前端**/
+/** json函数业务，从数据库选择全部数据给前端 (需要设置跨域请求)**/
 module.exports.getscript=function(req,res){
 
+    setCORSallow(req,res);
     sqlhandler.getAll(req,res,function (data) {
         var scriptStr = `${JSON.stringify(data)}`;
         res.send(scriptStr);
@@ -45,6 +47,7 @@ module.exports.getscript=function(req,res){
  * 3.删除文件
  * **/
 module.exports.delExpaper = function (req, res) {
+    setCORSallow(req,res);
     sqlhandler.delSql(req,res,function (content_path) {
         fs.unlink(content_path,function (err) {
             if (err){
@@ -60,8 +63,18 @@ module.exports.editExpaper = function (req, res) {
 };
 
 module.exports.getExpaper = function (req, res) {
+
 };
 
+
+/** ↓ handler函数夫人封装区 ↓**/
+/** 设置跨域请求头**/
+function setCORSallow(req,res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Headers', 'Content-type');
+    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS,PATCH");
+    res.header('Access-Control-Max-Age',172800);//预请求缓存20天
+}
 
 //封装读取json
 function readNewsData(callback) {
