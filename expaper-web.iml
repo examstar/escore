@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$/docs">
-      <sourceFolder url="file://$MODULE_DIR$/docs" type="java-resource" />
-    </content>
-    <content url="file://$MODULE_DIR$/gui" />
+    <content url="file://$MODULE_DIR$/docs" />
     <content url="file://$MODULE_DIR$/services" />
     <content url="file://$MODULE_DIR$/storage">
       <sourceFolder url="file://$MODULE_DIR$/storage" type="java-resource" />
