@@ -18,7 +18,8 @@
 
 # 更新 
 + 试卷预览页：http://127.0.0.1:3000/expaperlist
-- 还没有其他功能，只能读取数据
+  - 还没有其他功能，只能读取数据
+  - 可以写入数据库
 
 ## 1.mysql数据库配置
 
@@ -28,7 +29,10 @@ ORM持久化数据库:sequelize
 
 ## 2.Vue.js配置
 
-暂无
++ vue
+  - 脚手架 vue-cli
+  - 请求处理 axios
+  - 组件 element-ui
 
 ## 3.Node.js配置
 
