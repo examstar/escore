@@ -10,7 +10,7 @@ module.exports.addSql=function (req,res,message,callback) {
             status:500,
             tips:"服务端接受了空数据!拒绝访问！"
         };
-        res.send(result);
+        res.json(result);
         callback(new Error('执行sql语句出错！'));
         return ;
     }
@@ -22,7 +22,8 @@ module.exports.addSql=function (req,res,message,callback) {
             tips:"请求正常！",
             data:msg
         };
-        res.send(result);
+        //res.send(result);
+        res.json(result);
 
     });
 };

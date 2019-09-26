@@ -6,7 +6,7 @@
                 <span class="title"> Expaper List </span>
 
     <el-table
-            :data="tableData"
+            :data="list"
             style="width: 100%" class="listTable">
 
 
@@ -83,6 +83,8 @@
     export default {
         data() {
             return {
+                list:[],
+
                 tableData: [{
                     date: '2016-05-02',
                     name: '数学试卷',
@@ -108,8 +110,17 @@
             },
             handleDelete(index, row) {
                 console.log(index, row);
-            }
-        }
+            },
+            getAllList() {
+                this.$axios.get('http://localhost:3000/api/getscript?callback=aaa').then(result => {
+                    this.list = result.data.data
+                    //console.log(result.data.data)
+                })
+            },
+        },
+        created() {
+            this.getAllList()
+        },
     }
 </script>
 

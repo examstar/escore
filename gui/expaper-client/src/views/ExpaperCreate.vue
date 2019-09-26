@@ -115,6 +115,7 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     //alert('submit!');
+
                     this.$axios
                         .post('http://127.0.0.1:3000/api/add_expaper',this.expaperCreate)
                         .then(res=>{
