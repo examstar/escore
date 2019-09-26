@@ -119,7 +119,7 @@
             },
             getAllList() {
                 this.$http.get('api/getscript?callback=aaa').then(result => {
-                    this.list = result.body;
+                    this.list = result.body.data;
                     //console.log(result.body)
                 })
             },

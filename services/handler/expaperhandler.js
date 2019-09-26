@@ -50,6 +50,7 @@ module.exports.getscript=function(req,res){
 
         // var scriptStr = `${JSON.stringify(data)}`;
         // res.send(scriptStr);
+        res.send(data)
 
     });
 

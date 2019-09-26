@@ -110,27 +110,29 @@ export default {
             }
         }
     },
-    submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-            if (valid) {
-                //alert('submit!');
+    methods:{
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    //alert('submit!');
+                    this.$axios
+                        .post('http://127.0.0.1:3000/api/add_expaper',this.expaperCreate)
+                        .then(res=>{
+                            this.$message({
+                                    message:'成功',
+                                    type: 'success'
+                                },
+                            )
+                        });
 
-                this.$axios
-                    .post('/api/add_expaper',this.loginUser)
-                    .then(res=>{
-                        this.$message({
-                            message:'成功',
-                            type: 'success'
-                        })
-                    });
-
-                this.$router.push('/index');
-            } else {
-                console.log('error submit!!');
-                return false;
-            }
-        });
-    },
+                    this.$router.push('/index');
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
+        },
+    }
 }
 </script>
 
