@@ -3,7 +3,7 @@
         <section class="form_container">
             <div class="manage_tip">
                 <span class="title"> Expaper System </span>
-                <el-form :model="loginUser" :rules="rules" ref="loginForm" label-width="60px" class="demo-ruleForm">
+                <el-form :model="loginUser" :rules="rules" ref="loginForm" label-width="60px" class="loginForm">
 
 
                     <el-form-item label="邮箱" prop="email">
@@ -64,9 +64,9 @@
                         this.$axios
                             .post('/api/ueser/login',this.loginUser)
                             .then(res=>{
-                                this.$message({
-                                   //拿到token
-                                })
+                                //拿到token(如果有)
+                                const {token}=res.data;
+                                localStorage.setItem('eleToken',token)
                             });
 
                         this.$router.push('/index');
@@ -82,6 +82,47 @@
 </script>
 
 <style scoped>
+    .login {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        /*background: url(../assets/bg.jpg) no-repeat center center;*/
+        background-color: #2c3e50;
+        background-size: 100% 100%;
+    }
+    .form_container {
+        width: 370px;
+        height: 210px;
+        position: absolute;
+        top: 20%;
+        left: 34%;
+        padding: 25px;
+        border-radius: 5px;
+        text-align: center;
+    }
+    .form_container .manage_tip .title {
+        font-family: "Microsoft YaHei";
+        font-weight: bold;
+        font-size: 26px;
+        color: #fff;
+    }
+    .loginForm {
+        margin-top: 20px;
+        background-color: #fff;
+        padding: 20px 40px 20px 20px;
+        border-radius: 5px;
+        box-shadow: 0px 5px 10px #cccc;
+    }
 
-
+    .submit_btn {
+        width: 100%;
+    }
+    .tiparea {
+        text-align: right;
+        font-size: 12px;
+        color: #333;
+    }
+    .tiparea p a {
+        color: #409eff;
+    }
 </style>
