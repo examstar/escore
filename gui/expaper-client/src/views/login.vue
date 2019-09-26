@@ -86,8 +86,8 @@
         position: relative;
         width: 100%;
         height: 100%;
-        /*background: url(../assets/bg.jpg) no-repeat center center;*/
-        background-color: #2c3e50;
+        background: url(../assets/bg.jpg) no-repeat center center;
+        /*background-color: #2c3e50;*/
         background-size: 100% 100%;
     }
     .form_container {
@@ -104,7 +104,7 @@
         font-family: "Microsoft YaHei";
         font-weight: bold;
         font-size: 26px;
-        color: #fff;
+        color: #555555;
     }
     .loginForm {
         margin-top: 20px;

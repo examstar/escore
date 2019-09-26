@@ -128,7 +128,7 @@
         font-family: "Microsoft YaHei";
         font-weight: bold;
         font-size: 26px;
-        color: #fff;
+        color: #555555;
     }
     .registerForm {
         margin-top: 20px;

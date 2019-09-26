@@ -1,21 +1,17 @@
 <template>
-    <div class="404">
-        <section class="form_container">
-            <div class="manage_tip">
-                <span class="title"> 404</span>
-            </div>
-        </section>
+    <div class="nofind">
+        <img src="../assets/404.gif" alt="">
     </div>
 </template>
 
-<script>
-    export default {
-        name: "404.vue",
-        Components:{}
-    }
-</script>
-
 <style scoped>
-
-
+    .nofind {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    .nofind img {
+        width: 100%;
+        height: 100%;
+    }
 </style>

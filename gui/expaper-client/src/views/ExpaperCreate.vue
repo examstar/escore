@@ -2,6 +2,7 @@
     <div class="register">
     <section class="form_container">
         <div class="manage_tip">
+            <span class="title"> Expaper System Create </span>
 
     <el-form :model="expaperCreate" :rules="rules" ref="expaperCreateForm" label-width="100px" class="registerForm">
         <el-form-item label="试卷名称" prop="name">
@@ -143,21 +144,16 @@ export default {
         background-size: 100% 100%;
     }
     .form_container {
-        width: 800px;
+        width: 50%;
         height: 400px;
         position: absolute;
-        top: 5%;
+        top: 10%;
         left: 25%;
         padding: 25px;
         border-radius: 5px;
         text-align: center;
     }
-    .form_container .manage_tip .title {
-        font-family: "Microsoft YaHei";
-        font-weight: bold;
-        font-size: 26px;
-        color: #fff;
-    }
+
     .registerForm {
         margin-top: 20px;
         background-color: #fff;
@@ -168,5 +164,11 @@ export default {
 
     .submit_btn {
         width: 100%;
+    }
+    .form_container .manage_tip .title {
+        font-family: "Microsoft YaHei";
+        font-weight: bold;
+        font-size: 26px;
+        color: #555555;
     }
 </style>
