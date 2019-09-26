@@ -34,7 +34,6 @@ router.get('/api/getscript', function (req, res,next) {
     handler.getscript(req,res)
 });
 
-
 /**  删除！ **/
 router.get('/del_expaper', function (req, res, next) {
    handler.delExpaper(req,res);
@@ -45,7 +44,15 @@ router.use('/public',express.static(path.join(__dirname,'..','public')));
 
 
 
+/**  接口 **/
+router.get('/api/add_expaper', function (req, res, next) {
+    handler.addExpaperApi(req, res);
+});
 
+
+router.post('/api/add_expaper', function (req, res, next) {
+    handler.addExpaperApi(req, res);
+});
 
 
 

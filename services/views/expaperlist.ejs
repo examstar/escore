@@ -98,7 +98,9 @@
                 // this.list.push(car)
                 this.$http.post('/add_expaper',{name:this.name,id:this.id},{emulateJSON:true}).then(result => {
                     //this.list = result.body;
-                    console.log(result.body)
+                    console.log(result.body.data);
+                    console.log(result.body.status);
+                    console.log(result.body.tips);
                     this.getAllList()
                 })
 

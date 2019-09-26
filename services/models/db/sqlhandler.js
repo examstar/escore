@@ -5,22 +5,46 @@ module.exports.addSql=function (req,res,message,callback) {
     //如果没有post数据或者数据为空,直接返回
     if (message.name == undefined ||message.name == ''
         || message.content_path == undefined || message.content_path == '') {
-        res.render('404', {});
+        //res.render('404', {});
+        var result= {
+            status:500,
+            tips:"服务端接受了空数据!拒绝访问！"
+        };
+        res.send(result);
         callback(new Error('执行sql语句出错！'));
         return ;
     }
     //创建一条记录,创建成功后跳转回首页
     Expaper.create(message).then(function(msg){
-        console.log(msg);
-        res.redirect('/');
+        //console.log(msg);
+        var result= {
+            status:200,
+            tips:"请求正常！",
+            data:msg
+        };
+        res.send(result);
+
     });
 };
+
+
 
 /**  查找全部条目  **/
 module.exports.getAll=function(req,res,callback){
     Expaper.findAll().then(function(msgs) {
         //res.render('other/index.ejs', { messages: msgs });
-        callback(msgs);
+
+
+        var result= {
+            status:200,
+            tips:"请求正常！",
+            data:msgs
+        };
+
+        callback(result);
+        //res.send(result);
+
+
     });
 };
 

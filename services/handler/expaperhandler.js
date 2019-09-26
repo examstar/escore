@@ -10,9 +10,10 @@ var context = require('../config/main/jsonconfig.js');
  * 2.把json写入磁盘
  * 3.把元数据写入到数据库
  * **/
-module.exports.addExpaper = function (req, res) {
-    setCORSallow(req,res);
 
+/** 纯API 不去定向 与前端解耦**/
+module.exports.addExpaperApi = function (req, res,callback) {
+    setCORSallow(req,res);
     /** 先在磁盘写json文件 然后把信息写入数据库 如果出错则回滚操作删除文件 （模拟事务锁）**/
     writeNewsDate(JSON.stringify(context.jsonobj(req)), function (content) {
         sqlhandler.addSql(req, res, context.sqlobj(req, content), function (err) {
@@ -20,14 +21,25 @@ module.exports.addExpaper = function (req, res) {
                 fs.unlink(content, function (error) {
                     if (error) {
                         console.log(error);
-                        return false;
+                        console.log('文件删除失败！');
                     }
                     console.log('因为数据库写入错误，已写下文件删除成功！');
                 });
                 throw err;
             }
+            callback();
         });
     });
+};
+/** 与上面一样，只不过会去定向**/
+module.exports.addExpaper=function(req,res){
+    this.addExpaperApi(req,res,function (err) {
+        if(err){
+            throw err
+        }
+        res.redirect('/')
+    });
+
 };
 
 /** json函数业务，从数据库选择全部数据给前端 (需要设置跨域请求)**/
@@ -35,11 +47,15 @@ module.exports.getscript=function(req,res){
 
     setCORSallow(req,res);
     sqlhandler.getAll(req,res,function (data) {
-        var scriptStr = `${JSON.stringify(data)}`;
-        res.send(scriptStr);
+
+        // var scriptStr = `${JSON.stringify(data)}`;
+        // res.send(scriptStr);
+
     });
 
 };
+
+
 
 /** 删除试卷，此业务需要执行以下几个操作！
  * 1.在数据库查找id，获取content path

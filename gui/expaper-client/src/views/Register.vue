@@ -3,6 +3,7 @@
         <section class="form_container">
             <div class="manage_tip">
                 <span class="title"> Expaper System Register </span>
+            </div>
                 <el-form :model="registerUser" :rules="rules" ref="registerForm" label-width="100px" class="registerForm">
                     <el-form-item label="用户名" prop="name">
                         <el-input v-model="registerUser.name" placeholder="请输入用户名"></el-input>
@@ -32,7 +33,7 @@
 
 
                 </el-form>
-            </div>
+
         </section>
     </div>
 </template>
@@ -110,10 +111,10 @@
         position: relative;
         width: 100%;
         height: 100%;
-        /*background: url(../assets/bg.jpg) no-repeat center center;*/
-        background-color: #23527c;
+        background: url(../assets/bg03.jpg) no-repeat center center;
         background-size: 100% 100%;
     }
+
     .form_container {
         width: 370px;
         height: 210px;
