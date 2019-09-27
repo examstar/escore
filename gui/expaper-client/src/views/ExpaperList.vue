@@ -114,7 +114,7 @@
             getAllList() {
                 this.$axios.get('http://localhost:3000/api/getscript?callback=aaa').then(result => {
                     this.list = result.data.data
-                    //console.log(result.data.data)
+                    console.log(result.data.data)
                 })
             },
         },
@@ -129,8 +129,8 @@
         position: relative;
         width: 100%;
         height: 100%;
-        /*background: url(../assets/bg.jpg) no-repeat center center;*/
-        background-color: #2c3e50;
+        /*background: url(../assets/bg02.jpg) no-repeat center center;*/
+        /*background-color: #2c3e50;*/
         background-size: 100% 100%;
     }
 

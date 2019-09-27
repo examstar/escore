@@ -117,13 +117,16 @@ export default {
                     //alert('submit!');
 
                     this.$axios
-                        .post('http://127.0.0.1:3000/api/add_expaper',this.expaperCreate)
+                        // .post('http://localhost:3000/api/add_expaper',this.expaperCreate)
+                        .get('http://localhost:3000/api/add_expaper?',{params:this.expaperCreate})
                         .then(res=>{
                             this.$message({
                                     message:'成功',
                                     type: 'success'
                                 },
-                            )
+                            );
+                            console.log(res)
+
                         });
 
                     this.$router.push('/index');
@@ -143,7 +146,7 @@ export default {
         width: 100%;
         height: 100%;
         /*background: url(../assets/bg.jpg) no-repeat center center;*/
-        background-color: #23527c;
+        /*background-color: #23527c;*/
         background-size: 100% 100%;
     }
     .form_container {

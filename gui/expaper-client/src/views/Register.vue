@@ -111,7 +111,7 @@
         position: relative;
         width: 100%;
         height: 100%;
-        background: url(../assets/bg03.jpg) no-repeat center center;
+        background: url(../assets/bg02.jpg) no-repeat center center;
         background-size: 100% 100%;
     }
 
@@ -129,7 +129,7 @@
         font-family: "Microsoft YaHei";
         font-weight: bold;
         font-size: 26px;
-        color: #555555;
+        color: #fff;
     }
     .registerForm {
         margin-top: 20px;

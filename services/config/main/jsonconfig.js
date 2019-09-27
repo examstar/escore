@@ -15,7 +15,7 @@ module.exports.jsonobj=function (req) {
             "topic":req.body.topic ||req.query.topic ,
             "type": req.body.type ||req.query.type,
             "score":req.body.score ||req.query.score,
-            "expected":req.body.expected || req.body.expected
+            "expected":req.body.expected || req.query.expected
         },
 
     };

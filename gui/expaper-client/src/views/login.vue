@@ -3,6 +3,7 @@
         <section class="form_container">
             <div class="manage_tip">
                 <span class="title"> Expaper System </span>
+            </div>
                 <el-form :model="loginUser" :rules="rules" ref="loginForm" label-width="60px" class="loginForm">
 
 
@@ -25,7 +26,7 @@
                     </div>
 
                 </el-form>
-            </div>
+
         </section>
     </div>
 </template>
@@ -86,7 +87,7 @@
         position: relative;
         width: 100%;
         height: 100%;
-        background: url(../assets/bg.jpg) no-repeat center center;
+        background: url(../assets/bg03.jpg) no-repeat center center;
         /*background-color: #2c3e50;*/
         background-size: 100% 100%;
     }
@@ -104,7 +105,7 @@
         font-family: "Microsoft YaHei";
         font-weight: bold;
         font-size: 26px;
-        color: #555555;
+        color:#fff;
     }
     .loginForm {
         margin-top: 20px;
