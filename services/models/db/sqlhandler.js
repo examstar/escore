@@ -64,7 +64,16 @@ module.exports.delSql=function (req,res,callback) {
         callback(msg.content_path);
         msg.destroy().then(function(){
             console.log('delete success !!');
-            res.redirect('/expaperlist');
+
+            var result= {
+                status:200,
+                tips:"请求正常！",
+                data:'delete success !!'
+            };
+
+            res.send(result)
+
         });
     });
+
 };

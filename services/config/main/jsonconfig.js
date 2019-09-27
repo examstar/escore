@@ -13,7 +13,7 @@ module.exports.jsonobj=function (req) {
         "question-1": {
             "level": req.body.level||req.query.level,
             "topic":req.body.topic ||req.query.topic ,
-            "type": req.body.type ||req.query.type,
+            "class": req.body.type ||req.query.class,
             "score":req.body.score ||req.query.score,
             "expected":req.body.expected || req.query.expected
         },

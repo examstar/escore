@@ -63,16 +63,24 @@ module.exports.getscript=function(req,res){
  * 2.删除sql数据
  * 3.删除文件
  * **/
-module.exports.delExpaper = function (req, res) {
+module.exports.delExpaperApi = function (req, res) {
     setCORSallow(req,res);
     sqlhandler.delSql(req,res,function (content_path) {
         fs.unlink(content_path,function (err) {
             if (err){
-                console.log("删除文件出错，需要手动删除：‘content_path’");
+                console.log("删除文件出错，需要手动删除："+content_path);
                 throw err;
             }
-        })
+        });
+
     });
+
+};
+
+module.exports.delExpaper = function (req, res) {
+    this.delExpaper(req,res);
+    res.redirect('/expaperlist');
+
 };
 
 

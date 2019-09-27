@@ -16,7 +16,7 @@
             <template slot-scope="scope">
                 <el-popover trigger="hover" placement="top">
                     <p>试卷名字: {{ scope.row.name }}</p>
-                    <p>描述: {{ scope.row.address }}</p>
+                    <p>描述: {{ scope.row.description }}</p>
                     <div slot="reference" class="name-wrapper">
                         <el-tag size="medium">{{ scope.row.name }}</el-tag>
                     </div>
@@ -30,7 +30,7 @@
                 width="180">
             <template slot-scope="scope">
                 <i class="el-icon-time"></i>
-                <span style="margin-left: 10px">{{ scope.row.date }}</span>
+                <span style="margin-left: 10px">{{ scope.row.class }}</span>
             </template>
         </el-table-column>
 
@@ -39,7 +39,7 @@
                 width="180">
             <template slot-scope="scope">
                 <i class="el-icon-time"></i>
-                <span style="margin-left: 10px">{{ scope.row.date }}</span>
+                <span style="margin-left: 10px">{{ scope.row.teacher }}</span>
             </template>
         </el-table-column>
 
@@ -48,7 +48,7 @@
                 width="180">
             <template slot-scope="scope">
                 <i class="el-icon-time"></i>
-                <span style="margin-left: 10px">{{ scope.row.date }}</span>
+                <span style="margin-left: 10px">{{ scope.row.created_at }}</span>
             </template>
         </el-table-column>
 
@@ -60,7 +60,7 @@
                 <el-button
                         size="mini"
                         type="danger"
-                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                        @click="handleDelete(scope.row.id, scope.row)">删除</el-button>
             </template>
         </el-table-column>
 
@@ -109,10 +109,17 @@
                 console.log(index, row);
             },
             handleDelete(index, row) {
-                console.log(index, row);
+
+                    this.$axios.get('http://localhost:3000/api/del_expaper',{params:{id:index}}).then(result => {
+
+                        console.log(result);
+                        this.getAllList();
+                    });
+
+
             },
             getAllList() {
-                this.$axios.get('http://localhost:3000/api/getscript?callback=aaa').then(result => {
+                this.$axios.get('http://localhost:3000/api/getscript').then(result => {
                     this.list = result.data.data
                     console.log(result.data.data)
                 })

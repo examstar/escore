@@ -48,12 +48,15 @@ router.use('/public',express.static(path.join(__dirname,'..','public')));
 router.get('/api/add_expaper', function (req, res, next) {
     handler.addExpaperApi(req, res);
 });
+/** post方式似乎跨域无效**/
+// router.post('/api/add_expaper', function (req, res, next) {
+//     handler.addExpaperApi(req, res);
+// });
 
-
-router.post('/api/add_expaper', function (req, res, next) {
-    handler.addExpaperApi(req, res);
+/**  删除api！ **/
+router.get('/api/del_expaper', function (req, res, next) {
+    handler.delExpaperApi(req,res);
 });
-
 
 
 

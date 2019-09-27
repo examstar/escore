@@ -11,9 +11,22 @@
         <el-form-item label="命题人" prop="teacher">
             <el-input v-model="expaperCreate.teacher"></el-input>
         </el-form-item>
-        <el-form-item label="种类" prop="class">
-            <el-input v-model="expaperCreate.class"></el-input>
+
+<!--        <el-form-item label="种类" prop="class">-->
+<!--            <el-input v-model="expaperCreate.class"></el-input>-->
+<!--        </el-form-item>-->
+
+        <el-form-item label="Type" prop="Type">
+            <el-select v-model="expaperCreate.class" placeholder="type">
+                <el-option label="none" value="none"></el-option>
+                <el-option label="语文" value="语文"></el-option>
+                <el-option label="数学" value="数学"></el-option>
+                <el-option label="活动" value="活动"></el-option>
+                <el-option label="其他" value="其他"></el-option>
+            </el-select>
         </el-form-item>
+
+
         <el-form-item label="试卷描述" prop="description">
             <el-input type="textarea" v-model="expaperCreate.description"></el-input>
         </el-form-item>
@@ -48,15 +61,7 @@
                 <el-option label="Level 5" value="5"></el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="Type" prop="Type">
-            <el-select v-model="expaperCreate.type" placeholder="type">
-                <el-option label="none" value="1"></el-option>
-                <el-option label="语文" value="2"></el-option>
-                <el-option label="数学" value="3"></el-option>
-                <el-option label="活动" value="4"></el-option>
-                <el-option label="其他" value="5"></el-option>
-            </el-select>
-        </el-form-item>
+
         <el-form-item label="expected">
             <el-checkbox-group v-model="expaperCreate.expected">
                 <el-checkbox label="A" name="expected"></el-checkbox>
@@ -118,7 +123,7 @@ export default {
 
                     this.$axios
                         // .post('http://localhost:3000/api/add_expaper',this.expaperCreate)
-                        .get('http://localhost:3000/api/add_expaper?',{params:this.expaperCreate})
+                        .get('http://localhost:3000/api/add_expaper',{params:this.expaperCreate})
                         .then(res=>{
                             this.$message({
                                     message:'成功',
