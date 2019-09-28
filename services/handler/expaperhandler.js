@@ -15,7 +15,8 @@ var context = require('../config/main/jsonconfig.js');
 module.exports.addExpaperApi = function (req, res,callback) {
     setCORSallow(req,res);
     /** 先在磁盘写json文件 然后把信息写入数据库 如果出错则回滚操作删除文件 （模拟事务锁）**/
-    writeNewsDate(JSON.stringify(context.jsonobj(req)), function (content) {
+    writeNewsDate(context.json2str(req), function (content) {
+
         sqlhandler.addSql(req, res, context.sqlobj(req, content), function (err) {
             if (err) {
                 fs.unlink(content, function (error) {

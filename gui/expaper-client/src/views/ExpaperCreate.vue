@@ -94,6 +94,7 @@ export default {
     data() {
         return {
             expaperCreate: {
+
                 name: '',
                 teacher: '',
                 class: '',
@@ -105,6 +106,8 @@ export default {
                 score: '',
                 level: '',
                 expected: [],  //可能存在多选题目因此这里暂时用数组
+
+
             },
             rules: {
                 //配置rules：必填，提示，触发：失去焦点
@@ -117,13 +120,24 @@ export default {
     },
     methods:{
         submitForm(formName) {
+            var jsonbox={
+                exheader:{
+                    name:this.expaperCreate.name,
+                    id:this.expaperCreate.id,
+                },
+                questionlist:[
+                    this.expaperCreate
+                ]
+            };
+
+
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     //alert('submit!');
 
                     this.$axios
                         // .post('http://localhost:3000/api/add_expaper',this.expaperCreate)
-                        .get('http://localhost:3000/api/add_expaper',{params:this.expaperCreate})
+                        .get('http://localhost:3000/api/add_expaper',{params:jsonbox})
                         .then(res=>{
                             this.$message({
                                     message:'成功',

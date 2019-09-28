@@ -18,18 +18,6 @@ var Expaper = db.define('expaper', {
     class: {
         type: Sequelize.STRING
     },
-    x1: {
-        type: Sequelize.DECIMAL(8, 2)
-    },
-    y1: {
-        type: Sequelize.DECIMAL(8, 2)
-    },
-    x2: {
-        type: Sequelize.DECIMAL(8, 2)
-    },
-    y2: {
-        type: Sequelize.DECIMAL(8, 2)
-    },
     content_path: {
         type: Sequelize.STRING
     },

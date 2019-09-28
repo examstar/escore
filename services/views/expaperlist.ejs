@@ -96,7 +96,39 @@
             add() {
                 // var car = {id: this.id, name: this.name, created_at: new Date()}
                 // this.list.push(car)
-                this.$http.post('/add_expaper',{name:this.name,id:this.id},{emulateJSON:true}).then(result => {
+                var exheader={
+                    name:this.name,
+                    id:this.id
+                };
+                var a1=[{
+                    qqqq:"aaaa",
+                    ddd:"aaaa",
+                    ccc:"aaaa",
+                    qqsssqq:"aaaa",
+                    bbb:"aaaa",
+                    nnnn:"aaaa",
+                },
+                    {
+                        qqqq:"aaaa",
+                        ddd:"aaaa",
+                        ccc:"aaaa",
+                        qqsssqq:"aaaa",
+                        bbb:"aaaa",
+                        nnnn:"aaaa",
+                    },{
+                        qqqq:"aaaa",
+                        ddd:"aaaa",
+                        ccc:"aaaa",
+                        qqsssqq:"aaaa",
+                        bbb:"aaaa",
+                        nnnn:"aaaa",
+                    },
+
+
+                ];
+
+
+                this.$http.post('/add_expaper',{ header:exheader,questionlist:a1},{emulateJSON:true}).then(result => {
                     //this.list = result.body;
                     console.log(result.body.data);
                     console.log(result.body.status);

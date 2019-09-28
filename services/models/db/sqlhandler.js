@@ -45,15 +45,19 @@ module.exports.getAll=function(req,res,callback){
         callback(result);
         //res.send(result);
 
-
     });
 };
 
 module.exports.delSql=function (req,res,callback) {
     //如果没有id字段,返回404
     if (req.query.id == undefined ||req.query.id == '') {
-        res.render('404', {});
-        return;
+        var result= {
+            status:500,
+            tips:"请求失败！",
+            data:"id为空"
+        };
+        //res.send(result);
+        res.json(result);
     }
     //先查找,再调用删除,最后返回首页
     Expaper.findOne({
@@ -68,7 +72,7 @@ module.exports.delSql=function (req,res,callback) {
             var result= {
                 status:200,
                 tips:"请求正常！",
-                data:'delete success !!'
+                data:msg
             };
 
             res.send(result)

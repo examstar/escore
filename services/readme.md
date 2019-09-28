@@ -28,7 +28,7 @@
 | tips        |   500  |   消息   |
 | data        |      |   数据库数据  |
 
-# 例子
+## 例子
 ```
 {
 	"status": 200,
@@ -63,39 +63,88 @@
 | tips        |   500  |   消息   |
 | data        |      |   数据库数据  |
 
-## 接口3： 查询列表接口
+# 接口3： 查询列表接口
 + GET    /api/getscript
 
 
 
 | 参数        | 是否必填    |  说明   |
 | --------    | -----: | :----:  |
-| page      | 否  |   页码    |
-| num        |   否  |    无   |
-| id        |    否  |   无  |
+|       | 否  |   页码    |
+|         |   否  |    无   |
+|        |    否  |   无  |
 
 | 返回结果        | 状态码    |  说明   |
 | --------    | -----: | :----:  |
-| id      | 200  |   无    |
-| name        |   200  |   无   |
-| ctime        |    200  |   无  |
-| status        |    200  |   无  |
+| status      | 200  |   状态码    |
+| tips        |   500  |   状态消息   |
+| data        |      |   数据体  |
 
-# 接口4： 查询列表接口
-+ GET    /del_expaper
+
+## 例子
+```
+{
+	"status": 200,
+	"tips": "请求正常！",
+	"data": [
+		{
+			"id": 1,
+			"name": "数学试卷",
+			"teacher": "张老师",
+			"class": "数学",
+			"content_path": "F:\\study_project\\IDEAworkplace\\escore\\public\\data\\data1\\expaper8.json",
+			"created_at": "2019-09-22 14:58:51",
+			"description": null,
+			"hash_code": "84af06ce9c7a81fbf3a0f60c4b5319a4",
+			"createdAt": "2019-09-22 14:58:51",
+			"updatedAt": "2019-09-22 14:58:51"
+		},
+		{
+			"id": 2,
+			"name": "第一次模拟考",
+			"teacher": "张老师",
+			"class": "学校",
+			"content_path": "F:\\study_project\\IDEAworkplace\\escore\\public\\data\\data1\\expaper9.json",
+			"created_at": "2019-09-22 15:48:05",
+			"description": null,
+			"hash_code": "4b3f8d2be19078d64d2532f21100cc4d",
+			"createdAt": "2019-09-22 15:48:05",
+			"updatedAt": "2019-09-22 15:48:05"
+		}
+	]
+}
+```
+
+# 接口4： 删除单个接口
++ GET    /api/del_expaper
 
 
 
 | 参数        | 是否必填    |  说明   |
 | --------    | -----: | :----:  |
-| page      | 否  |   页码    |
-| num        |   否  |    无   |
-| id        |    否  |   无  |
+| id        |    是 |   根据ID删除数据  |
 
 | 返回结果        | 状态码    |  说明   |
 | --------    | -----: | :----:  |
-| id      | 200  |   无    |
-| name        |   200  |   无   |
-| ctime        |    200  |   无  |
-| status        |    200  |   无  |
+| status      | 500  |   状态码    |
+| tip        |   200  |   说明   |
+| data        |      |   被删除数据  |
 
+ ```
+{
+	"status": 200,
+	"tips": "请求正常！",
+	"data": {
+		"id": 4,
+		"name": "第三次模拟考",
+		"teacher": "张老师",
+		"class": "学校",
+		"content_path": "F:\\study_project\\IDEAworkplace\\escore\\services\\public\\data\\data1\\expaper11.json",
+		"created_at": "2019-09-22 15:48:13",
+		"description": null,
+		"hash_code": "1f3e826ee0aebb35152276fb0d9e3fab",
+		"createdAt": "2019-09-22 15:48:13",
+		"updatedAt": "2019-09-22 15:48:13"
+	}
+}
+```

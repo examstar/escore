@@ -22,6 +22,10 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
         collate: 'utf8_general_ci',
         freezeTableName: true,
         timestamps: true, //为模型添加 createdAt 和 updatedAt 两个时间戳字段
+    },
+    dialectOptions: {
+        dateStrings: true,
+        typeCast: true
     }
 });
 
