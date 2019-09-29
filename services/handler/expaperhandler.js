@@ -47,15 +47,35 @@ module.exports.addExpaper=function(req,res){
 
 /** json函数业务，从数据库选择全部数据给前端 (需要设置跨域请求)**/
 module.exports.getscript=function(req,res){
-
     setCORSallow(req,res);
     sqlhandler.getAll(req,res,function (data) {
 
         // var scriptStr = `${JSON.stringify(data)}`;
         // res.send(scriptStr);
         res.send(data)
-
     });
+};
+
+/** 选择一个数据详情给前端
+ * 1.查询数据库 2.读取数据库json路径 3.解析json返回
+ * **/
+module.exports.getExpaperApi = function (req, res) {
+    sqlhandler.getOneSql(req,res,function (item) {
+
+        readOneData(item.content_path,function (data) {
+            var result= {
+                status:200,
+                tips:"请求成功！",
+                data:data,
+                list:data.expaperlist
+            };
+            res.json(result);
+
+            console.log(data.expaperlist)
+        })
+    });
+
+
 
 };
 
@@ -90,9 +110,9 @@ module.exports.delExpaper = function (req, res) {
 module.exports.editExpaper = function (req, res) {
 };
 
-module.exports.getExpaper = function (req, res) {
 
-};
+
+
 
 
 /** ↓ handler函数夫人封装区 ↓**/
@@ -114,6 +134,18 @@ function readNewsData(callback) {
         callback(list);
     });
 }
+function readOneData(path,callback) {
+    fs.readFile(path, 'utf8', function (err, data) {
+        if (err && err.code != 'ENOENT') {
+            throw err;
+        }
+        var list = JSON.parse(data || '[]');
+        callback(list);
+    });
+}
+
+
+
 
 //封装写入jsonvar
 function writeNewsDate(data, callback) {
@@ -128,8 +160,6 @@ function writeNewsDate(data, callback) {
         console.log(count);
         c++;
     }
-
-
 
     fs.writeFile(dataPath, data, function (err) {
         if (err) {

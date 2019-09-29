@@ -25,6 +25,11 @@ router.get('/api/del_expaper', function (req, res, next) {
     handler.delExpaperApi(req,res);
 });
 
+/**  查看详情！ **/
+router.get('/api/expaper_detail', function (req, res, next) {
+    handler.getExpaperApi(req,res);
+});
+
 
 router.use('/public',express.static(path.join(__dirname,'..','public')));
 

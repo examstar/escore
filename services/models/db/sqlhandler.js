@@ -81,3 +81,26 @@ module.exports.delSql=function (req,res,callback) {
     });
 
 };
+
+module.exports.getOneSql=function (req,res,callback) {
+    //如果没有id字段,返回404
+    if (req.query.id == undefined ||req.query.id == '') {
+        var result= {
+            status:500,
+            tips:"请求失败！",
+            data:"id为空"
+        };
+        res.json(result);
+    }
+    //先查找,再调用删除,最后返回首页
+    Expaper.findOne({
+        where:{
+            id:req.query.id
+        }
+    }).then(function(msg){
+
+        callback(msg);
+        //res.json(msg);
+    });
+
+};

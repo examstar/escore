@@ -1,0 +1,42 @@
+{
+  "id": "1",
+  "name": "第一次模拟考",
+  "teacher":"mr chen" ,
+  "class":"数学" ,
+  "content_path":"F:\\...\\.json" ,
+  "created_at":"" ,
+  "description": "",
+  "update_at":"" ,
+   "absent": "",
+   "note": "" ,
+   "barcode":"",
+  "expaperlist": [
+    {"question:": "1",
+      "type": "选择",
+      "x1": "0.00",
+      "y1": "0.00",
+      "x2": "10.00",
+      "y2": "10.00",
+      "expected": "0.00",
+      "score": "5"
+    },
+    {"question:": "2",
+      "type": "选择",
+      "x1": "0.00",
+      "y1": "0.00",
+      "x2": "0.00",
+      "y2": "0.00",
+      "expected": "0.00",
+      "score": "5"
+    },
+    {"question:": "3",
+      "type": "选择",
+      "x1": "0.00",
+      "y1": "0.00",
+      "x2": "0.00",
+      "y2": "0.00",
+      "expected": "0.00",
+      "score": "5"
+    }
+  ]
+}
