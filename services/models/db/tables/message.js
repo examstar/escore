@@ -5,7 +5,7 @@
  * **/
 //定义表的模型
 var Sequelize = require('sequelize');
-var db=require('./db.js');
+var db=require('../db.js');
 
 var Message = db.define('message', {
     id:{ //自增长id,主键,整形

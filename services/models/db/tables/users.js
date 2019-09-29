@@ -1,24 +1,24 @@
-//定义表的模型
+//定义用户表表的模型
 var Sequelize = require('sequelize');
-var db=require('./db.js');
+var db=require('../db.js');
 
-var Expaper = db.define('expaper', {
+var Users = db.define('users', {
     id:{ //自增长id,主键,整形
         type:Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement:true
     },
-    name: {
+    username: {
         type: Sequelize.STRING,
         allowNull:false
     },
-    teacher: {
+    password: {
         type: Sequelize.STRING
     },
-    class: {
+    email: {
         type: Sequelize.STRING
     },
-    content_path: {
+    identity: {
         type: Sequelize.STRING
     },
     created_at: {
@@ -28,10 +28,11 @@ var Expaper = db.define('expaper', {
     description: {
         type: Sequelize.TEXT
     },
-    hash_code: {
-        type: Sequelize.STRING
-    }
+    last_login: {
+        type: Sequelize.DATE,
+        defaultValue:Sequelize.NOW
+    },
 });
-Expaper.sync(); //创建表
+Users.sync(); //创建表
 
-module.exports = Expaper;
+module.exports = Users;

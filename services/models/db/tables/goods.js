@@ -3,7 +3,7 @@
  * 目前没有用到
  * **/
 
-var db = require('./db');
+var db = require('../db');
 var Sequelize = require('sequelize');
 
 

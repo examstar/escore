@@ -1,20 +1,20 @@
-+ 已提供API
++ 已提供API列表
   - /api/getscript
-  - /del_expaper
-  - /add_expaper（post）
-  - /add_expaper（get）
+  - /api/del_expaper
+  - /api/add_expaper（post）
+  - /api/add_expaper（get）
+  - /api/user/register
+  - /api/user/login
 
-+ 已提供主页访问
++ page(无效，用于后端测试)
   - /
   - /index
   - /expaperlist  
-
+  - /expaper
 
 # 接口文档（待完善）
 # 接口1： 添加试卷接口
 + POST    /api/add_expaper（post）
-
-
 
 | 参数        | 是否必填    |  说明   |
 | --------    | -----: | :----:  |
@@ -49,8 +49,6 @@
 # 接口2： 添加试卷接口
 + GET    /api/add_expaper（get）
 
-
-
 | 参数        | 是否必填    |  说明   |
 | --------    | -----: | :----:  |
 | id      | 是  |   试卷ID(非数据库id，jsonId)   |
@@ -66,8 +64,6 @@
 # 接口3： 查询列表接口
 + GET    /api/getscript
 
-
-
 | 参数        | 是否必填    |  说明   |
 | --------    | -----: | :----:  |
 |       | 否  |   页码    |
@@ -79,7 +75,6 @@
 | status      | 200  |   状态码    |
 | tips        |   500  |   状态消息   |
 | data        |      |   数据体  |
-
 
 ## 例子
 ```
@@ -114,11 +109,8 @@
 	]
 }
 ```
-
 # 接口4： 删除单个接口
 + GET    /api/del_expaper
-
-
 
 | 参数        | 是否必填    |  说明   |
 | --------    | -----: | :----:  |
@@ -148,3 +140,30 @@
 	}
 }
 ```
+# 接口5： 注册接口
++ POST    /api/user/register
+| 参数        | 是否必填    |  说明   |
+| --------    | -----: | :----:  |
+| username       |    是 |   用户名 |
+| password       |    是 |   密码 |
+| email       |    是 |   邮箱 |
+| identity       |    是 |   身份 |
+
+| 返回结果        | 状态码    |  说明   |
+| --------    | -----: | :----:  |
+| status      | 400  |    状态    |
+| tip        |   200  |   说明   |
+| data        |      |   数据体  |
+
+# 接口6： 登录接口
++ POST    /api/user/login
+| 参数        | 是否必填    |  说明   |
+| --------    | -----: | :----:  |
+| username       |    是 |   用户  |
+| password       |    是 |   密码  |
+
+| 返回结果        | 状态码    |  说明   |
+| --------    | -----: | :----:  |
+| status      | 500  |   状态码    |
+| tip        |   200  |   说明   |
+| data        |      |   被删除数据  |

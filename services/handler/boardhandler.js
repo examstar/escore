@@ -3,7 +3,7 @@
  * **/
 
 //引入数据库Message模块
-var Message = require('../models/db/message');
+var Message = require('../models/db/tables/message');
 
 /** 添加sql **/
 module.exports.addSql=function (req,res) {

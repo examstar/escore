@@ -40,7 +40,14 @@ module.exports.jsonobj=function (req) {
 
 /** 获取到前端来的json，然后序列化**/
 module.exports.json2str=function(req){
-    var expaperpage= JSON.stringify(req.query.expaperpage);
+    var expaperpage;
+    if(req.method.toLowerCase()==="get"){
+        expaperpage=req.query ;
+    }else{
+        expaperpage= req.body ;
+    }
+
+    expaperpage= JSON.stringify(expaperpage);
     return expaperpage
 
 };
@@ -65,12 +72,9 @@ module.exports.sqlobj=function (req,content) {
 
     var sql;
     if(req.method.toLowerCase()==="get"){
-
-        sql= JSON.parse(req.query.expaperpage)  ;
-
+        sql=req.query ;
     }else{
-
-        sql= JSON.parse(req.body.exheader) ;
+        sql= req.body ;
     }
 
     var sqlmessage = {

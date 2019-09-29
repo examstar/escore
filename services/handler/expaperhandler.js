@@ -12,6 +12,7 @@ var context = require('../config/main/jsonconfig.js');
  * **/
 
 /** 纯API 不去定向 与前端解耦**/
+/** 纯API 不去定向 与前端解耦**/
 module.exports.addExpaperApi = function (req, res,callback) {
     setCORSallow(req,res);
     /** 先在磁盘写json文件 然后把信息写入数据库 如果出错则回滚操作删除文件 （模拟事务锁）**/
@@ -32,6 +33,7 @@ module.exports.addExpaperApi = function (req, res,callback) {
         });
     });
 };
+
 /** 与上面一样，只不过会去定向**/
 module.exports.addExpaper=function(req,res){
     this.addExpaperApi(req,res,function (err) {
@@ -116,13 +118,24 @@ function readNewsData(callback) {
 //封装写入jsonvar
 function writeNewsDate(data, callback) {
     var dataPath = path.join(config.dataPath, "data1");  //获取data路径
-    var count = fs.readdirSync(dataPath).length + 1
+    var count = fs.readdirSync(dataPath).length + 1;
     dataPath = path.join(dataPath, "expaper" + count + ".json");
+
+    var c=0; //安全系数
+    while(fs.existsSync(dataPath) && c!=100){
+        count++;
+        dataPath = path.join(config.dataPath, "data1", "expaper"+count+".json");
+        console.log(count);
+        c++;
+    }
+
+
 
     fs.writeFile(dataPath, data, function (err) {
         if (err) {
             throw err;
         }
+        console.log('写入成功');
         callback(dataPath);
     });
 

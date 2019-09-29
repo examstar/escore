@@ -3,9 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var bodyParser=require('body-Parser');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var testRouter = require('./routes/test');
 /** 设置问卷路由 **/
 var expaperRouter = require('./routes/expaper.js');
 
@@ -24,10 +26,18 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+/** 引入初始化passport **/
+const passport = require('passport');
+require('./config/main/passport')(passport);
+
 app.use('/board', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/user', usersRouter);
 /** 设置问卷路由**/
 app.use('/', expaperRouter);
+app.use('/', testRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
