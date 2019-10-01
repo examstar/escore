@@ -16,7 +16,7 @@
                     </el-form-item>
 
                     <el-form-item>
-                        <el-button class="submit_btn" type="primary" @click="submitForm('registerForm')">登录</el-button>
+                        <el-button class="submit_btn" type="primary" @click="submitForm('loginForm')">登录</el-button>
                     </el-form-item>
 
                     <div class="tiparea">
@@ -63,7 +63,7 @@
                         //alert('submit!');
 
                         this.$axios
-                            .post('/api/ueser/login',this.loginUser)
+                            .post('/api/user/login',this.loginUser)
                             .then(res=>{
                                 //拿到token(如果有)
                                 const {token}=res.data;

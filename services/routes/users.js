@@ -26,6 +26,7 @@ router.post('/register', (req, res) => {
   // 查询数据库中是否拥有邮箱
   User.findOne({ where:{
       email:req.body.email
+
     } }).then(user => {
     if (user) {
       return res.status(400).json('邮箱已被注册!');

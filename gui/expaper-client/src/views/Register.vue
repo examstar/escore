@@ -6,7 +6,7 @@
             </div>
                 <el-form :model="registerUser" :rules="rules" ref="registerForm" label-width="100px" class="registerForm">
                     <el-form-item label="用户名" prop="name">
-                        <el-input v-model="registerUser.name" placeholder="请输入用户名"></el-input>
+                        <el-input v-model="registerUser.username" placeholder="请输入用户名"></el-input>
                     </el-form-item>
 
                     <el-form-item label="邮箱" prop="email">
@@ -45,7 +45,7 @@
 
         data() {
             var validatePass2 = (rule, value, callback) => {
-              if (value !== this.loginUser.password) {
+              if (value !== this.registerUser.password) {
                     callback(new Error('两次输入密码不一致!'));
                 } else {
                     callback();
@@ -53,7 +53,7 @@
             };
             return {
                 registerUser: {
-                    name: '',
+                    username: '',
                     email: '',
                     password: '',
                     password2: '',
@@ -61,7 +61,7 @@
                 },
                 rules: {
                     //配置rules：必填，提示，触发：失去焦点
-                    name: [{required: true, massage: "用户名不能为空", trigger: "blur"},
+                    username: [{required: true, massage: "用户名不能为空", trigger: "blur"},
                         {main: 2, max: 30, massage: "长度在2-30之间",trigger: "blur"},
                     ],
                     email: [
@@ -86,7 +86,7 @@
                         //alert('submit!');
 
                         this.$axios
-                            .post('/api/ueser/register',this.loginUser)
+                            .post('/api/user/register',this.registerUser)
                             .then(res=>{
                                 this.$message({
                                     message:'账号注册成功',
