@@ -37,10 +37,16 @@
   - 脚手架 vue-cli
   - 请求处理 axios
   - 组件 element-ui
+  - ...
+  
+  
 
 ## 3.Node.js配置
 
 + express框架
+  - 身份验证 bcryptjs token jwt passport passport-jwt
+  - body-parser
+  - ...
 
 # 开发环境
 
