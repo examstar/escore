@@ -32,6 +32,8 @@
 </template>
 
 <script>
+    import jwt_decode from 'jwt-decode';
+
     export default {
         name: "login.vue",
         Components: {},
@@ -68,6 +70,12 @@
                                 //拿到token(如果有)
                                 const {token}=res.data;
                                 localStorage.setItem('eleToken',token)
+
+                                const decode=jwt_decode(token);
+                                // 存储数据
+                                this.$store.dispatch('setAuthenticated', !this.isEmpty(decode));
+                                this.$store.dispatch('setUser', decode);
+
                             });
 
                         this.$router.push('/index');
@@ -76,6 +84,14 @@
                         return false;
                     }
                 });
+            },
+            isEmpty(value) {
+                return (
+                    value === undefined ||
+                    value === null ||
+                    (typeof value === "object" && Object.keys(value).length === 0) ||
+                    (typeof value === "string" && value.trim().length === 0)
+                );
             },
 
         }
