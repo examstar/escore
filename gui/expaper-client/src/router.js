@@ -8,7 +8,8 @@ import expapercreate from './views/ExpaperCreate.vue'
 import expaperlist from './views/ExpaperList.vue'
 import testpage from './views/testpage.vue'
 import excreate from './views/ExCreate.vue'
-
+import Home from './views/Home.vue'
+import InfoShow from './views/InfoShow.vue'
 Vue.use(Router);
 
 const router =new Router({
@@ -25,7 +26,13 @@ const router =new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component:index
+      component:index,
+      children:[
+        {path:'',component:Home,},
+        {path:'/home',name:"Home",component:Home,},
+        {path:'/InfoShow',name:"InfoShow",component:InfoShow,},
+
+      ]
     },{
       path: '/register',
       name: 'register',

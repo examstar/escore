@@ -6,7 +6,6 @@
 
 <script>
   import jwt_decode from "jwt-decode";
-  import store from './store';
 
   export default {
     name: "app",
@@ -33,7 +32,11 @@
 
 <style>
   html,
-  body,
+  body{
+    margin:0px;
+    width: 100%;
+    height: 100%;
+  }
   #app {
     width: 100%;
     height: 100%;
