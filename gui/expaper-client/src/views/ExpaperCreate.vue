@@ -2,7 +2,7 @@
     <div class="register">
     <section class="form_container">
         <div class="manage_tip">
-            <span class="title"> Expaper System Create </span>
+            <span class="title"> Expaper System Create （Depressed）</span>
 
     <el-form :model="expaperCreate" :rules="rules" ref="expaperCreateForm" label-width="100px" class="registerForm">
         <el-form-item label="试卷名称" prop="name">

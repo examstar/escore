@@ -110,7 +110,7 @@
             },
             handleDelete(index, row) {
 
-                    this.$axios.get('http://localhost:3000/api/del_expaper',{params:{id:index}}).then(result => {
+                    this.$axios.get('/api/del_expaper',{params:{id:index}}).then(result => {
 
                         console.log(result);
                         this.getAllList();
@@ -119,7 +119,7 @@
 
             },
             getAllList() {
-                this.$axios.get('http://localhost:3000/api/getscript').then(result => {
+                this.$axios.get('/api/getscript').then(result => {
                     this.list = result.data.data
                     console.log(result.data.data)
                 })

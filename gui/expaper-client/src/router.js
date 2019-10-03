@@ -10,6 +10,9 @@ import testpage from './views/testpage.vue'
 import excreate from './views/ExCreate.vue'
 import Home from './views/Home.vue'
 import InfoShow from './views/InfoShow.vue'
+
+import mypaper from './views/ExCreate2.vue'
+
 Vue.use(Router);
 
 const router =new Router({
@@ -31,6 +34,8 @@ const router =new Router({
         {path:'',component:Home,},
         {path:'/home',name:"Home",component:Home,},
         {path:'/InfoShow',name:"InfoShow",component:InfoShow,},
+        {path:'/expaperlist',name:"expaperlist",component:expaperlist,},
+        {path:'/expapercreate',name:"expapercreate",component:expapercreate,},
 
       ]
     },{
@@ -45,6 +50,10 @@ const router =new Router({
       path: '/expapercreate',
       name: 'expapercreate',
       component:expapercreate
+    },{
+      path: '/mypaper',
+      name: 'mypaper',
+      component:mypaper
     },{
       path: '/excreate',
       name: 'excreate',

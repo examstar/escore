@@ -8,7 +8,6 @@
                     text-color="#fff"
                     active-text-color="#409eff"
             >
-
                 <router-link to="/home">
 
 
@@ -25,7 +24,7 @@
                                 <i class="'fa fa-margin fa-server'+item.icon"></i>
                                 <span slot="title">{{item.name}}</span>
                             </template>
-                            <router-link v-for="(citem,cindex) in item.children" :to="citem.path" :ket="cindex">
+                            <router-link v-for="(citem,cindex) in item.children" :to="citem.path" :key="cindex">
                                 <el-menu-item :index="citem.path">
                                     <span slot="title">{{citem.name}}</span>
                                 </el-menu-item>
@@ -41,15 +40,14 @@
 </template>
 
 <script>
-    import Testpage from "../views/testpage";
     export default {
         name: "leftmeau",
-        components: {Testpage},
         data(){
             return{
                 items:[
                     {icon:'fa-money',name:'试卷管理',path:'fund',children:[
-                            {path:'fundlist',name:'创建试卷'}
+                            {path:'expapercreate',name:'创建试卷'},
+                            {path:'expaperlist',name:'试卷列表'},
                         ]},
                     {icon:'fa-asterike',name:'信息管理',path:'info',children:[
                             {path:'infoshow',name:'个人信息'}
