@@ -46,8 +46,10 @@
             return{
                 items:[
                     {icon:'fa-money',name:'试卷管理',path:'fund',children:[
+                            {path:'mypaper',name:'创建答题卡'},
                             {path:'expapercreate',name:'创建试卷'},
                             {path:'expaperlist',name:'试卷列表'},
+
                         ]},
                     {icon:'fa-asterike',name:'信息管理',path:'info',children:[
                             {path:'infoshow',name:'个人信息'}

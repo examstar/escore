@@ -36,6 +36,7 @@ const router =new Router({
         {path:'/InfoShow',name:"InfoShow",component:InfoShow,},
         {path:'/expaperlist',name:"expaperlist",component:expaperlist,},
         {path:'/expapercreate',name:"expapercreate",component:expapercreate,},
+        {path:'/mypaper',name:"mypaper",component:mypaper,},
 
       ]
     },{

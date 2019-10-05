@@ -167,6 +167,7 @@ export default {
         /*background: url(../assets/bg.jpg) no-repeat center center;*/
         /*background-color: #23527c;*/
         background-size: 100% 100%;
+        overflow:auto;
     }
     .form_container {
         width: 50%;
