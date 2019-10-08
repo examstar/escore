@@ -1,7 +1,7 @@
 <template>
     <div class="background">
         <rightmenu ref="rightmenu"></rightmenu>
-                <template v-for="paperpage in paperpages">
+                <template v-for="(paperpage,index) in mytitles">
 <!--        <template>-->
             <div class="paper">
                 <h3 style="text-align: center">答题卡</h3>
@@ -9,15 +9,17 @@
                     <div class="paperheader" id="header">
                     </div>
                     <!--        <template v-for="item in items">-->
-                    <template v-for="item in titles">
-                        <div class="question" id="question">
-                            <div class ="title">  <strong><a>第{{item.title}}大题：</a></strong> </div><br>
+                    <template v-for="(item,tindex) in paperpage.titles">
 
-                            <template v-for="(question,index) in item.questions">
-                                <div class="tiny"> {{question.id}}、_______ </div>
-                            </template>
+                        <questions :item=item  class="question" ></questions>
+<!--                        <div class="question" id="question" ref="element" v-getxy='{a:index,b:tindex }' >-->
+<!--                            <div class ="title" >  <strong><a>第{{item.title}}大题：</a></strong> </div><br>-->
 
-                        </div>
+<!--                            <template v-for="(question,qindex) in item.questions">-->
+<!--                                <div class="tiny"> {{question.id}}、_______ </div>-->
+<!--                            </template>-->
+
+<!--                        </div>-->
                     </template>
 
                 </div>
@@ -38,30 +40,17 @@
 
 <script>
     import rightmenu from '../components/rightmenu'
+    import questions from '../components/questions'
 
     export default {
         components:{
             'rightmenu':rightmenu,
+            questions
         },
         name: "mypaper",
         data() {
             return {
                 paperpages:2,
-
-                items: [
-                    {
-                        icon: 'fa-money', name: '试卷管理', path: 'fund', children: [
-                            {path: 'expapercreate', name: '创建试卷'},
-                            {path: 'expaperlist', name: '试卷列表'},
-                        ]
-                    },
-                    {
-                        icon: 'fa-asterike', name: '信息管理', path: 'info', children: [
-                            {path: 'infoshow', name: '个人信息'}
-                        ]
-                    },
-                ],
-
                 titles:[
                     {title:'一',questions:[
                         {id:1,e:'A'},
@@ -81,7 +70,46 @@
                             {id:3,e:'A'},
                         ],x1:'',x2:'',y1:'',y2:''},
 
-                ]
+                ],
+                mytitles:[{titles:[
+                        {title:'一',questions:[
+                                {id:1,e:'A'},
+                                {id:2,e:'A'},
+                                {id:3,e:'A'},
+                            ],x1:'',x2:'',y1:'',y2:''},
+
+                        {title:'二',questions:[
+                                {id:1,e:'A'},
+                                {id:2,e:'A'},
+                                {id:3,e:'A'},
+                                {id:3,e:'A'},
+                                {id:3,e:'A'},
+                                {id:3,e:'A'},
+                                {id:3,e:'A'},
+                                {id:3,e:'A'},
+                                {id:3,e:'A'},
+                            ],x1:'',x2:'',y1:'',y2:''},
+
+                    ]},{titles:[
+                        {title:'一',questions:[
+                                {id:1,e:'A'},
+                                {id:2,e:'A'},
+                                {id:3,e:'A'},
+                            ],x1:'',x2:'',y1:'',y2:''},
+
+                        {title:'二',questions:[
+                                {id:1,e:'A'},
+                                {id:2,e:'A'},
+                                {id:3,e:'A'},
+                                {id:3,e:'A'},
+                                {id:3,e:'A'},
+                                {id:3,e:'A'},
+                                {id:3,e:'A'},
+                                {id:3,e:'A'},
+                                {id:3,e:'A'},
+                            ],x1:'',x2:'',y1:'',y2:''},
+
+                    ]}]
             }
         },
         methods:{
@@ -99,7 +127,45 @@
                 )
 
             },
+            getXY:function (index,tindex) {
+                var heightStyle =this.$refs.element.style.height;
+                var widthStyle =this.$refs.element.style.width;
+                var left =this.$refs.element.style.left;
+                var top =this.$refs.element.style.top;
 
+                this.mytitles[index].titles[tindex].x1=left;
+                this.mytitles[index].titles[tindex].y1=top;
+                this.mytitles[index].titles[tindex].x2=widthStyle;
+                this.mytitles[index].titles[tindex].y2=heightStyle;
+
+                console.log("坐标："+ this.mytitles[index].titles[tindex].x1+"----"+this.mytitles[index].titles[tindex].y1)
+            }
+
+        },
+        directives: {
+            getxy: function (el,binding) {
+            var heightStyle =this.$refs.element.getBoundingClientRect().top;
+            var widthStyle =this.$refs.element.getBoundingClientRect().top;
+            var left =this.$refs.element.getBoundingClientRect().top;
+            var top =this.$refs.element.getBoundingClientRect().top;
+
+
+
+            this.mytitles[binding.value.a].titles[binding.value.b].x1=left;
+            this.mytitles[binding.value.a].titles[binding.value.b].y1=top;
+            this.mytitles[binding.value.a].titles[binding.value.b].x2=widthStyle;
+            this.mytitles[binding.value.a].titles[binding.value.b].y2=heightStyle;
+
+
+                console.log("aaaaaaaaaaaaaaaaaaaaaaa");
+               // console.log(binding);
+                console.log(el.height);
+                console.log(el.width);
+                console.log(el.left);
+
+             console.log("坐标："+ this.mytitles[index].titles[tindex].x1+"----"+this.mytitles[index].titles[tindex].y1)
+
+            },
         }
     }
 </script>
