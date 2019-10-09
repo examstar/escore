@@ -72,9 +72,11 @@ module.exports.sqlobj=function (req,content) {
 
     var sql;
     if(req.method.toLowerCase()==="get"){
-        sql=req.query ;
+        sql=req.query[0].titles[0].header ;
     }else{
-        sql= req.body ;
+        sql= req.body[0].titles[0].header ;
+        //sql=sql[0].titles[0].header
+        //console.log(req.body[0].titles[0].header)
     }
 
     var sqlmessage = {
