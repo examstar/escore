@@ -7,9 +7,9 @@
             <div class="paper">
                 <h3 style="text-align: center">答题卡</h3>
                 <div class="container">
-                    <div class="paperheader" id="header">
-                    </div>
-                    <!--        <template v-for="item in items">-->
+                    <!--                    <div class="paperheader" id="header">-->
+                    <!--                    </div>-->
+
                     <template v-for="(item,tindex) in paperpage.titles">
 
                         <questions :item=item :index={outer:index,inner:tindex} @listenData="setItemPosition">
@@ -37,18 +37,41 @@
 
         <template>
             <div class="rightmeun">
+                <a> Header</a>
+                <div style="text-align: center;margin: 10px 30px 40px 10px;border: seagreen">
+                    <el-form label-width="100px" :model="mytitles[0].titles[0].header">
+                        <el-form-item label="创建人：">
+                            <el-input v-model="mytitles[0].titles[0].header.teacher" placeholder=""></el-input>
+                        </el-form-item>
+                        <el-form-item label="创建时间：">
+                            <el-input v-model="mytitles[0].titles[0].header.created_at" placeholder="" disabled="true"></el-input>
+                        </el-form-item>
+                        <el-form-item label="更新时间:">
+                            <el-input v-model="mytitles[0].titles[0].header.update_at" placeholder="" disabled="true"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Note：">
+                            <el-input v-model="mytitles[0].titles[0].header.note" placeholder=""></el-input>
+                        </el-form-item>
+                        <el-form-item label="描述：">
+                            <el-input type="textarea" v-model="mytitles[0].titles[0].header.description" placeholder=""></el-input>
+                        </el-form-item>
+                    </el-form>
+                </div>
 
-
+                <a> 添加题目</a>
                 <div style="text-align: center;margin: 10px 30px 10px 10px">
-                    <el-form  label-width="80px" :model="formLabelAlign">
-                        <el-form-item label="大题：" style="text-decoration-color: white">
+                    <el-form label-width="100px" :model="formLabelAlign">
+                        <el-form-item label="大题：">
                             <el-input v-model="formLabelAlign.t1" placeholder="示例：三"></el-input>
                         </el-form-item>
-                        <el-form-item label="小题:" style="text-decoration-color: white">
+                        <el-form-item label="小题：">
                             <el-input v-model="formLabelAlign.t2" placeholder="示例：16-20"></el-input>
                         </el-form-item>
-                        <el-form-item label="答案:" style="text-decoration-color: white">
-                            <el-input v-model="formLabelAlign.t3"  placeholder="示例：B-A-ABC-C-BC"></el-input>
+                        <el-form-item label="每道题得分:">
+                            <el-input v-model="formLabelAlign.score" placeholder="示例：3"></el-input>
+                        </el-form-item>
+                        <el-form-item label="答案：">
+                            <el-input v-model="formLabelAlign.t3" placeholder="示例：B-A-ABC-C-BC"></el-input>
                         </el-form-item>
                     </el-form>
 
@@ -81,20 +104,20 @@
         name: "mypaper",
         data() {
             return {
-
                 formLabelAlign: {
                     t1: '',
                     t2: '',
                     t3: '',
-                    index:''
+                    score: '',
+                    index: ''
                 },
                 itemposition: {},
                 paperpages: 2,
                 titles: [
                     {
-                        header:{
-                            barcode:'',
-                            name:'',
+                        header: {
+                            barcode: '',
+                            name: '',
                         }
                     },
 
@@ -124,31 +147,39 @@
                 mytitles: [{
                     titles: [
                         {
-                            header:{
-                                barcode:'aaaaaasdasdassada',
-                                name:'aaaa',
+                            header: {
+                                name: '第五次月考数学试卷',
+                                "teacher": "mr chen",
+                                "class": "数学",
+                                "content_path": "",
+                                "created_at": new Date(),
+                                "description": "",
+                                "update_at": new Date(),
+                                "absent": "",
+                                "note": "",
+                                "barcode": "",
                             }
                         },
 
                         {
                             title: '一', questions: [
-                                {id: 1, e: 'A'},
-                                {id: 2, e: 'A'},
-                                {id: 3, e: 'A'},
+                                {id: 1, e: 'A', score: ''},
+                                {id: 2, e: 'A', score: ''},
+                                {id: 3, e: 'A', score: ''},
                             ], x1: '', x2: '', y1: '', y2: ''
                         },
 
                         {
                             title: '二', questions: [
-                                {id: 1, e: 'A'},
-                                {id: 2, e: 'A'},
-                                {id: 3, e: 'A'},
-                                {id: 3, e: 'A'},
-                                {id: 3, e: 'A'},
-                                {id: 3, e: 'A'},
-                                {id: 3, e: 'A'},
-                                {id: 3, e: 'A'},
-                                {id: 3, e: 'A'},
+                                {id: 1, e: 'A', score: ''},
+                                {id: 2, e: 'A', score: ''},
+                                {id: 3, e: 'A', score: ''},
+                                {id: 3, e: 'A', score: ''},
+                                {id: 3, e: 'A', score: ''},
+                                {id: 3, e: 'A', score: ''},
+                                {id: 3, e: 'A', score: ''},
+                                {id: 3, e: 'A', score: ''},
+                                {id: 3, e: 'A', score: ''},
                             ], x1: '', x2: '', y1: '', y2: ''
                         },
 
@@ -157,23 +188,23 @@
                     titles: [
                         {
                             title: '一', questions: [
-                                {id: 1, e: 'A'},
-                                {id: 2, e: 'A'},
-                                {id: 3, e: 'A'},
+                                {id: 1, e: 'A', score: ''},
+                                {id: 2, e: 'A', score: ''},
+                                {id: 3, e: 'A', score: ''},
                             ], x1: '', x2: '', y1: '', y2: ''
                         },
 
                         {
                             title: '二', questions: [
-                                {id: 1, e: 'A'},
-                                {id: 2, e: 'A'},
-                                {id: 3, e: 'A'},
-                                {id: 3, e: 'A'},
-                                {id: 3, e: 'A'},
-                                {id: 3, e: 'A'},
-                                {id: 3, e: 'A'},
-                                {id: 3, e: 'A'},
-                                {id: 3, e: 'A'},
+                                {id: 1, e: 'A', score: ''},
+                                {id: 2, e: 'A', score: ''},
+                                {id: 3, e: 'A', score: ''},
+                                {id: 3, e: 'A', score: ''},
+                                {id: 3, e: 'A', score: ''},
+                                {id: 3, e: 'A', score: ''},
+                                {id: 3, e: 'A', score: ''},
+                                {id: 3, e: 'A', score: ''},
+                                {id: 3, e: 'A', score: ''},
                             ], x1: '', x2: '', y1: '', y2: ''
                         },
 
@@ -185,31 +216,32 @@
             //用来测试是否能正常加入的函数。
             aaaa: function (form) {
 
-                var title={
-                    title:form.t1,
-                    questions:[]
+                var title = {
+                    title: form.t1,
+                    questions: []
                 };
-                var count=form.t2.split("-")[0];
-                var max=form.t2.split("-")[1];
+                var count = form.t2.split("-")[0];
+                var max = form.t2.split("-")[1];
                 max++;
-                var exp=[];
-                for(var e in form.t2.split("-")){
+                var exp = [];
+                for (var e in form.t2.split("-")) {
                     exp.push(e)
                 }
-                for(var i=count;i<max;i++ ){
-                    title.questions.push({id:i,e:exp})
+                var score = form.score;
+                for (var i = count; i < max; i++) {
+                    title.questions.push({id: i, e: exp, score: score})
                 }
 
 
-                if(title.title===''||title.title===undefined){
+                if (title.title === '' || title.title === undefined) {
                     alert("空数据");
                     return
                 }
-               this.mytitles[0].titles.push(title);
+                this.mytitles[0].titles.push(title);
 
             },
 
-            deletepop:function(){
+            deletepop: function () {
                 this.mytitles[0].titles.pop()
             },
             setItemPosition: function (data) {   //从子组件获取坐标值
@@ -230,7 +262,6 @@
 
                     });
                 this.$router.push('/index');
-
 
 
             },

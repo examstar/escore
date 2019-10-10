@@ -1,15 +1,20 @@
 <template>
-    <div class="question" id="question" ref="element">
 
-
-        <div class="title"><strong><a>第{{item.title}}大题：</a></strong></div>
+    <div v-if="item.header" class="question" id="question" ref="element">
+        <div style="text-align: center"><a style= "font-size: 25px">{{item.header.name}}</a></div>
+        <div style="float: left; margin: 0px 0px 0px 10px"> 姓名：________________</div><br>
+        <div style="float: left; margin: 0px 0px 0px 10px"> 学校：________________</div><br>
+        <div style="float: left; margin: 0px 0px 0px 10px"> 学号：________________</div><br>
+        <div style="float: left; margin: 0px 0px 0px 10px"> barcode：<div style="border: 1px #1f2d3d solid;width: 80px;height: 20px"></div></div><br>
         <br>
 
+    </div>
+    <div v-else class="question" id="question" ref="element">
+        <div class="title"><strong><a>第{{item.title}}大题：</a></strong></div>
+        <br>
         <template v-for="(question,qindex) in item.questions">
             <div class="tiny"> {{question.id}}、_______</div>
         </template>
-
-
     </div>
 </template>
 
