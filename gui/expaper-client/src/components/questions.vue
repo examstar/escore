@@ -7,7 +7,13 @@
         <div style="float: left; margin: 0px 0px 0px 10px"> 学号：________________</div><br>
         <div style="float: left; margin: 0px 0px 0px 10px"> barcode：<div style="border: 1px #1f2d3d solid;width: 80px;height: 20px"></div></div><br>
         <br>
-
+    </div>
+    <div v-else-if="item.questions.length===1" class="question" id="question" ref="element">
+        <div class="title"><strong><a>第{{item.title}}大题：</a></strong></div>
+        <br>
+        <template v-for="(question,qindex) in item.questions">
+            <div class="tiny"> {{question.id}}、</div>
+        </template>
     </div>
     <div v-else class="question" id="question" ref="element">
         <div class="title"><strong><a>第{{item.title}}大题：</a></strong></div>
@@ -62,13 +68,20 @@
             },
             sendMsgToParent: function () {
                 this.$emit("listenData", {
-                    x1: this.titem.x1,
-                    y1: this.titem.y1,
-                    x2: this.titem.x2,
-                    y2: this.titem.y2,
 
-                    xx: this.titem.xx,
-                    yy: this.titem.yy,
+                    x1: parseFloat(this.titem.x1).toFixed(4),
+                    y1: parseFloat(this.titem.y1).toFixed(4),
+                    x2: parseFloat(this.titem.x2).toFixed(4),
+                    y2: parseFloat(this.titem.y2).toFixed(4),
+                    xx: parseFloat(this.titem.xx).toFixed(4),
+                    yy: parseFloat(this.titem.yy).toFixed(4),
+                    // x1: Math.ceil(this.titem.x1),
+                    // y1: Math.ceil(this.titem.y1),
+                    // x2: Math.ceil(this.titem.x2),
+                    // y2: Math.ceil(this.titem.y2),
+                    // xx: Math.ceil(this.titem.xx),
+                    // yy: Math.ceil(this.titem.yy),
+
                 })
             }
         },

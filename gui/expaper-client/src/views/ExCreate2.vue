@@ -41,19 +41,19 @@
                 <div style="text-align: center;margin: 10px 30px 40px 10px;border: seagreen">
                     <el-form label-width="100px" :model="mytitles[0].titles[0].header">
                         <el-form-item label="创建人：">
-                            <el-input v-model="mytitles[0].titles[0].header.teacher" placeholder=""></el-input>
+                            <el-input v-model="mytitles[0].titles[0].header.teacher" placeholder="?"></el-input>
                         </el-form-item>
                         <el-form-item label="创建时间：">
-                            <el-input v-model="mytitles[0].titles[0].header.created_at" placeholder="" disabled="true"></el-input>
+                            <el-input v-model="mytitles[0].titles[0].header.created_at" placeholder="?" :disabled="true"></el-input>
                         </el-form-item>
                         <el-form-item label="更新时间:">
-                            <el-input v-model="mytitles[0].titles[0].header.update_at" placeholder="" disabled="true"></el-input>
+                            <el-input v-model="mytitles[0].titles[0].header.update_at" placeholder="?" :disabled="true" ></el-input>
                         </el-form-item>
                         <el-form-item label="Note：">
-                            <el-input v-model="mytitles[0].titles[0].header.note" placeholder=""></el-input>
+                            <el-input v-model="mytitles[0].titles[0].header.note" placeholder="?"></el-input>
                         </el-form-item>
                         <el-form-item label="描述：">
-                            <el-input type="textarea" v-model="mytitles[0].titles[0].header.description" placeholder=""></el-input>
+                            <el-input type="textarea" v-model="mytitles[0].titles[0].header.description" placeholder="?"></el-input>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -152,12 +152,12 @@
                                 "teacher": "mr chen",
                                 "class": "数学",
                                 "content_path": "",
-                                "created_at": new Date(),
-                                "description": "",
-                                "update_at": new Date(),
+                                "created_at": new Date().toString(),
+                                "description": "this is desc",
+                                "update_at": new Date().toString(),
                                 "absent": "",
-                                "note": "",
-                                "barcode": "",
+                                "note": "this is note",
+                                "barcode": "jahdj4h5h5jn45bh43b",
                             }
                         },
 
@@ -171,15 +171,15 @@
 
                         {
                             title: '二', questions: [
-                                {id: 1, e: 'A', score: ''},
-                                {id: 2, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
+                                {id: 4, e: 'A', score: ''},
+                                {id: 5, e: 'A', score: ''},
+                                {id: 6, e: 'A', score: ''},
+                                {id: 7, e: 'A', score: ''},
+                                {id: 8, e: 'A', score: ''},
+                                {id: 9, e: 'A', score: ''},
+                                {id: 10, e: 'A', score: ''},
+                                {id: 11, e: 'A', score: ''},
+                                {id: 12, e: 'A', score: ''},
                             ], x1: '', x2: '', y1: '', y2: ''
                         },
 
@@ -196,15 +196,15 @@
 
                         {
                             title: '二', questions: [
-                                {id: 1, e: 'A', score: ''},
-                                {id: 2, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
+                                {id: 4, e: 'A', score: ''},
+                                {id: 5, e: 'A', score: ''},
+                                {id: 6, e: 'A', score: ''},
+                                {id: 7, e: 'A', score: ''},
+                                {id: 8, e: 'A', score: ''},
+                                {id: 9, e: 'A', score: ''},
+                                {id: 10, e: 'A', score: ''},
+                                {id: 11, e: 'A', score: ''},
+                                {id: 12, e: 'A', score: ''},
                             ], x1: '', x2: '', y1: '', y2: ''
                         },
 
@@ -220,17 +220,27 @@
                     title: form.t1,
                     questions: []
                 };
+
+
                 var count = form.t2.split("-")[0];
                 var max = form.t2.split("-")[1];
-                max++;
-                var exp = [];
-                for (var e in form.t2.split("-")) {
-                    exp.push(e)
+
+                var exp = [];           //期望的答案
+                var score = form.score; //本题分数
+
+                if(max!=undefined){
+                    max++;
+                    for (var e in form.t3.split("-")) {
+                        exp.push(e)
+                    }
+                    for (var i = count; i < max; i++) {
+                        title.questions.push({id: i, e: exp, score: score})
+                    }
+                }else {
+                    exp.push(form.t3);
+                    title.questions.push({id: count, e: exp, score: score})
                 }
-                var score = form.score;
-                for (var i = count; i < max; i++) {
-                    title.questions.push({id: i, e: exp, score: score})
-                }
+
 
 
                 if (title.title === '' || title.title === undefined) {
@@ -277,7 +287,7 @@
 
     .rightmeun {
         width: 400px;
-        height: 700px;
+        height: 900px;
         float: right;
 
         position: absolute;

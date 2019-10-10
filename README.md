@@ -87,3 +87,12 @@
   -模板引擎放在views中
 
   -公共资源放在/public中，json数据打包在public/data
+  
+  
+ # 前端预览：
+   + 创建试卷雏形
+     ![Image text](storage/publicimg/1570716648(1).jpg)
+     ![Image text](storage/publicimg/1570717075(1).jpg)
+     
+   + 列表雏形
+     ![Image text](storage/publicimg/1570716949(1).png)
