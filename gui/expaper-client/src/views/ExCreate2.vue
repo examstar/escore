@@ -3,9 +3,9 @@
 <!--        <rightmenu ref="rightmenu"></rightmenu>-->
 <!--        迭代生成试卷纸 A4-->
         <template v-for="(paperpage,index) in mytitles">
-            <div class="paper" ref="paper">
+            <div class="paper" >
                 <h3 style="text-align: center">答题卡</h3>
-                <div class="container">
+                <div class="container" ref="container">
 
                     <!--迭代每一道大题，并且返回大题坐标-->
                     <template v-for="(item,tindex) in paperpage.titles">
@@ -13,15 +13,9 @@
                         <questions :item=item :index={outer:index,inner:tindex} @listenData="setItemPosition">
                         </questions>
 
-                        <template v-for="i in 4">
-                            <point :myposition="itemposition" :index="i"></point>
-                        </template>
-
+                        <point v-for="i in 4" :myposition="item" :index="i" :tindex="index+'-'+ tindex" ></point>
                     </template>
-
                 </div>
-
-
             </div>
         </template>
 
@@ -69,7 +63,7 @@
                         </el-form-item>
                     </el-form>
 
-                    <el-button type="primary" @click="aaaa(formLabelAlign)">加入</el-button>
+                    <el-button type="primary" @click="insertTitle(formLabelAlign)">加入</el-button>
 
                     <el-button type="primary" @click="deletepop(formLabelAlign.index)">删除</el-button>
 
@@ -96,6 +90,11 @@
             point,
         },
         name: "mypaper",
+        computed: {
+            user() {
+                return this.$store.getters.user;
+            }
+        },
         data() {
             return {
                 formLabelAlign: {
@@ -143,7 +142,7 @@
                         {
                             header: {
                                 name: '第五次月考数学试卷',
-                                "teacher": "mr chen",
+                                "teacher": '',
                                 "class": "数学",
                                 "content_path": "",
                                 "created_at": new Date().toString(),
@@ -178,37 +177,40 @@
                         },
 
                     ]
-                }, {
-                    titles: [
-                        {
-                            title: '一', questions: [
-                                {id: 1, e: 'A', score: ''},
-                                {id: 2, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
-                            ], x1: '', x2: '', y1: '', y2: ''
-                        },
+                },
+                //     {
+                //     titles: [
+                //         {
+                //             title: '一', questions: [
+                //                 {id: 1, e: 'A', score: ''},
+                //                 {id: 2, e: 'A', score: ''},
+                //                 {id: 3, e: 'A', score: ''},
+                //             ], x1: '', x2: '', y1: '', y2: ''
+                //         },
+                //
+                //         {
+                //             title: '二', questions: [
+                //                 {id: 4, e: 'A', score: ''},
+                //                 {id: 5, e: 'A', score: ''},
+                //                 {id: 6, e: 'A', score: ''},
+                //                 {id: 7, e: 'A', score: ''},
+                //                 {id: 8, e: 'A', score: ''},
+                //                 {id: 9, e: 'A', score: ''},
+                //                 {id: 10, e: 'A', score: ''},
+                //                 {id: 11, e: 'A', score: ''},
+                //                 {id: 12, e: 'A', score: ''},
+                //             ], x1: '', x2: '', y1: '', y2: ''
+                //         },
+                //
+                //     ]
+                // }
 
-                        {
-                            title: '二', questions: [
-                                {id: 4, e: 'A', score: ''},
-                                {id: 5, e: 'A', score: ''},
-                                {id: 6, e: 'A', score: ''},
-                                {id: 7, e: 'A', score: ''},
-                                {id: 8, e: 'A', score: ''},
-                                {id: 9, e: 'A', score: ''},
-                                {id: 10, e: 'A', score: ''},
-                                {id: 11, e: 'A', score: ''},
-                                {id: 12, e: 'A', score: ''},
-                            ], x1: '', x2: '', y1: '', y2: ''
-                        },
-
-                    ]
-                }]
+                ]
             }
         },
         methods: {
             //用来测试是否能正常加入的函数。
-            aaaa: function (form) {
+            insertTitle: function (form) {
                 var title = {
                     title: form.t1,
                     questions: []
@@ -235,8 +237,8 @@
                     alert("空数据");
                     return
                 }
-                /** 识别是在哪张试卷生成这道题目**/
 
+                /** 识别是在哪张试卷生成这道题目**/
                 var maxHeight=759.77;   //this.$refs.paper.getBoundingClientRect().height; console.log("最大高度"+maxHeight);
                 var currentHeight=0.0;
                 if(this.mytitles.length!=1){
@@ -244,40 +246,32 @@
                         currentHeight+=this.mytitles[this.mytitles.length-1].titles[paperp].yy;
                        // if(currentHeight>maxHeight) throw "当前高度已经大于最大高度了！";
                     }
-                    console.log("currentHeight"+currentHeight);
-                    if (currentHeight<maxHeight-150){
-
+                    if (currentHeight<maxHeight-160){
                         this.mytitles[this.mytitles.length-1].titles.push(title);   //如果高度足够则放进去
                     } else {
-                        this.mytitles.push({titles:[title]});
-
-                        //this.mytitles[this.mytitles.length].titles.push(title);      //高度不够新开一个试卷
+                        this.mytitles.push({titles:[title]});                       //高度不够新开一个试卷
                     }
                 }else {
                     //var headerHeight=this.mytitles[0].titles[0].yy;
-
                     for(var paperp in  this.mytitles[0].titles){
                         currentHeight+=this.mytitles[0].titles[paperp].yy;
                        // if(currentHeight>maxHeight) throw "当前高度已经大于最大高度了！";
                     }
-
-                    console.log("currentHeight"+currentHeight);
-                    if (currentHeight<maxHeight-150){
+                    if (currentHeight<maxHeight-160){
                         this.mytitles[0].titles.push(title);   //如果高度足够则放进去
-                    } else {
-                        this.mytitles.push({titles:[title]});
 
-                        //this.mytitles[1].titles.push(title);      //高度不够新开一个试卷
+                    } else {
+                        this.mytitles.push({titles:[title]}); //高度不够新开一个试卷
+
                     }
                 }
+                //到这里还不算，需要判断插入的数据是否正确。需要在update中判断。
 
 
-               // this.mytitles[0].titles.push(title);
+
 
             },
             deletepop: function () {
-
-
 
                 this.mytitles[this.mytitles.length-1].titles.pop();
 
@@ -285,10 +279,20 @@
                     this.mytitles.pop();
                 }
             },
+            isFail:function () {
+                /** 测试放入的题目可不可行**/
+                var currentHeight=0.0;
+                for(var paperp in  this.mytitles[this.mytitles.length-1].titles){
+                    currentHeight+=this.mytitles[this.mytitles.length-1].titles[paperp].yy;
+                    if (currentHeight>608){
+                        this.deletepop();
+                        alert("在这道题放入的小题目太多了");
+                    }
+                }
+            },
             setItemPosition: function (data) {   //从子组件获取坐标值
                 this.itemposition = data;
             },
-
             submitForm(formName) {
                 this.$axios
                 // .post('http://localhost:3000/api/add_expaper',this.expaperCreate)
@@ -306,11 +310,17 @@
 
 
             },
-
+        },
+        updated(){
+            this.isFail();
+        },
+        mounted(){
+            this.mytitles[0].titles[0].header.teacher=this.user.username
         },
         directives: { //自定义属性
 
-        }
+        },
+
     }
 </script>
 
@@ -343,7 +353,7 @@
 
     .question {
         width: 100%;
-        min-height: 150px;
+        min-height: 149px;
 
         top: 5%;
         left: 5%;
@@ -381,6 +391,7 @@
         /*position: absolute;*/
         position: relative;
 
+
         /*top: 0%;*/
         left: 25%;
         /*padding: 25px;*/
@@ -401,6 +412,7 @@
         width: 100%;
         height: 100%;
         overflow: auto;
+
     }
 
 </style>
