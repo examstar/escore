@@ -1,17 +1,15 @@
 <template>
     <div class="background">
-        <rightmenu ref="rightmenu"></rightmenu>
-
+<!--        <rightmenu ref="rightmenu"></rightmenu>-->
+<!--        迭代生成试卷纸 A4-->
         <template v-for="(paperpage,index) in mytitles">
-            <!--        <template>-->
-            <div class="paper">
+            <div class="paper" ref="paper">
                 <h3 style="text-align: center">答题卡</h3>
                 <div class="container">
-                    <!--                    <div class="paperheader" id="header">-->
-                    <!--                    </div>-->
 
+                    <!--迭代每一道大题，并且返回大题坐标-->
                     <template v-for="(item,tindex) in paperpage.titles">
-
+                        <!--迭代每道小题-->
                         <questions :item=item :index={outer:index,inner:tindex} @listenData="setItemPosition">
                         </questions>
 
@@ -19,14 +17,6 @@
                             <point :myposition="itemposition" :index="i"></point>
                         </template>
 
-                        <!--                        <div class="question" id="question" ref="element" v-getxy='{a:index,b:tindex }' >-->
-                        <!--                            <div class ="title" >  <strong><a>第{{item.title}}大题：</a></strong> </div><br>-->
-
-                        <!--                            <template v-for="(question,qindex) in item.questions">-->
-                        <!--                                <div class="tiny"> {{question.id}}、_______ </div>-->
-                        <!--                            </template>-->
-
-                        <!--                        </div>-->
                     </template>
 
                 </div>
@@ -35,6 +25,7 @@
             </div>
         </template>
 
+<!--        右侧添加题目导航栏-->
         <template>
             <div class="rightmeun">
                 <a> Header</a>
@@ -44,16 +35,19 @@
                             <el-input v-model="mytitles[0].titles[0].header.teacher" placeholder="?"></el-input>
                         </el-form-item>
                         <el-form-item label="创建时间：">
-                            <el-input v-model="mytitles[0].titles[0].header.created_at" placeholder="?" :disabled="true"></el-input>
+                            <el-input v-model="mytitles[0].titles[0].header.created_at" placeholder="?"
+                                      :disabled="true"></el-input>
                         </el-form-item>
                         <el-form-item label="更新时间:">
-                            <el-input v-model="mytitles[0].titles[0].header.update_at" placeholder="?" :disabled="true" ></el-input>
+                            <el-input v-model="mytitles[0].titles[0].header.update_at" placeholder="?"
+                                      :disabled="true"></el-input>
                         </el-form-item>
                         <el-form-item label="Note：">
                             <el-input v-model="mytitles[0].titles[0].header.note" placeholder="?"></el-input>
                         </el-form-item>
                         <el-form-item label="描述：">
-                            <el-input type="textarea" v-model="mytitles[0].titles[0].header.description" placeholder="?"></el-input>
+                            <el-input type="textarea" v-model="mytitles[0].titles[0].header.description"
+                                      placeholder="?"></el-input>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -215,20 +209,17 @@
         methods: {
             //用来测试是否能正常加入的函数。
             aaaa: function (form) {
-
                 var title = {
                     title: form.t1,
                     questions: []
                 };
-
-
                 var count = form.t2.split("-")[0];
                 var max = form.t2.split("-")[1];
-
                 var exp = [];           //期望的答案
                 var score = form.score; //本题分数
 
-                if(max!=undefined){
+                /** 数据打包！**/
+                if (max != undefined) {
                     max++;
                     for (var e in form.t3.split("-")) {
                         exp.push(e)
@@ -236,23 +227,63 @@
                     for (var i = count; i < max; i++) {
                         title.questions.push({id: i, e: exp, score: score})
                     }
-                }else {
+                } else {
                     exp.push(form.t3);
                     title.questions.push({id: count, e: exp, score: score})
                 }
-
-
-
                 if (title.title === '' || title.title === undefined) {
                     alert("空数据");
                     return
                 }
-                this.mytitles[0].titles.push(title);
+                /** 识别是在哪张试卷生成这道题目**/
+
+                var maxHeight=759.77;   //this.$refs.paper.getBoundingClientRect().height; console.log("最大高度"+maxHeight);
+                var currentHeight=0.0;
+                if(this.mytitles.length!=1){
+                    for(var paperp in  this.mytitles[this.mytitles.length-1].titles){
+                        currentHeight+=this.mytitles[this.mytitles.length-1].titles[paperp].yy;
+                       // if(currentHeight>maxHeight) throw "当前高度已经大于最大高度了！";
+                    }
+                    console.log("currentHeight"+currentHeight);
+                    if (currentHeight<maxHeight-150){
+
+                        this.mytitles[this.mytitles.length-1].titles.push(title);   //如果高度足够则放进去
+                    } else {
+                        this.mytitles.push({titles:[title]});
+
+                        //this.mytitles[this.mytitles.length].titles.push(title);      //高度不够新开一个试卷
+                    }
+                }else {
+                    //var headerHeight=this.mytitles[0].titles[0].yy;
+
+                    for(var paperp in  this.mytitles[0].titles){
+                        currentHeight+=this.mytitles[0].titles[paperp].yy;
+                       // if(currentHeight>maxHeight) throw "当前高度已经大于最大高度了！";
+                    }
+
+                    console.log("currentHeight"+currentHeight);
+                    if (currentHeight<maxHeight-150){
+                        this.mytitles[0].titles.push(title);   //如果高度足够则放进去
+                    } else {
+                        this.mytitles.push({titles:[title]});
+
+                        //this.mytitles[1].titles.push(title);      //高度不够新开一个试卷
+                    }
+                }
+
+
+               // this.mytitles[0].titles.push(title);
 
             },
-
             deletepop: function () {
-                this.mytitles[0].titles.pop()
+
+
+
+                this.mytitles[this.mytitles.length-1].titles.pop();
+
+                if(this.mytitles[this.mytitles.length-1].titles.length===0){
+                    this.mytitles.pop();
+                }
             },
             setItemPosition: function (data) {   //从子组件获取坐标值
                 this.itemposition = data;
