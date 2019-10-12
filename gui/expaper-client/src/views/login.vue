@@ -76,9 +76,11 @@
                                 this.$store.dispatch('setAuthenticated', !this.isEmpty(decode));
                                 this.$store.dispatch('setUser', decode);
 
+                                this.$router.push('/index');
                             });
 
                         this.$router.push('/index');
+
                     } else {
                         console.log('error submit!!');
                         return false;

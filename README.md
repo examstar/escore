@@ -3,6 +3,11 @@
 # 项目启动
 
 # 启动：
+
++ mysql：services/config/mysql/config.js里面配置用户密码，然后导入sql脚本storage/expaper.sql
++ 后端：在services下，npm install然后启动或者配置idea环境启动
++ 前端：在gui/expaper-client下，npm install 后启动
+
 ## 前端
 
 1.项目位于在GUI/expaper-client里
