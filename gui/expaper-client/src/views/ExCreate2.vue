@@ -79,13 +79,13 @@
 </template>
 
 <script>
-    import rightmenu from '../components/rightmenu'
+    //import rightmenu from '../components/rightmenu'
     import questions from '../components/questions'
     import point from '../components/small/point'
 
     export default {
         components: {
-            'rightmenu': rightmenu,
+           // 'rightmenu': rightmenu,
             questions,
             point,
         },
@@ -246,7 +246,7 @@
                         currentHeight+=this.mytitles[this.mytitles.length-1].titles[paperp].yy;
                        // if(currentHeight>maxHeight) throw "当前高度已经大于最大高度了！";
                     }
-                    if (currentHeight<maxHeight-160){
+                    if (currentHeight<maxHeight-151){
                         this.mytitles[this.mytitles.length-1].titles.push(title);   //如果高度足够则放进去
                     } else {
                         this.mytitles.push({titles:[title]});                       //高度不够新开一个试卷
@@ -257,7 +257,7 @@
                         currentHeight+=this.mytitles[0].titles[paperp].yy;
                        // if(currentHeight>maxHeight) throw "当前高度已经大于最大高度了！";
                     }
-                    if (currentHeight<maxHeight-160){
+                    if (currentHeight<maxHeight-151){
                         this.mytitles[0].titles.push(title);   //如果高度足够则放进去
 
                     } else {
@@ -284,7 +284,8 @@
                 var currentHeight=0.0;
                 for(var paperp in  this.mytitles[this.mytitles.length-1].titles){
                     currentHeight+=this.mytitles[this.mytitles.length-1].titles[paperp].yy;
-                    if (currentHeight>608){
+                    //console.log(currentHeight);
+                    if (currentHeight>756){
                         this.deletepop();
                         alert("在这道题放入的小题目太多了");
                     }
