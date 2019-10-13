@@ -61,23 +61,23 @@
 
 # Services目录结构
 
-## --bin
-## |-www		程序入口
-## --config	配置
-## |-main		程序配置
-## |-mysql		数据库配置
-## --handler	业务模块
-## |-main.js
-## --models	模型模块
-## |-db
-## |--db.js
-## --public	公共资源
-## --routers	路由模块
-## |-index.js
-## --views		网页模块
-## --app.js	app配置
++ --bin
+  - |-www		程序入口
++ --config	配置
+  - |-main		程序配置
+  - |-mysql		数据库配置
++ --handler	业务模块
+  - |-main.js
++ --models	模型模块
+  - |-db
+  - |--db.js
++ --public	公共资源
++ --routers	路由模块
+  - |-index.js
++ --views		网页模块
++ --app.js	app配置
 
-+ 开发文档。
+## 开发文档。
 
   -模块化项目 
   
