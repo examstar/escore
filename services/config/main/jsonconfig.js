@@ -51,6 +51,8 @@ module.exports.json2str=function(req){
     return expaperpage
 
 };
+
+/** 即将弃用 **/
 module.exports.json2sql=function (req,content) {
 
     var sqlmessage = {

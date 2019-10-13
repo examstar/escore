@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser=require('body-Parser');
 
-var indexRouter = require('./routes/index');
+//var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var testRouter = require('./routes/test');
 /** 设置问卷路由 **/
@@ -33,7 +33,8 @@ app.use(bodyParser.json());
 const passport = require('passport');
 require('./config/main/passport')(passport);
 
-app.use('/board', indexRouter);
+//app.use('/board', indexRouter);
+
 app.use('/api/user', usersRouter);
 /** 设置问卷路由**/
 app.use('/', expaperRouter);

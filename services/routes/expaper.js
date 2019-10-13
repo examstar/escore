@@ -15,7 +15,9 @@ router.get('/api/getscript', function (req, res,next) {
 router.get('/api/add_expaper', function (req, res, next) {
     handler.addExpaperApi(req, res);
 });
-/** post方式似乎跨域无效**/
+
+
+/** post 添加试卷接口**/
  router.post('/api/add_expaper', function (req, res, next) {
      handler.addExpaperApi(req, res);
  });
