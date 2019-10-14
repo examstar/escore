@@ -12,13 +12,12 @@
                         <!--迭代每道小题-->
                         <questions :item=item :index={outer:index,inner:tindex} @listenData="setItemPosition">
                         </questions>
-
+<!--                        返回坐标-->
                         <point v-for="i in 4" :myposition="item" :index="i" :tindex="index+'-'+ tindex" ></point>
                     </template>
                 </div>
             </div>
         </template>
-
 <!--        右侧添加题目导航栏-->
         <template>
             <div class="rightmeun">
@@ -271,6 +270,7 @@
 
 
             },
+            //删除题目
             deletepop: function () {
 
                 this.mytitles[this.mytitles.length-1].titles.pop();
@@ -279,6 +279,7 @@
                     this.mytitles.pop();
                 }
             },
+            //判断是否成功
             isFail:function () {
                 /** 测试放入的题目可不可行**/
                 var currentHeight=0.0;
@@ -291,9 +292,11 @@
                     }
                 }
             },
+            //设置题目位置
             setItemPosition: function (data) {   //从子组件获取坐标值
                 this.itemposition = data;
             },
+            //提交数据给后端接口
             submitForm(formName) {
                 this.$axios
                 // .post('http://localhost:3000/api/add_expaper',this.expaperCreate)
@@ -307,7 +310,7 @@
                         console.log(res)
 
                     });
-                this.$router.push('/index');
+                this.$router.push('/expaperlist');
 
 
             },

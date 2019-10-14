@@ -188,7 +188,7 @@ function postBodyData(req, callback) {
     });
 }
 
-/**  防止文件重写，覆盖所以加入了循环判断文件是否存在，安全系数用来避免无线循环**/
+/**  防止文件重写、覆盖，所以加入了循环判断文件是否存在，安全系数用来避免无限循环**/
 /** 这个操作用来确定文件以后可以被应用于 HDFS的分布式文件系统**/
 function writeNewDate(data) {
     return new Promise((resolve, reject) => {
