@@ -6,7 +6,7 @@
                 <span class="title"> Expaper List </span>
 
                 <el-table
-                        :data="list"
+                        :data="pagelist"
                         style="width: 100%" class="listTable">
 
 
@@ -70,11 +70,20 @@
                 </el-table>
 
             </div>
-            <el-pagination
-                    background
-                    layout="prev, pager, next"
-                    :total="1000">
-            </el-pagination>
+            <el-col :span="24">
+                <div class="pagination">
+                    <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :current-page.sync="paginations.page_index"
+                            :page-sizes="paginations.page_sizes"
+                            :page-size="paginations.page_size"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :total="paginations.total">
+                    </el-pagination>
+                </div>
+            </el-col>
+
         </section>
     </div>
 
@@ -85,6 +94,14 @@
         data() {
             return {
                 list: [],
+                pagelist: [],
+                paginations: {
+                    page_index: 1,
+                    total: 0,
+                    page_size: 5,
+                    page_sizes: [5, 10, 15, 20],
+                    layout: 'total,sizes,prev,paper,next,jumper',
+                },
 
                 tableData: [{
                     date: '2016-05-02',
@@ -106,6 +123,7 @@
             }
         },
         methods: {
+
             handleEdit(index, row) {
                 console.log(index, row);
             },
@@ -117,13 +135,49 @@
                     this.getAllList();
                 });
 
-
             },
             getAllList() {
                 this.$axios.get('/api/getscript').then(result => {
                     this.list = result.data.data
                     console.log(result.data.data)
+                    this.setPaginations()
                 })
+            },
+            setPaginations() {
+//分页属性
+                this.paginations.total = this.list.length;
+                this.paginations.page_index = 1;
+                this.paginations.page_size = 5;
+                //设置默认分页数据
+                this.pagelist=this.list.filter((item,index)=>{
+                    return index<this.paginations.page_size;
+                })
+
+            },
+            handleSizeChange(page_size) {
+                //console.log(`每页 ${val} 条`);
+                this.paginations.page_index=1;
+                this.paginations.page_size=page_size;
+                this.pagelist=this.list.filter((item,index)=>{
+                    return index<page_size;
+                })
+            },
+            handleCurrentChange(page) {
+                //console.log(`当前页: ${val}`);
+                let index =this.paginations.page_size*(page-1);
+
+                let nums=this.paginations.page_size*page;
+
+                let tables=[];
+
+                for(let i=index;i<nums;i++){
+                    if(this.list[i]){
+                        tables.push(this.list[i])
+                    }
+                    this.pagelist=tables
+                }
+
+
             },
         },
         created() {
