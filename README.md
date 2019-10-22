@@ -8,6 +8,12 @@
 + 后端：在services下，npm install然后启动或者配置idea环境 启动
 + 前端：在gui/expaper-client下，npm install 后启动
 
+## 项目目录说明 
++ /docs      开发相关文档及说明
++ /services  后端nodejs服务器
++ /gui       前端vue-cli服务器
++ /storage   储存相关
+
 ## 前端
 
 1.项目位于在GUI/expaper-client里
