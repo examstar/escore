@@ -25,7 +25,7 @@
                                 <span slot="title">{{item.name}}</span>
                             </template>
                             <router-link v-for="(citem,cindex) in item.children" :to="citem.path" :key="cindex">
-                                <el-menu-item :index="citem.path">
+                                <el-menu-item :index="citem.path" >
                                     <span slot="title">{{citem.name}}</span>
                                 </el-menu-item>
                             </router-link>
@@ -49,6 +49,7 @@
                             {path:'mypaper',name:'创建答题卡'},
                             {path:'expapercreate',name:'创建试卷'},
                             {path:'expaperlist',name:'试卷列表'},
+
 
                         ]},
                     {icon:'fa-asterike',name:'信息管理',path:'info',children:[

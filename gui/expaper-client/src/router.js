@@ -12,6 +12,7 @@ import Home from './views/Home.vue'
 import InfoShow from './views/InfoShow.vue'
 
 import mypaper from './views/ExCreate2.vue'
+import exedit from './views/ExEdit.vue'
 
 Vue.use(Router);
 
@@ -37,6 +38,7 @@ const router =new Router({
         {path:'/expaperlist',name:"expaperlist",component:expaperlist,},
         {path:'/expapercreate',name:"expapercreate",component:expapercreate,},
         {path:'/mypaper',name:"mypaper",component:mypaper,},
+        {path:'/exedit:id',name:"exedit",component:exedit,},
 
       ]
     },{
@@ -64,7 +66,11 @@ const router =new Router({
       path: '/expaperlist',
       name: 'expaperlist',
       component:expaperlist
-    }
+    },
+    {
+      path:'/exedit:id',
+      name:"exedit",
+      component:exedit}
     ,{
       path: '/testpage',
       name: 'testpage',
@@ -74,14 +80,14 @@ const router =new Router({
       path: '*',
       name: '/404',
       component:notfound
-    }
+    },
   ]
 });
 
 // 添加路由守卫
 router.beforeEach((to, from, next) => {
   const isLogin = localStorage.eleToken ? true : false;
-  if (to.path == "/login" || to.path == "/register") {
+  if (to.path == "/login" || to.path == "/register"||to.path.startsWith("/usertest")) {
     next();
   } else {
     isLogin ? next() : next("/login");

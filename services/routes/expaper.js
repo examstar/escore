@@ -32,6 +32,12 @@ router.get('/api/expaper_detail', function (req, res, next) {
     handler.getExpaperApi(req,res);
 });
 
+/**  编辑(更新)操作！ **/
+router.post('/api/edit_expaper', function (req, res, next) {
+    //更新操作
+    handler.editExpaperApi(req,res);
+    //console.log(req.body.mytitles);
+});
 
 router.use('/public',express.static(path.join(__dirname,'..','public')));
 

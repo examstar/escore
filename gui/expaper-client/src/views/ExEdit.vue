@@ -2,7 +2,7 @@
     <div class="background">
 <!--        <rightmenu ref="rightmenu"></rightmenu>-->
 <!--        迭代生成试卷纸 A4-->
-        <template v-for="(paperpage,index) in mytitles">
+        <template v-for="(paperpage,index) in newData.mytitles">
             <div class="paper" >
                 <h3 style="text-align: center">答题卡</h3>
                 <div class="container" ref="container">
@@ -23,26 +23,26 @@
             <div class="rightmeun">
                 <a> Header</a>
                 <div style="text-align: center;margin: 10px 30px 40px 10px;border: seagreen">
-                    <el-form label-width="100px" :model="mytitles[0].titles[0].header">
+                    <el-form label-width="100px" :model="newData.mytitles[0].titles[0].header">
                         <el-form-item label="试卷名称：">
-                            <el-input v-model="mytitles[0].titles[0].header.name" placeholder="?"></el-input>
+                            <el-input v-model="newData.mytitles[0].titles[0].header.name" placeholder="?"></el-input>
                         </el-form-item>
                         <el-form-item label="创建人：">
-                            <el-input v-model="mytitles[0].titles[0].header.teacher" placeholder="?"></el-input>
+                            <el-input v-model="newData.mytitles[0].titles[0].header.teacher" placeholder="?"></el-input>
                         </el-form-item>
                         <el-form-item label="创建时间：">
-                            <el-input v-model="mytitles[0].titles[0].header.created_at" placeholder="?"
+                            <el-input v-model="newData.mytitles[0].titles[0].header.created_at" placeholder="?"
                                       :disabled="true"></el-input>
                         </el-form-item>
                         <el-form-item label="更新时间:">
-                            <el-input v-model="mytitles[0].titles[0].header.update_at" placeholder="?"
+                            <el-input v-model="newData.mytitles[0].titles[0].header.update_at" placeholder="?"
                                       :disabled="true"></el-input>
                         </el-form-item>
                         <el-form-item label="Note：">
-                            <el-input v-model="mytitles[0].titles[0].header.note" placeholder="?"></el-input>
+                            <el-input v-model="newData.mytitles[0].titles[0].header.note" placeholder="?"></el-input>
                         </el-form-item>
                         <el-form-item label="描述：">
-                            <el-input type="textarea" v-model="mytitles[0].titles[0].header.description"
+                            <el-input type="textarea" v-model="newData.mytitles[0].titles[0].header.description"
                                       placeholder="?"></el-input>
                         </el-form-item>
                     </el-form>
@@ -71,7 +71,7 @@
 
                 </div>
                 <div style="text-align: center;margin: 80px 30px 10px 10px">
-                    <el-button type="primary" @click="submitForm(mytitles)">保存</el-button>
+                    <el-button type="primary" @click="submitForm(newData)">保存</el-button>
                 </div>
 
             </div>
@@ -108,106 +108,53 @@
                 },
                 itemposition: {},
                 paperpages: 2,
-                titles: [
-                    {
-                        header: {
-                            barcode: '',
-                            name: '',
-                        }
+                newData:{
+                    mytitles: [{
+                        titles: [
+                            {
+                                header: {
+                                    name: '第五次月考数学试卷',
+                                    "teacher": '',
+                                    "class": "数学",
+                                    "content_path": "",
+                                    "created_at": new Date().toString(),
+                                    "description": "this is desc",
+                                    "update_at": new Date().toString(),
+                                    "absent": "",
+                                    "note": "this is note",
+                                    "barcode": "jahdj4h5h5jn45bh43b",
+                                    "id":"",
+                                }
+                            },
+
+                            {
+                                title: '一', questions: [
+                                    {id: 1, e: 'A', score: ''},
+                                    {id: 2, e: 'A', score: ''},
+                                    {id: 3, e: 'A', score: ''},
+                                ], x1: '', x2: '', y1: '', y2: ''
+                            },
+
+                            {
+                                title: '二', questions: [
+                                    {id: 4, e: 'A', score: ''},
+                                    {id: 5, e: 'A', score: ''},
+                                    {id: 6, e: 'A', score: ''},
+                                    {id: 7, e: 'A', score: ''},
+                                    {id: 8, e: 'A', score: ''},
+                                    {id: 9, e: 'A', score: ''},
+                                    {id: 10, e: 'A', score: ''},
+                                    {id: 11, e: 'A', score: ''},
+                                    {id: 12, e: 'A', score: ''},
+                                ], x1: '', x2: '', y1: '', y2: ''
+                            },
+
+                        ]
                     },
-
-                    {
-                        title: '一', questions: [
-                            {id: 1, e: 'A'},
-                            {id: 2, e: 'A'},
-                            {id: 3, e: 'A'},
-                        ], x1: '', x2: '', y1: '', y2: ''
-                    },
-
-                    {
-                        title: '二', questions: [
-                            {id: 1, e: 'A'},
-                            {id: 2, e: 'A'},
-                            {id: 3, e: 'A'},
-                            {id: 3, e: 'A'},
-                            {id: 3, e: 'A'},
-                            {id: 3, e: 'A'},
-                            {id: 3, e: 'A'},
-                            {id: 3, e: 'A'},
-                            {id: 3, e: 'A'},
-                        ], x1: '', x2: '', y1: '', y2: ''
-                    },
-
-                ],
-                mytitles: [{
-                    titles: [
-                        {
-                            header: {
-                                name: '第五次月考数学试卷',
-                                "teacher": '',
-                                "class": "数学",
-                                "content_path": "",
-                                "created_at": new Date().toString(),
-                                "description": "this is desc",
-                                "update_at": new Date().toString(),
-                                "absent": "",
-                                "note": "this is note",
-                                "barcode": "jahdj4h5h5jn45bh43b",
-                            }
-                        },
-
-                        {
-                            title: '一', questions: [
-                                {id: 1, e: 'A', score: ''},
-                                {id: 2, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
-                            ], x1: '', x2: '', y1: '', y2: ''
-                        },
-
-                        {
-                            title: '二', questions: [
-                                {id: 4, e: 'A', score: ''},
-                                {id: 5, e: 'A', score: ''},
-                                {id: 6, e: 'A', score: ''},
-                                {id: 7, e: 'A', score: ''},
-                                {id: 8, e: 'A', score: ''},
-                                {id: 9, e: 'A', score: ''},
-                                {id: 10, e: 'A', score: ''},
-                                {id: 11, e: 'A', score: ''},
-                                {id: 12, e: 'A', score: ''},
-                            ], x1: '', x2: '', y1: '', y2: ''
-                        },
-
-                    ]
+                    ],
+                    id:""
                 },
-                //     {
-                //     titles: [
-                //         {
-                //             title: '一', questions: [
-                //                 {id: 1, e: 'A', score: ''},
-                //                 {id: 2, e: 'A', score: ''},
-                //                 {id: 3, e: 'A', score: ''},
-                //             ], x1: '', x2: '', y1: '', y2: ''
-                //         },
-                //
-                //         {
-                //             title: '二', questions: [
-                //                 {id: 4, e: 'A', score: ''},
-                //                 {id: 5, e: 'A', score: ''},
-                //                 {id: 6, e: 'A', score: ''},
-                //                 {id: 7, e: 'A', score: ''},
-                //                 {id: 8, e: 'A', score: ''},
-                //                 {id: 9, e: 'A', score: ''},
-                //                 {id: 10, e: 'A', score: ''},
-                //                 {id: 11, e: 'A', score: ''},
-                //                 {id: 12, e: 'A', score: ''},
-                //             ], x1: '', x2: '', y1: '', y2: ''
-                //         },
-                //
-                //     ]
-                // }
 
-                ]
             }
         },
         methods: {
@@ -243,27 +190,27 @@
                 /** 识别是在哪张试卷生成这道题目**/
                 var maxHeight=759.77;   //this.$refs.paper.getBoundingClientRect().height; console.log("最大高度"+maxHeight);
                 var currentHeight=0.0;
-                if(this.mytitles.length!=1){
-                    for(var paperp in  this.mytitles[this.mytitles.length-1].titles){
-                        currentHeight+=this.mytitles[this.mytitles.length-1].titles[paperp].yy;
+                if(this.newData.mytitles.length!=1){
+                    for(var paperp in  this.newData.mytitles[this.newData.mytitles.length-1].titles){
+                        currentHeight+=this.newData.mytitles[this.newData.mytitles.length-1].titles[paperp].yy;
                        // if(currentHeight>maxHeight) throw "当前高度已经大于最大高度了！";
                     }
                     if (currentHeight<maxHeight-151){
-                        this.mytitles[this.mytitles.length-1].titles.push(title);   //如果高度足够则放进去
+                        this.newData.mytitles[this.newData.mytitles.length-1].titles.push(title);   //如果高度足够则放进去
                     } else {
-                        this.mytitles.push({titles:[title]});                       //高度不够新开一个试卷
+                        this.newData.mytitles.push({titles:[title]});                       //高度不够新开一个试卷
                     }
                 }else {
                     //var headerHeight=this.mytitles[0].titles[0].yy;
-                    for(var paperp in  this.mytitles[0].titles){
-                        currentHeight+=this.mytitles[0].titles[paperp].yy;
+                    for(var paperp in  this.newData.mytitles[0].titles){
+                        currentHeight+=this.newData.mytitles[0].titles[paperp].yy;
                        // if(currentHeight>maxHeight) throw "当前高度已经大于最大高度了！";
                     }
                     if (currentHeight<maxHeight-151){
-                        this.mytitles[0].titles.push(title);   //如果高度足够则放进去
+                        this.newData.mytitles[0].titles.push(title);   //如果高度足够则放进去
 
                     } else {
-                        this.mytitles.push({titles:[title]}); //高度不够新开一个试卷
+                        this.newData.mytitles.push({titles:[title]}); //高度不够新开一个试卷
 
                     }
                 }
@@ -276,18 +223,18 @@
             //删除题目
             deletepop: function () {
 
-                this.mytitles[this.mytitles.length-1].titles.pop();
+                this.newData.mytitles[this.newData.mytitles.length-1].titles.pop();
 
-                if(this.mytitles[this.mytitles.length-1].titles.length===0){
-                    this.mytitles.pop();
+                if(this.newData.mytitles[this.newData.mytitles.length-1].titles.length===0){
+                    this.newData.mytitles.pop();
                 }
             },
             //判断是否成功
             isFail:function () {
                 /** 测试放入的题目可不可行**/
                 var currentHeight=0.0;
-                for(var paperp in  this.mytitles[this.mytitles.length-1].titles){
-                    currentHeight+=this.mytitles[this.mytitles.length-1].titles[paperp].yy;
+                for(var paperp in  this.newData.mytitles[this.newData.mytitles.length-1].titles){
+                    currentHeight+=this.newData.mytitles[this.newData.mytitles.length-1].titles[paperp].yy;
                     //console.log(currentHeight);
                     if (currentHeight>756){
                         this.deletepop();
@@ -303,7 +250,7 @@
             submitForm(formName) {
                 this.$axios
                 // .post('http://localhost:3000/api/add_expaper',this.expaperCreate)
-                    .post('api/add_expaper', formName)
+                    .post('api/edit_expaper', formName)
                     .then(res => {
                         this.$message({
                                 message: '成功',
@@ -317,16 +264,34 @@
 
 
             },
+            getItemById(){
+                this.$axios.get('/api/expaper_detail?id='+this.$route.params.id).then(result => {
+                    this.newData.mytitles = result.data;
+                    if(this.newData.mytitles[0]===""||this.newData.mytitles[0]==undefined){
+                        alert("读取错误：SQL数据已找到，但没有找到相应的json数据或json数据格式错误！");
+                        this.$router.push("/expaperlist")
+                    }
+                });
+                //每次查找完成后设置ID
+                this.newData.id=this.$route.params.id;
+                console.log(this.newData.id);
+            },
         },
         updated(){
             this.isFail();
         },
         mounted(){
-            this.mytitles[0].titles[0].header.teacher=this.user.username
+           // this.mytitles[0].titles[0].header.teacher=this.user.username;
+
+
+
         },
         directives: { //自定义属性
 
         },
+        created() {
+            this.getItemById();
+        }
 
     }
 </script>

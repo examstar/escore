@@ -3,6 +3,8 @@
   - /api/del_expaper
   - /api/add_expaper（post）
   - /api/add_expaper（get）
+  - /api/expaper_detail
+  - /api/edit_expaper
   - /api/user/register
   - /api/user/login
 
@@ -208,3 +210,42 @@
 | status      | 500  |   状态码    |
 | tip        |   200  |   说明   |
 | data        |      |   被删除数据  |
+
+# 接口8： 获取一条数据，用于编辑操作
++ get    /api/expaper_detail?id=<参数>
+
+| 参数        | 是否必填    |  说明   |
+| --------    | -----: | :----:  |
+| id       |    是 |   id  |
+
+| 返回结果        | 状态码    |  说明   |
+| --------    | -----: | :----:  |
+| status      | 500  |   状态码    |
+| tip        |   200  |   说明   |
+| data        |      |   全部json数据  |
+
+# 接口9： 编辑接口（更新sql）
++ get    /api/edit_expaper
+
+| 参数        | 是否必填    |  说明   |
+| --------    | -----: | :----:  |
+| id       |    是 |   id  |
+
+| 返回结果        | 状态码    |  说明   |
+| --------    | -----: | :----:  |
+| status      | 500  |   状态码    |
+| tip        |   200  |   说明   |
+| data        |      |   全部json数据  |
+
+# 接口10： 存入图像接口
++ get    /api/
+
+| 参数        | 是否必填    |  说明   |
+| --------    | -----: | :----:  |
+| id       |    是 |   id  |
+
+| 返回结果        | 状态码    |  说明   |
+| --------    | -----: | :----:  |
+| status      | 500  |   状态码    |
+| tip        |   200  |   说明   |
+| data        |      |   全部json数据  |

@@ -104,3 +104,40 @@ module.exports.sqlobj=function (req,content) {
     };
     return sqlmessage;
 };
+
+module.exports.editsqlobj=function (req) {
+
+    var sql;
+    if(req.method.toLowerCase()==="get"){
+        sql=req.query.mytitles[0].titles[0].header ;
+    }else{
+        sql= req.body.mytitles[0].titles[0].header ;
+        //sql=sql[0].titles[0].header
+        //console.log(req.body[0].titles[0].header)
+    }
+
+    console.log(JSON.stringify(req.body.mytitles[0].titles[0].header));
+    var sqlmessage = {
+        // name: req.body.name||req.query.name,
+        // teacher: req.body.teacher||req.query.teacher,
+        // class: req.body.class||req.query.class,
+        // x1: req.body.x1||req.query.x1,
+        // y1: req.body.y1||req.query.y1,
+        // x2: req.body.x2||req.query.x2,
+        // y2: req.body.y2||req.query.y2,
+        // content_path: content,
+        // description:req.body.description||req.query.description,
+        // hash_code:crypto.createHash('md5').update(content).digest('hex')
+
+        name: req.body.mytitles[0].titles[0].header.name,
+        teacher: req.body.mytitles[0].titles[0].header.teacher,
+        class: req.body.mytitles[0].titles[0].header.class,
+        //content_path: content,
+        description:req.body.mytitles[0].titles[0].header.description,
+        //hash_code:crypto.createHash('md5').update(content).digest('hex')
+        updated_at:new Date(),
+
+
+    };
+    return sqlmessage;
+};

@@ -74,23 +74,13 @@ module.exports.getscript = function (req, res) {
  * 1.查询数据库 2.读取数据库json路径 3.解析json返回
  * **/
 module.exports.getExpaperApi = function (req, res) {
-    sqlhandler.getOneSql(req, res, function (item) {
-
-        readOneData(item.content_path, function (data) {
-            var result = {
-                status: 200,
-                tips: "请求成功！",
-                data: data,
-                list: data.expaperlist
-            };
-            res.json(result);
-
-            console.log(data.expaperlist)
-        })
-    });
-
-
+    sqlhandler.getOneSql(req,res)
+        .then((item)=>{ return readOneData(item.content_path)})
+        .then(data=>res.json(data))
+        .catch(err=>{res.json(err)})
 };
+
+
 
 
 /** 删除试卷，此业务需要执行以下几个操作！
@@ -104,7 +94,7 @@ module.exports.delExpaperApi = function (req, res) {
         fs.unlink(content_path, function (err) {
             if (err) {
                 console.log("删除文件出错，需要手动删除：" + content_path);
-                throw err;
+                //throw err;
             }
         });
 
@@ -118,10 +108,33 @@ module.exports.delExpaper = function (req, res) {
 
 };
 
-
-module.exports.editExpaper = function (req, res) {
+/** 更新数据，此业务需要执行以下几个操作！
+ * 1.在数据库查找contentPath，获取content path
+ * 2.更新sql数据
+ * 3.覆盖content path的文件
+ * **/
+module.exports.editExpaperApi = function (req, res) {
+   //sqlhandler.getEditSql(req,res)
+   //    .then( item=>{ return sqlhandler.updateSqlP(req,res,context.editsqlobj(req))})
+    sqlhandler.updateSqlP(req,res,context.editsqlobj(req))
+        .then(success=>{return sqlhandler.getEditSql(req,res)})
+        .then((item)=>{return writeFilePromise(item.content_path,JSON.stringify(req.body.mytitles))})
+        .then(msg=>res.json("msg"))
+        .catch(err=>{console.log(err) })
 };
 
+
+function writeFilePromise(path,data) {
+    return new Promise((resolve, reject) =>{
+        fs.writeFile(path,data,function (err) {
+            if(err){
+                reject(err)
+            }else{
+                resolve("1")
+            }
+        })
+    } )
+}
 
 /** ↓ handler函数夫人封装区 ↓**/
 /** 设置跨域请求头**/
@@ -143,14 +156,27 @@ function readNewsData(callback) {
     });
 }
 
-function readOneData(path, callback) {
-    fs.readFile(path, 'utf8', function (err, data) {
-        if (err && err.code != 'ENOENT') {
-            throw err;
-        }
-        var list = JSON.parse(data || '[]');
-        callback(list);
-    });
+// function readOneData(path, callback) {
+//     fs.readFile(path, 'utf8', function (err, data) {
+//         if (err && err.code != 'ENOENT') {
+//             throw err;
+//         }
+//         var list = JSON.parse(data || '[]');
+//         callback(list);
+//     });
+// }
+
+function readOneData(path,) {
+    return new Promise((resolve,reject)=>{
+        fs.readFile(path, 'utf8', function (err, data) {
+            if (err && err.code != 'ENOENT') {
+                reject(err);
+            }
+            var list = JSON.parse(data || '[]');
+            resolve(list);
+        });
+    })
+
 }
 
 

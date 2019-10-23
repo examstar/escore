@@ -56,7 +56,7 @@
                         <template slot-scope="scope">
                             <el-button
                                     size="mini"
-                                    @click="handleEdit(scope.$index, scope.row)">编辑
+                                    @click="handleEdit(scope.row.id, scope.row)">编辑
                             </el-button>
                             <el-button
                                     size="mini"
@@ -125,7 +125,7 @@
         methods: {
 
             handleEdit(index, row) {
-                console.log(index, row);
+                this.$router.push("/exedit"+index);
             },
             handleDelete(index, row) {
 
