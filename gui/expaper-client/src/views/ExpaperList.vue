@@ -56,6 +56,10 @@
                         <template slot-scope="scope">
                             <el-button
                                     size="mini"
+                                    @click="handleSplit(scope.row.id, scope.row)">分割
+                            </el-button>
+                            <el-button
+                                    size="mini"
                                     @click="handleEdit(scope.row.id, scope.row)">编辑
                             </el-button>
                             <el-button
@@ -126,6 +130,9 @@
 
             handleEdit(index, row) {
                 this.$router.push("/exedit"+index);
+            },
+            handleSplit(index, row) {
+                this.$router.push("/cuttingcanvas"+index);
             },
             handleDelete(index, row) {
 

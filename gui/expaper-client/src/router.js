@@ -14,6 +14,8 @@ import InfoShow from './views/InfoShow.vue'
 import mypaper from './views/ExCreate2.vue'
 import exedit from './views/ExEdit.vue'
 
+import cuttingcanvas from './views/Utils/CuttingCanvas.vue'
+
 Vue.use(Router);
 
 const router =new Router({
@@ -39,6 +41,7 @@ const router =new Router({
         {path:'/expapercreate',name:"expapercreate",component:expapercreate,},
         {path:'/mypaper',name:"mypaper",component:mypaper,},
         {path:'/exedit:id',name:"exedit",component:exedit,},
+        {path:'/cuttingcanvas:id',name:"cuttingcanvas",component:cuttingcanvas,},
 
       ]
     },{

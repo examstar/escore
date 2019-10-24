@@ -1,4 +1,5 @@
 var Expaper = require('./tables/expaper');
+var CutMeta = require('./tables/CutMeta');
 //Depressed!
 module.exports.addSql = function (req, res, message, callback) {
     //如果没有post数据或者数据为空,直接返回
@@ -147,6 +148,28 @@ module.exports.getEditSql = function (req, res, callback) {
     })
 };
 
+module.exports.getOneCommentSql = function (id, res) {
+    return new Promise((resolve,reject)=>{
+        //如果没有id字段,返回404
+        if (id == undefined || id == '') {
+            var result = {
+                status: 500,
+                tips: "请求失败！",
+                data: "id为空"
+            };
+            reject(result);
+        }
+        //先查找,把值返回
+        Expaper.findOne({
+            where: {
+                id: id
+            }
+        }).then(function (msg) {
+            resolve(msg);
+        });
+    })
+};
+
 /** 判断请求来的数据是否可以被写入数据库，成功则返回写入的数据，失败返回错误**/
 module.exports.addSqlP = function (req, res, message) {
     return new Promise((resolve, reject) => {
@@ -194,6 +217,29 @@ module.exports.updateSqlP = function (req, res, message) {
             }
 
         ).then(function (msg) {
+            var result = {
+                status: 200,
+                tips: "请求正常！",
+                data: msg
+            };
+            resolve(result)
+        });
+    })
+};
+
+module.exports.addImgChim = function (req, res, message) {
+    return new Promise((resolve, reject) => {
+        //如果没有post数据或者数据为空,直接返回
+        if (message.name == undefined || message.name == '') {
+            var result = {
+                status: 500,
+                tips: "服务端接受了空数据!拒绝访问！"
+            };
+            reject(result);
+            return;
+        }
+        //创建一条记录,创建成功后跳转回首页
+        CutMeta.create(message).then(function (msg) {
             var result = {
                 status: 200,
                 tips: "请求正常！",

@@ -4,7 +4,9 @@ var querystring = require('querystring');
 var path = require('path');
 var sqlhandler = require('../models/db/sqlhandler.js'); //
 var context = require('../config/main/jsonconfig.js');
-
+var imghandler = require('./imghandler.js');
+const crypto = require('crypto');
+var gm = require("gm");
 /** 增加试卷，此业务需要执行以下几个操作！
  * 1.建立json对象
  * 2.把json写入磁盘
@@ -25,7 +27,7 @@ module.exports.addExpaperApi = function (req, res, callback) {
             },
             (err) => {
                 fs.unlink(data);
-                res.json(err+"数据写入错误，已经写入的文件已删除！");
+                res.json(err + "数据写入错误，已经写入的文件已删除！");
             })
         .catch((err) => {
             res.json(err)
@@ -74,13 +76,15 @@ module.exports.getscript = function (req, res) {
  * 1.查询数据库 2.读取数据库json路径 3.解析json返回
  * **/
 module.exports.getExpaperApi = function (req, res) {
-    sqlhandler.getOneSql(req,res)
-        .then((item)=>{ return readOneData(item.content_path)})
-        .then(data=>res.json(data))
-        .catch(err=>{res.json(err)})
+    sqlhandler.getOneSql(req, res)
+        .then((item) => {
+            return readOneData(item.content_path)
+        })
+        .then(data => res.json(data))
+        .catch(err => {
+            res.json(err)
+        })
 };
-
-
 
 
 /** 删除试卷，此业务需要执行以下几个操作！
@@ -114,27 +118,134 @@ module.exports.delExpaper = function (req, res) {
  * 3.覆盖content path的文件
  * **/
 module.exports.editExpaperApi = function (req, res) {
-   //sqlhandler.getEditSql(req,res)
-   //    .then( item=>{ return sqlhandler.updateSqlP(req,res,context.editsqlobj(req))})
-    sqlhandler.updateSqlP(req,res,context.editsqlobj(req))
-        .then(success=>{return sqlhandler.getEditSql(req,res)})
-        .then((item)=>{return writeFilePromise(item.content_path,JSON.stringify(req.body.mytitles))})
-        .then(msg=>res.json("msg"))
-        .catch(err=>{console.log(err) })
+    //sqlhandler.getEditSql(req,res)
+    //    .then( item=>{ return sqlhandler.updateSqlP(req,res,context.editsqlobj(req))})
+    sqlhandler.updateSqlP(req, res, context.editsqlobj(req))
+        .then(success => {
+            return sqlhandler.getEditSql(req, res)
+        })
+        .then((item) => {
+            return writeFilePromise(item.content_path, JSON.stringify(req.body.mytitles))
+        })
+        .then(msg => res.json("msg"))
+        .catch(err => {
+            console.log(err)
+        })
+};
+
+/** 接受图片，此业务需要执行以下几个操作！
+ * 1.从数据库里面根据前端id查找文件路径
+ * 2.读取路径拿到文件数组坐标
+ * 3.写入前端拿来的图片到缓存文件夹
+ * 4.根据数组对应的坐标裁剪文件
+ * 6.裁剪完成后删除缓存文件
+ * **/
+module.exports.postImgApi = function (req, res) {
+
+    var lists;
+    sqlhandler.getOneCommentSql(req.body.Id, res)
+        .then(item => {
+            return readOneData(item.content_path)
+        })
+        .then(list => {
+            lists = list;
+        })
+        .then(()=>{
+            mkdirsSync( path.join(config.dataPathDir,'paperpoint' ,'paperpoint'+getClientIp(req).split(".")[3]));
+            mkdirsSync( path.join(config.dataPathDir, 'temp'));
+        })
+        .then(() => {
+            return writeSrc(req, res)
+        })
+        .then(srcpath => {
+            writeChip(req,res,srcpath,lists);
+        })
+        //.then(fs.unlink)          //完成后需要删除temp里的文件
+        .then(res.json("ok"))
+        .catch(err => console.log(err))
+
+};
+
+function getClientIp(req) {
+    return req.headers['x-forwarded-for'] ||
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress ||
+        req.connection.socket.remoteAddress;
 };
 
 
-function writeFilePromise(path,data) {
-    return new Promise((resolve, reject) =>{
-        fs.writeFile(path,data,function (err) {
+function writeChip(req,res,srcpath,lists) {
+    var Safetyrate = 0;
+    var rate=0;
+    for (var paperindex in lists) {
+        for (var titlesindex in lists[paperindex].titles) {
+
+            var width = lists[paperindex].titles[titlesindex].xx-90;
+            var height = lists[paperindex].titles[titlesindex].yy-21;
+            var x = lists[paperindex].titles[titlesindex].x1-226-rate/3;
+            var y = lists[paperindex].titles[titlesindex].y1-81-rate;
+
+
+            var sqlmsg = {
+                name: lists[0].titles[0].header.name,
+                num: "5120161599",              //还没有学生
+                username: "吴晓伟",              //随机一个名字
+                content_path: path.join(config.dataPathDir, 'paperpoint', 'paperpoint'+getClientIp(req).split(".")[3], '' + lists[0].titles[0].header.name + req.body.Id + paperindex + '' + titlesindex + '.png'),
+            };
+
+            imghandler.cropImg(srcpath, sqlmsg.content_path, width, height, x, y);
+            sqlhandler.addImgChim(req,res,context.imgChip(sqlmsg));
+            Safetyrate++;
+            rate+=25;
+            if (Safetyrate > 1000) {
+                throw "安全指数到达上限，可能程序陷入死循环！"
+            }
+        }
+        rate+=40;
+    }
+}
+
+function writeSrc(req) {
+    return new Promise((resolve, reject) => {
+        var base64 = req.body.base64.replace(/^data:image\/\w+;base64,/, "");   //去掉图片base64码前面部分data:image/png;base64
+        var dataBuffer = new Buffer.from(base64, 'base64');                           //把base64码转成buffer对象，
+        var srcpath = path.join(config.dataPathDir, 'temp',crypto.createHash('md5').update(getClientIp(req)).digest('hex')+ '.png');
+        fs.writeFile(srcpath, dataBuffer, function (err) {//用fs写入文件
+            if (err) {
+                console.log(err);
+                reject(err)
+            } else {
+                //console.log('写入成功！');
+                resolve(srcpath)
+            }
+        });
+    })
+}
+
+function mkdirForChip(path) {
+    return new Promise((resolve, reject) => {
+        fs.existsSync(path)
+
+        fs.mkdir(path,function (err) {
             if(err){
                 reject(err)
-            }else{
-                resolve("1")
             }
+            resolve("ok!")
         })
-    } )
+    })
 }
+
+function mkdirsSync(dirname) {
+    if (fs.existsSync(dirname)) {
+        return true;
+    } else {
+        if (mkdirsSync(path.dirname(dirname))) {
+            fs.mkdirSync(dirname);
+            return true;
+        }
+    }
+}
+
 
 /** ↓ handler函数夫人封装区 ↓**/
 /** 设置跨域请求头**/
@@ -167,7 +278,7 @@ function readNewsData(callback) {
 // }
 
 function readOneData(path,) {
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
         fs.readFile(path, 'utf8', function (err, data) {
             if (err && err.code != 'ENOENT') {
                 reject(err);
@@ -236,4 +347,18 @@ function writeNewDate(data) {
             }
         });
     });
+}
+
+
+/** 为编辑答题卡设置了一个写入文件的Promise | editExpaperApi方法**/
+function writeFilePromise(path, data) {
+    return new Promise((resolve, reject) => {
+        fs.writeFile(path, data, function (err) {
+            if (err) {
+                reject(err)
+            } else {
+                resolve("1")
+            }
+        })
+    })
 }

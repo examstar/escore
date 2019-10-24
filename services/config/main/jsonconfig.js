@@ -1,9 +1,8 @@
-
 //这里存放需要保存的json对象和sql对象
 
 const crypto = require('crypto');
 /** 老方法 即将弃用**/
-module.exports.jsonobj=function (req) {
+module.exports.jsonobj = function (req) {
     var jsonmessage = {
         header: {
             // "id":req.body.id || req.query.id,
@@ -11,7 +10,7 @@ module.exports.jsonobj=function (req) {
             // "note": req.body.note || req.query.note ,
             // "barcode": req.body.barcode || req.query.barcode
         },
-        questionlist:[
+        questionlist: [
             {
                 // "level": req.body.level||req.query.level,
                 // "topic":req.body.topic ||req.query.topic ,
@@ -22,38 +21,38 @@ module.exports.jsonobj=function (req) {
         ],
     };
 
-        if(req.method.toLowerCase()==="get"){
-            for(var items in req.query.questionlist ){
-                console.log("------------get");
-                jsonmessage.header=req.query.questionlist;
-                jsonmessage.questionlist.push(items)
-            }
-        }else{
-            for(var items in req.body.questionlist ){
-                console.log("---------post");
-                jsonmessage.header=req.body.header;
-                jsonmessage.questionlist.push(items)
-            }
+    if (req.method.toLowerCase() === "get") {
+        for (var items in req.query.questionlist) {
+            console.log("------------get");
+            jsonmessage.header = req.query.questionlist;
+            jsonmessage.questionlist.push(items)
         }
+    } else {
+        for (var items in req.body.questionlist) {
+            console.log("---------post");
+            jsonmessage.header = req.body.header;
+            jsonmessage.questionlist.push(items)
+        }
+    }
     return jsonmessage;
 };
 
 /** 获取到前端来的json，然后序列化**/
-module.exports.json2str=function(req){
+module.exports.json2str = function (req) {
     var expaperpage;
-    if(req.method.toLowerCase()==="get"){
-        expaperpage=req.query ;
-    }else{
-        expaperpage= req.body ;
+    if (req.method.toLowerCase() === "get") {
+        expaperpage = req.query;
+    } else {
+        expaperpage = req.body;
     }
 
-    expaperpage= JSON.stringify(expaperpage);
+    expaperpage = JSON.stringify(expaperpage);
     return expaperpage
 
 };
 
 /** 即将弃用 **/
-module.exports.json2sql=function (req,content) {
+module.exports.json2sql = function (req, content) {
 
     var sqlmessage = {
 
@@ -61,8 +60,8 @@ module.exports.json2sql=function (req,content) {
         teacher: req.query.expaperpage.header.teacher,
         class: req.query.expaperpage.header.class,
         content_path: content,
-        description:req.query.expaperpage.header.description,
-        hash_code:crypto.createHash('md5').update(content).digest('hex')
+        description: req.query.expaperpage.header.description,
+        hash_code: crypto.createHash('md5').update(content).digest('hex')
 
     };
     return sqlmessage;
@@ -70,13 +69,13 @@ module.exports.json2sql=function (req,content) {
 };
 
 
-module.exports.sqlobj=function (req,content) {
+module.exports.sqlobj = function (req, content) {
 
     var sql;
-    if(req.method.toLowerCase()==="get"){
-        sql=req.query[0].titles[0].header ;
-    }else{
-        sql= req.body[0].titles[0].header ;
+    if (req.method.toLowerCase() === "get") {
+        sql = req.query[0].titles[0].header;
+    } else {
+        sql = req.body[0].titles[0].header;
         //sql=sql[0].titles[0].header
         //console.log(req.body[0].titles[0].header)
     }
@@ -97,47 +96,54 @@ module.exports.sqlobj=function (req,content) {
         teacher: sql.teacher,
         class: sql.class,
         content_path: content,
-        description:sql.description,
-        hash_code:crypto.createHash('md5').update(content).digest('hex')
+        description: sql.description,
+        hash_code: crypto.createHash('md5').update(content).digest('hex')
 
 
     };
     return sqlmessage;
 };
 
-module.exports.editsqlobj=function (req) {
+module.exports.editsqlobj = function (req) {
 
     var sql;
-    if(req.method.toLowerCase()==="get"){
-        sql=req.query.mytitles[0].titles[0].header ;
-    }else{
-        sql= req.body.mytitles[0].titles[0].header ;
+    if (req.method.toLowerCase() === "get") {
+        sql = req.query.mytitles[0].titles[0].header;
+    } else {
+        sql = req.body.mytitles[0].titles[0].header;
         //sql=sql[0].titles[0].header
         //console.log(req.body[0].titles[0].header)
     }
 
     console.log(JSON.stringify(req.body.mytitles[0].titles[0].header));
     var sqlmessage = {
-        // name: req.body.name||req.query.name,
-        // teacher: req.body.teacher||req.query.teacher,
-        // class: req.body.class||req.query.class,
-        // x1: req.body.x1||req.query.x1,
-        // y1: req.body.y1||req.query.y1,
-        // x2: req.body.x2||req.query.x2,
-        // y2: req.body.y2||req.query.y2,
-        // content_path: content,
-        // description:req.body.description||req.query.description,
-        // hash_code:crypto.createHash('md5').update(content).digest('hex')
 
         name: req.body.mytitles[0].titles[0].header.name,
         teacher: req.body.mytitles[0].titles[0].header.teacher,
         class: req.body.mytitles[0].titles[0].header.class,
         //content_path: content,
-        description:req.body.mytitles[0].titles[0].header.description,
+        description: req.body.mytitles[0].titles[0].header.description,
         //hash_code:crypto.createHash('md5').update(content).digest('hex')
-        updated_at:new Date(),
+        updated_at: new Date(),
 
 
     };
     return sqlmessage;
 };
+
+
+//弃用
+module.exports.imgChip = function (msg) {
+
+    var sqlmessage = {
+
+        name: msg.name,
+        num: msg.num,
+        username: msg.username,
+        content_path: msg.content_path,
+
+    };
+    return sqlmessage;
+
+};
+
