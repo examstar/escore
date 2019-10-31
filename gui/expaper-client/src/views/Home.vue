@@ -32,7 +32,7 @@
             font-size: 22px;
         }
     </style>
-</template>
+
 
 <script>
     export default {

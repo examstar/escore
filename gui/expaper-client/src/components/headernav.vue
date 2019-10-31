@@ -2,7 +2,7 @@
     <header class="head-nav">
         <el-row>
             <el-col :span="6" class='logo-container'>
-                <img src="../assets/logo.png" class='logo' alt="">
+                <img src="../../public/logo.png" class='logo' alt="">
                 <span class='title' style="font-family:FangSong;font-size:35px;">试卷管理系统</span>
             </el-col>
             <el-col :span='6' class="user">
@@ -75,12 +75,13 @@
 <style scoped>
     .head-nav {
         width: 100%;
-        height: 65px;
+        height: 75px;
         min-width: 600px;
         /*padding: 5px;*/
         background: #324057;
         color: #fff;
         border-bottom: 1px solid #1f2d3d;
+
     }
     .logo-container {
         line-height: 60px;

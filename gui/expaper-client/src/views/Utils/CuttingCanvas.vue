@@ -87,7 +87,7 @@
                         console.log(formData)
 
                     });
-                //this.$router.push('/expaperlist');
+                this.$router.push('/expaperlist');
 
             }
         }

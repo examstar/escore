@@ -63,12 +63,13 @@
 
 <style scoped>
     .menu_page {
-        position: fixed;
+        position: absolute;
         top: 71px;
         left: 0;
         min-height: 100%;
         background-color: #324057;
         z-index: 99;
+
     }
     .el-menu {
         border: none;
