@@ -142,7 +142,8 @@ module.exports.editExpaperApi = function (req, res) {
  * **/
 module.exports.postImgApi = function (req, res) {
 
-    var lists;
+    var lists;  //试卷数据
+    var Srcpath=''; //源文件路径
     sqlhandler.getOneCommentSql(req.body.Id, res)
         .then(item => {
             return readOneData(item.content_path)
@@ -151,16 +152,18 @@ module.exports.postImgApi = function (req, res) {
             lists = list;
         })
         .then(()=>{
-            mkdirsSync( path.join(config.dataPathDir,'paperpoint' ,'paperpoint'+getClientIp(req).split(".")[3]));
+            //mkdirsSync( path.join(config.dataPathDir,'paperpoint' ,'paperpoint'+getClientIp(req).split(".")[3])); //不能保证唯一写入，面临高并发可能会覆盖
+            mkdirsSync( path.join(config.dataPathDir,'paperpoint' ,'paperpoint'+req.body.Id));                      //数据库序号试卷写入的唯一性,这个要和下面写入的路径手动一致
             mkdirsSync( path.join(config.dataPathDir, 'temp'));
         })
         .then(() => {
-            return writeSrc(req, res)
+            return writeSrc(req, res)   //写源文件，返回路径。
         })
         .then(srcpath => {
-            writeChip(req,res,srcpath,lists);
+            Srcpath=srcpath;
+            return  writeChip(req,res,srcpath,lists);
         })
-        //.then(fs.unlink)          //完成后需要删除temp里的文件
+        //.then(()=>fs.unlinkSync(Srcpath))          //完成后需要删除temp里的文件
         .then(res.json("ok"))
         .catch(err => console.log(err))
 
@@ -175,46 +178,50 @@ function getClientIp(req) {
 
 
 function writeChip(req,res,srcpath,lists) {
-    var Safetyrate = 0;
-    var rate=0;
-    for (var paperindex in lists) {
-        for (var titlesindex in lists[paperindex].titles) {
+ return new Promise((resolve, reject) => {
 
-        var width = lists[paperindex].titles[titlesindex].xx-90;
-        var height = lists[paperindex].titles[titlesindex].yy-21;
-        var x = lists[paperindex].titles[titlesindex].x1-226-rate/3;
-        var y = lists[paperindex].titles[titlesindex].y1-81-rate;
+     var Safetyrate = 0;
+     var rate=0;
+     for (var paperindex in lists) {
+         for (var titlesindex in lists[paperindex].titles) {
 
-            // var width = lists[paperindex].titles[titlesindex].xx;
-            // var height = lists[paperindex].titles[titlesindex].yy;
-            // var x = lists[paperindex].titles[titlesindex].x1;
-            // var y = lists[paperindex].titles[titlesindex].y1;
+             var width = lists[paperindex].titles[titlesindex].xx-90;
+             var height = lists[paperindex].titles[titlesindex].yy-21;
+             var x = lists[paperindex].titles[titlesindex].x1-226-rate/3;
+             var y = lists[paperindex].titles[titlesindex].y1-81-rate;
+
+             // var width = lists[paperindex].titles[titlesindex].xx;
+             // var height = lists[paperindex].titles[titlesindex].yy;
+             // var x = lists[paperindex].titles[titlesindex].x1;
+             // var y = lists[paperindex].titles[titlesindex].y1;
 
 
-            var sqlmsg = {
-                name: lists[0].titles[0].header.name,
-                num: "5120161599",              //还没有学生
-                username: "吴晓伟",              //随机一个名字
-                content_path: path.join(config.dataPathDir, 'paperpoint', 'paperpoint'+getClientIp(req).split(".")[3], '' + lists[0].titles[0].header.name + req.body.Id + paperindex + '' + titlesindex + '.png'),
-            };
+             var sqlmsg = {
+                 name: lists[0].titles[0].header.name,
+                 num: "5120161599",              //还没有学生
+                 username: "吴晓伟",              //随机一个名字
+                 content_path: path.join(config.dataPathDir, 'paperpoint', 'paperpoint'+req.body.Id, '' + lists[0].titles[0].header.name + req.body.Id + paperindex + '' + titlesindex + '.png'),
+             };
 
-            imghandler.cropImg(srcpath, sqlmsg.content_path, width, height, x, y);
-            sqlhandler.addImgChim(req,res,context.imgChip(sqlmsg));
-            Safetyrate++;
-            rate+=25;
-            if (Safetyrate > 1000) {
-                throw "安全指数到达上限，可能程序陷入死循环！"
-            }
-        }
-        rate+=40;
-    }
+             imghandler.cropImg(srcpath, sqlmsg.content_path, width, height, x, y);
+             sqlhandler.addImgChim(req,res,context.imgChip(sqlmsg));
+             Safetyrate++;
+             rate+=25;
+             if (Safetyrate > 1000) {
+                 throw "安全指数到达上限，可能程序陷入死循环！"
+             }
+         }
+         rate+=40;
+     }
+
+ })
 }
 
 function writeSrc(req) {
     return new Promise((resolve, reject) => {
         var base64 = req.body.base64.replace(/^data:image\/\w+;base64,/, "");   //去掉图片base64码前面部分data:image/png;base64
         var dataBuffer = new Buffer.from(base64, 'base64');                           //把base64码转成buffer对象，
-        var srcpath = path.join(config.dataPathDir, 'temp',crypto.createHash('md5').update(getClientIp(req)).digest('hex')+ '.png');
+        var srcpath = path.join(config.dataPathDir, 'temp',crypto.createHash('md5').update(getClientIp(req)+new Date()).digest('hex')+ '.png');
         fs.writeFile(srcpath, dataBuffer, function (err) {//用fs写入文件
             if (err) {
                 console.log(err);
@@ -241,14 +248,18 @@ function mkdirForChip(path) {
 }
 
 function mkdirsSync(dirname) {
-    if (fs.existsSync(dirname)) {
-        return true;
-    } else {
-        if (mkdirsSync(path.dirname(dirname))) {
-            fs.mkdirSync(dirname);
-            return true;
+    return  new Promise((resolve, reject) => {
+        if (fs.existsSync(dirname)) {
+            resolve(0)
+            //return true;
+        } else {
+            if (mkdirsSync(path.dirname(dirname))) {
+                fs.mkdirSync(dirname);
+                resolve(1)
+            }
         }
-    }
+    })
+
 }
 
 
