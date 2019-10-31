@@ -180,10 +180,15 @@ function writeChip(req,res,srcpath,lists) {
     for (var paperindex in lists) {
         for (var titlesindex in lists[paperindex].titles) {
 
-            var width = lists[paperindex].titles[titlesindex].xx-90;
-            var height = lists[paperindex].titles[titlesindex].yy-21;
-            var x = lists[paperindex].titles[titlesindex].x1-226-rate/3;
-            var y = lists[paperindex].titles[titlesindex].y1-81-rate;
+        var width = lists[paperindex].titles[titlesindex].xx-90;
+        var height = lists[paperindex].titles[titlesindex].yy-21;
+        var x = lists[paperindex].titles[titlesindex].x1-226-rate/3;
+        var y = lists[paperindex].titles[titlesindex].y1-81-rate;
+
+            // var width = lists[paperindex].titles[titlesindex].xx;
+            // var height = lists[paperindex].titles[titlesindex].yy;
+            // var x = lists[paperindex].titles[titlesindex].x1;
+            // var y = lists[paperindex].titles[titlesindex].y1;
 
 
             var sqlmsg = {
