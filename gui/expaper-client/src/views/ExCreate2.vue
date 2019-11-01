@@ -1,9 +1,9 @@
 <template>
-    <div class="background">
-<!--        <rightmenu ref="rightmenu"></rightmenu>-->
-<!--        迭代生成试卷纸 A4-->
+    <div class="background" id="bigbackground" ref="bigbackground">
+        <!--        <rightmenu ref="rightmenu"></rightmenu>-->
+        <!--        迭代生成试卷纸 A4-->
         <template v-for="(paperpage,index) in mytitles">
-            <div class="paper" >
+            <div class="paper">
                 <h3 style="text-align: center">答题卡</h3>
                 <div class="container" ref="container">
 
@@ -12,14 +12,14 @@
                         <!--迭代每道小题-->
                         <questions :item=item :index={outer:index,inner:tindex} @listenData="setItemPosition">
                         </questions>
-<!--                        返回坐标-->
-                        <point v-for="i in 4" :myposition="item" :index="i" :tindex="index+'-'+ tindex" ></point>
+                        <!--                        返回坐标-->
+                        <point v-for="i in 4" :myposition="item" :index="i" :tindex="index+'-'+ tindex"></point>
                     </template>
                 </div>
             </div>
         </template>
-<!--        右侧添加题目导航栏-->
-        <template>
+        <!--        右侧添加题目导航栏-->
+        <template v-if="!cutting">
             <div class="rightmeun">
                 <a> Header</a>
                 <div style="text-align: center;margin: 10px 30px 40px 10px;border: seagreen">
@@ -86,8 +86,9 @@
     import point from '../components/small/point'
 
     export default {
+        props:["cutting"],
         components: {
-           // 'rightmenu': rightmenu,
+            // 'rightmenu': rightmenu,
             questions,
             point,
         },
@@ -180,32 +181,32 @@
 
                     ]
                 },
-                //     {
-                //     titles: [
-                //         {
-                //             title: '一', questions: [
-                //                 {id: 1, e: 'A', score: ''},
-                //                 {id: 2, e: 'A', score: ''},
-                //                 {id: 3, e: 'A', score: ''},
-                //             ], x1: '', x2: '', y1: '', y2: ''
-                //         },
-                //
-                //         {
-                //             title: '二', questions: [
-                //                 {id: 4, e: 'A', score: ''},
-                //                 {id: 5, e: 'A', score: ''},
-                //                 {id: 6, e: 'A', score: ''},
-                //                 {id: 7, e: 'A', score: ''},
-                //                 {id: 8, e: 'A', score: ''},
-                //                 {id: 9, e: 'A', score: ''},
-                //                 {id: 10, e: 'A', score: ''},
-                //                 {id: 11, e: 'A', score: ''},
-                //                 {id: 12, e: 'A', score: ''},
-                //             ], x1: '', x2: '', y1: '', y2: ''
-                //         },
-                //
-                //     ]
-                // }
+                    //     {
+                    //     titles: [
+                    //         {
+                    //             title: '一', questions: [
+                    //                 {id: 1, e: 'A', score: ''},
+                    //                 {id: 2, e: 'A', score: ''},
+                    //                 {id: 3, e: 'A', score: ''},
+                    //             ], x1: '', x2: '', y1: '', y2: ''
+                    //         },
+                    //
+                    //         {
+                    //             title: '二', questions: [
+                    //                 {id: 4, e: 'A', score: ''},
+                    //                 {id: 5, e: 'A', score: ''},
+                    //                 {id: 6, e: 'A', score: ''},
+                    //                 {id: 7, e: 'A', score: ''},
+                    //                 {id: 8, e: 'A', score: ''},
+                    //                 {id: 9, e: 'A', score: ''},
+                    //                 {id: 10, e: 'A', score: ''},
+                    //                 {id: 11, e: 'A', score: ''},
+                    //                 {id: 12, e: 'A', score: ''},
+                    //             ], x1: '', x2: '', y1: '', y2: ''
+                    //         },
+                    //
+                    //     ]
+                    // }
 
                 ]
             }
@@ -241,55 +242,53 @@
                 }
 
                 /** 识别是在哪张试卷生成这道题目**/
-                var maxHeight=759.77;   //this.$refs.paper.getBoundingClientRect().height; console.log("最大高度"+maxHeight);
-                var currentHeight=0.0;
-                if(this.mytitles.length!=1){
-                    for(var paperp in  this.mytitles[this.mytitles.length-1].titles){
-                        currentHeight+=this.mytitles[this.mytitles.length-1].titles[paperp].yy;
-                       // if(currentHeight>maxHeight) throw "当前高度已经大于最大高度了！";
+                var maxHeight = 759.77;   //this.$refs.paper.getBoundingClientRect().height; console.log("最大高度"+maxHeight);
+                var currentHeight = 0.0;
+                if (this.mytitles.length != 1) {
+                    for (var paperp in  this.mytitles[this.mytitles.length - 1].titles) {
+                        currentHeight += this.mytitles[this.mytitles.length - 1].titles[paperp].yy;
+                        // if(currentHeight>maxHeight) throw "当前高度已经大于最大高度了！";
                     }
-                    if (currentHeight<maxHeight-151){
-                        this.mytitles[this.mytitles.length-1].titles.push(title);   //如果高度足够则放进去
+                    if (currentHeight < maxHeight - 151) {
+                        this.mytitles[this.mytitles.length - 1].titles.push(title);   //如果高度足够则放进去
                     } else {
-                        this.mytitles.push({titles:[title]});                       //高度不够新开一个试卷
+                        this.mytitles.push({titles: [title]});                       //高度不够新开一个试卷
                     }
-                }else {
+                } else {
                     //var headerHeight=this.mytitles[0].titles[0].yy;
-                    for(var paperp in  this.mytitles[0].titles){
-                        currentHeight+=this.mytitles[0].titles[paperp].yy;
-                       // if(currentHeight>maxHeight) throw "当前高度已经大于最大高度了！";
+                    for (var paperp in  this.mytitles[0].titles) {
+                        currentHeight += this.mytitles[0].titles[paperp].yy;
+                        // if(currentHeight>maxHeight) throw "当前高度已经大于最大高度了！";
                     }
-                    if (currentHeight<maxHeight-151){
+                    if (currentHeight < maxHeight - 151) {
                         this.mytitles[0].titles.push(title);   //如果高度足够则放进去
 
                     } else {
-                        this.mytitles.push({titles:[title]}); //高度不够新开一个试卷
+                        this.mytitles.push({titles: [title]}); //高度不够新开一个试卷
 
                     }
                 }
                 //到这里还不算，需要判断插入的数据是否正确。需要在update中判断。
 
 
-
-
             },
             //删除题目
             deletepop: function () {
 
-                this.mytitles[this.mytitles.length-1].titles.pop();
+                this.mytitles[this.mytitles.length - 1].titles.pop();
 
-                if(this.mytitles[this.mytitles.length-1].titles.length===0){
+                if (this.mytitles[this.mytitles.length - 1].titles.length === 0) {
                     this.mytitles.pop();
                 }
             },
             //判断是否成功
-            isFail:function () {
+            isFail: function () {
                 /** 测试放入的题目可不可行**/
-                var currentHeight=0.0;
-                for(var paperp in  this.mytitles[this.mytitles.length-1].titles){
-                    currentHeight+=this.mytitles[this.mytitles.length-1].titles[paperp].yy;
+                var currentHeight = 0.0;
+                for (var paperp in  this.mytitles[this.mytitles.length - 1].titles) {
+                    currentHeight += this.mytitles[this.mytitles.length - 1].titles[paperp].yy;
                     //console.log(currentHeight);
-                    if (currentHeight>756){
+                    if (currentHeight > 756) {
                         this.deletepop();
                         alert("在这道题放入的小题目太多了");
                     }
@@ -298,6 +297,7 @@
             //设置题目位置
             setItemPosition: function (data) {   //从子组件获取坐标值
                 this.itemposition = data;
+                //console.log("aaaaa"+data.xx+"----"+data.yy);
             },
             //提交数据给后端接口
             submitForm(formName) {
@@ -310,19 +310,20 @@
                                 type: 'success'
                             },
                         );
-                        console.log(res)
+                        //console.log(res);
+                        this.$router.push('/expaperlist');
 
                     });
-                this.$router.push('/expaperlist');
+
 
 
             },
         },
-        updated(){
+        updated() {
             this.isFail();
         },
-        mounted(){
-            this.mytitles[0].titles[0].header.teacher=this.user.username
+        mounted() {
+            this.mytitles[0].titles[0].header.teacher = this.user.username
         },
         directives: { //自定义属性
 
@@ -411,7 +412,7 @@
         border-radius: 5px;
         box-shadow: 0px 5px 10px #cccc;
 
-        overflow: auto;
+        /*overflow: auto;*/
 
     }
 

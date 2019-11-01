@@ -3,7 +3,7 @@
     <!-- 把需要生成截图的元素放在一个元素容器里,设置一个ref -->
     <div class="image_tofile" ref="imageTofile" style="text-align: center">
 <!--        <excreate></excreate>-->
-        <exedit></exedit>
+        <exedit cutting="true"></exedit>
         <button @click="toImage"> aaaaaa</button>
     </div>
 
@@ -20,6 +20,9 @@
    import exedit from '../ExEdit'
 
     export default {
+       beforeCreate(){
+
+       },
         // 引入html2canvas
         // 注册组件
         components: {
@@ -36,13 +39,14 @@
         mounted () {
             // 如果页面一加载就需要生成图片,就在mounted里调用方法,给一个setTimeout,保证页面元素已存在
             setTimeout(this.toImage, 2000);
-            setTimeout(alert("完成"), 2000);
+            //setTimeout(alert("完成"), 2000);
 
         },
         methods: {
             // 页面元素转图片
             toImage () {
                 // 第一个参数是需要生成截图的元素,第二个是自己需要配置的参数,宽高等
+
                 html2canvas(this.$refs.imageTofile, {
                     backgroundColor: null,
                     useCORS: true ,// 如果截图的内容里有图片,可能会有跨域的情况,加上这个参数,解决文件跨域问题

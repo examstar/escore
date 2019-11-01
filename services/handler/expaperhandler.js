@@ -185,15 +185,20 @@ function writeChip(req,res,srcpath,lists) {
      for (var paperindex in lists) {
          for (var titlesindex in lists[paperindex].titles) {
 
-             var width = lists[paperindex].titles[titlesindex].xx-90;
-             var height = lists[paperindex].titles[titlesindex].yy-21;
-             var x = lists[paperindex].titles[titlesindex].x1-226-rate/3;
-             var y = lists[paperindex].titles[titlesindex].y1-81-rate;
+             // var width = lists[paperindex].titles[titlesindex].xx-90;
+             // var height = lists[paperindex].titles[titlesindex].yy-21;
+             // var x = lists[paperindex].titles[titlesindex].x1-226-rate/3;
+             // var y = lists[paperindex].titles[titlesindex].y1-81-rate;
 
              // var width = lists[paperindex].titles[titlesindex].xx;
              // var height = lists[paperindex].titles[titlesindex].yy;
-             // var x = lists[paperindex].titles[titlesindex].x1;
-             // var y = lists[paperindex].titles[titlesindex].y1;
+             // var x = lists[paperindex].titles[titlesindex].x1+130;
+             // var y = lists[paperindex].titles[titlesindex].y1-20-rate;
+
+             var width = lists[paperindex].titles[titlesindex].xx;
+             var height = lists[paperindex].titles[titlesindex].yy;
+             var x = lists[paperindex].titles[titlesindex].x1-45;
+             var y = lists[paperindex].titles[titlesindex].y1-94-rate;
 
 
              var sqlmsg = {
@@ -206,12 +211,12 @@ function writeChip(req,res,srcpath,lists) {
              imghandler.cropImg(srcpath, sqlmsg.content_path, width, height, x, y);
              sqlhandler.addImgChim(req,res,context.imgChip(sqlmsg));
              Safetyrate++;
-             rate+=25;
+             rate+=8;
              if (Safetyrate > 1000) {
                  throw "安全指数到达上限，可能程序陷入死循环！"
              }
          }
-         rate+=40;
+         //rate+=40;
      }
 
  })

@@ -132,6 +132,7 @@
                 this.$router.push("/exedit"+index);
             },
             handleSplit(index, row) {
+                document.documentElement.scrollTop=0;
                 this.$router.push("/cuttingcanvas"+index);
             },
             handleDelete(index, row) {
