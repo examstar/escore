@@ -13,6 +13,8 @@ import InfoShow from './views/InfoShow.vue'
 
 import mypaper from './views/ExCreate2.vue'
 import exedit from './views/ExEdit.vue'
+import operating from './views/OperaList.vue'
+import uplodeimg from './views/Utils/UplodeImg.vue'
 
 import cuttingcanvas from './views/Utils/CuttingCanvas.vue'
 
@@ -38,6 +40,8 @@ const router =new Router({
         {path:'/home',name:"Home",component:Home,},
         {path:'/InfoShow',name:"InfoShow",component:InfoShow,},
         {path:'/expaperlist',name:"expaperlist",component:expaperlist,},
+        {path:'/operating',name:"operating",component:operating,},
+        {path:'/uplodeimg',name:"uplodeimg",component:uplodeimg,},
         {path:'/expapercreate',name:"expapercreate",component:expapercreate,},
         {path:'/mypaper',name:"mypaper",component:mypaper,},
         {path:'/exedit:id',name:"exedit",component:exedit,},

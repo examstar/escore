@@ -7,6 +7,8 @@
                     background-color="#324057"
                     text-color="#fff"
                     active-text-color="#409eff"
+                    default-active="1"
+
             >
                 <router-link to="/home">
 
@@ -54,6 +56,10 @@
                         ]},
                     {icon:'fa-asterike',name:'信息管理',path:'info',children:[
                             {path:'infoshow',name:'个人信息'}
+                        ]},
+                    {icon:'fa-asterike',name:'其他操作',path:'opera',children:[
+                            {path:'operating',name:'分割试卷'},
+                            {path:'uplodeimg',name:'上传图片'}
                         ]},
                 ]
             }
