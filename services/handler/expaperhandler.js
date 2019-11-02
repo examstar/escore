@@ -135,10 +135,11 @@ module.exports.editExpaperApi = function (req, res) {
 
 /** 接受图片，此业务需要执行以下几个操作！
  * 1.从数据库里面根据前端id查找文件路径
- * 2.读取路径拿到文件数组坐标
- * 3.写入前端拿来的图片到缓存文件夹
- * 4.根据数组对应的坐标裁剪文件
- * 6.裁剪完成后删除缓存文件
+ * 2.拿到试卷数据，坐标
+ * 3.递归创临时建文件夹、数据存放文件夹
+ * 4.写入临时源文件
+ * 6.根据源文件切割图像，数据写入磁盘，元数据存入数据库
+ * 8.删除临时文件
  * **/
 module.exports.postImgApi = function (req, res) {
 
@@ -166,6 +167,20 @@ module.exports.postImgApi = function (req, res) {
         //.then(()=>fs.unlinkSync(Srcpath))          //完成后需要删除temp里的文件
         .then(res.json("ok"))
         .catch(err => console.log(err))
+
+};
+
+/**基于视觉处理图片效果
+ *
+ * **/
+module.exports.postImageApi=function (req,res) {
+    mkdirsSync( path.join(config.dataPathDir,'paperpoint' ,'paperpoint'+req.body.Id))                      //数据库序号试卷写入的唯一性,这个要和下面写入的路径手动一致
+        .then(()=>{
+        return writeSrc(req, res)   //写源文件，返回路径。
+         })
+        .then(srcpath=>{
+
+        })
 
 };
 

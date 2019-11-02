@@ -47,6 +47,11 @@ router.post('/api/postimg',multipartMiddleware ,function (req, res, next) {
     handler.postImgApi(req,res)
 });
 
+/** 提交图片的接口 openCV**/
+router.post('/api/postimage',multipartMiddleware ,function (req, res, next) {
+    handler.postImageApi(req,res)
+});
+
 router.get('/del_msg', function (req, res, next) {
     res.send(req);
 });
