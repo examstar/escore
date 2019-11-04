@@ -6,6 +6,9 @@ var sqlhandler = require('../models/db/sqlhandler.js'); //
 var context = require('../config/main/jsonconfig.js');
 var imghandler = require('./imghandler.js');
 const crypto = require('crypto');
+var multiparty = require('multiparty');
+//const formidable = require('express');  //图片、视频处理
+
 var gm = require("gm");
 /** 增加试卷，此业务需要执行以下几个操作！
  * 1.建立json对象
@@ -144,7 +147,7 @@ module.exports.editExpaperApi = function (req, res) {
 module.exports.postImgApi = function (req, res) {
 
     var lists;  //试卷数据
-    var Srcpath=''; //源文件路径
+    var Srcpath = ''; //源文件路径
     sqlhandler.getOneCommentSql(req.body.Id, res)
         .then(item => {
             return readOneData(item.content_path)
@@ -152,17 +155,17 @@ module.exports.postImgApi = function (req, res) {
         .then(list => {
             lists = list;
         })
-        .then(()=>{
+        .then(() => {
             //mkdirsSync( path.join(config.dataPathDir,'paperpoint' ,'paperpoint'+getClientIp(req).split(".")[3])); //不能保证唯一写入，面临高并发可能会覆盖
-            mkdirsSync( path.join(config.dataPathDir,'paperpoint' ,'paperpoint'+req.body.Id));                      //数据库序号试卷写入的唯一性,这个要和下面写入的路径手动一致
-            mkdirsSync( path.join(config.dataPathDir, 'temp'));
+            mkdirsSync(path.join(config.dataPathDir, 'paperpoint', 'paperpoint' + req.body.Id));                      //数据库序号试卷写入的唯一性,这个要和下面写入的路径手动一致
+            mkdirsSync(path.join(config.dataPathDir, 'temp'));
         })
         .then(() => {
             return writeSrc(req, res)   //写源文件，返回路径。
         })
         .then(srcpath => {
-            Srcpath=srcpath;
-            return  writeChip(req,res,srcpath,lists);
+            Srcpath = srcpath;
+            return writeChip(req, res, srcpath, lists);
         })
         //.then(()=>fs.unlinkSync(Srcpath))          //完成后需要删除temp里的文件
         .then(res.json("ok"))
@@ -173,16 +176,63 @@ module.exports.postImgApi = function (req, res) {
 /**基于视觉处理图片效果
  *
  * **/
-module.exports.postImageApi=function (req,res) {
-    mkdirsSync( path.join(config.dataPathDir,'paperpoint' ,'paperpoint'+req.body.Id))                      //数据库序号试卷写入的唯一性,这个要和下面写入的路径手动一致
-        .then(()=>{
-        return writeSrc(req, res)   //写源文件，返回路径。
-         })
-        .then(srcpath=>{
+module.exports.postImageApi = function (req, res) {
+    // mkdirsSync( path.join(config.dataPathDir,'paperpoint' ,'paperpoint'+req.body.Id))                      //数据库序号试卷写入的唯一性,这个要和下面写入的路径手动一致
+    //     .then(()=>{
+    //     return writeSrc(req, res)   //写源文件，返回路径。
+    //      })
+    //     .then(srcpath=>{
+    //
+    //     })、
+    //console.log(req.files.file);
 
+
+    console.log("reqData:----------" + req.body.Id);
+    var Srcpath;
+    var lists;
+
+    sqlhandler.getOneCommentSql(req.body.Id, res)
+        .then(item => {
+            return readOneData(item.content_path)
+        })
+        .then(list => {
+            lists = list;
+           return  mkdirsSync(path.join(config.dataPathDir, 'paperpoint', 'paperpoint' + req.body.Id));
+        })
+        .then(() => {
+            return writeEach(req)
+        })
+        .then(targetFilepath => {
+            Srcpath = targetFilepath;
+        })
+        .then(() => {
+            return writeChip(req, res, Srcpath, lists);
+        })
+        .then(res.json("ok"))
+        .catch(err => {
+            console.log(err)
         })
 
+
 };
+
+function writeEach(req) {
+    return new Promise((resolve, reject) => {
+        var targetFilepath = path.join(config.dataPathDir, 'temp', req.files.file.name);
+        var readStream = fs.createReadStream(req.files.file.path);
+        var writeStream = fs.createWriteStream(targetFilepath);
+        readStream.pipe(writeStream);
+        readStream.on('end', function (err) {
+            if (err) {
+                reject(err)
+            }
+            fs.unlinkSync(req.files.file.path);
+            console.log(path.join(config.dataPathDir, 'temp', req.files.file.name))
+            resolve(targetFilepath)
+        });
+    })
+}
+
 
 function getClientIp(req) {
     return req.headers['x-forwarded-for'] ||
@@ -191,57 +241,56 @@ function getClientIp(req) {
         req.connection.socket.remoteAddress;
 };
 
+function writeChip(req, res, srcpath, lists) {
+    return new Promise((resolve, reject) => {
 
-function writeChip(req,res,srcpath,lists) {
- return new Promise((resolve, reject) => {
+        var Safetyrate = 0;
+        var rate = 0;
+        for (var paperindex in lists) {
+            for (var titlesindex in lists[paperindex].titles) {
 
-     var Safetyrate = 0;
-     var rate=0;
-     for (var paperindex in lists) {
-         for (var titlesindex in lists[paperindex].titles) {
+                // var width = lists[paperindex].titles[titlesindex].xx-90;
+                // var height = lists[paperindex].titles[titlesindex].yy-21;
+                // var x = lists[paperindex].titles[titlesindex].x1-226-rate/3;
+                // var y = lists[paperindex].titles[titlesindex].y1-81-rate;
 
-             // var width = lists[paperindex].titles[titlesindex].xx-90;
-             // var height = lists[paperindex].titles[titlesindex].yy-21;
-             // var x = lists[paperindex].titles[titlesindex].x1-226-rate/3;
-             // var y = lists[paperindex].titles[titlesindex].y1-81-rate;
+                // var width = lists[paperindex].titles[titlesindex].xx;
+                // var height = lists[paperindex].titles[titlesindex].yy;
+                // var x = lists[paperindex].titles[titlesindex].x1+130;
+                // var y = lists[paperindex].titles[titlesindex].y1-20-rate;
 
-             // var width = lists[paperindex].titles[titlesindex].xx;
-             // var height = lists[paperindex].titles[titlesindex].yy;
-             // var x = lists[paperindex].titles[titlesindex].x1+130;
-             // var y = lists[paperindex].titles[titlesindex].y1-20-rate;
-
-             var width = lists[paperindex].titles[titlesindex].xx;
-             var height = lists[paperindex].titles[titlesindex].yy;
-             var x = lists[paperindex].titles[titlesindex].x1-45;
-             var y = lists[paperindex].titles[titlesindex].y1-94-rate;
+                var width = lists[paperindex].titles[titlesindex].xx;
+                var height = lists[paperindex].titles[titlesindex].yy;
+                var x = lists[paperindex].titles[titlesindex].x1 - 45;
+                var y = lists[paperindex].titles[titlesindex].y1 - 94 - rate;
 
 
-             var sqlmsg = {
-                 name: lists[0].titles[0].header.name,
-                 num: "5120161599",              //还没有学生
-                 username: "吴晓伟",              //随机一个名字
-                 content_path: path.join(config.dataPathDir, 'paperpoint', 'paperpoint'+req.body.Id, '' + lists[0].titles[0].header.name + req.body.Id + paperindex + '' + titlesindex + '.png'),
-             };
+                var sqlmsg = {
+                    name: lists[0].titles[0].header.name,
+                    num: "5120161599",              //还没有学生
+                    username: "吴晓伟",              //随机一个名字
+                    content_path: path.join(config.dataPathDir, 'paperpoint', 'paperpoint' + req.body.Id, '' + lists[0].titles[0].header.name + req.body.Id + paperindex + '' + titlesindex + '.png'),
+                };
 
-             imghandler.cropImg(srcpath, sqlmsg.content_path, width, height, x, y);
-             sqlhandler.addImgChim(req,res,context.imgChip(sqlmsg));
-             Safetyrate++;
-             rate+=8;
-             if (Safetyrate > 1000) {
-                 throw "安全指数到达上限，可能程序陷入死循环！"
-             }
-         }
-         //rate+=40;
-     }
+                imghandler.cropImg(srcpath, sqlmsg.content_path, width, height, x, y);
+                sqlhandler.addImgChim(req, res, context.imgChip(sqlmsg));
+                Safetyrate++;
+                rate += 8;
+                if (Safetyrate > 1000) {
+                    throw "安全指数到达上限，可能程序陷入死循环！"
+                }
+            }
+            //rate+=40;
+        }
 
- })
+    })
 }
 
 function writeSrc(req) {
     return new Promise((resolve, reject) => {
         var base64 = req.body.base64.replace(/^data:image\/\w+;base64,/, "");   //去掉图片base64码前面部分data:image/png;base64
         var dataBuffer = new Buffer.from(base64, 'base64');                           //把base64码转成buffer对象，
-        var srcpath = path.join(config.dataPathDir, 'temp',crypto.createHash('md5').update(getClientIp(req)+new Date()).digest('hex')+ '.png');
+        var srcpath = path.join(config.dataPathDir, 'temp', crypto.createHash('md5').update(getClientIp(req) + new Date()).digest('hex') + '.png');
         fs.writeFile(srcpath, dataBuffer, function (err) {//用fs写入文件
             if (err) {
                 console.log(err);
@@ -258,8 +307,8 @@ function mkdirForChip(path) {
     return new Promise((resolve, reject) => {
         fs.existsSync(path)
 
-        fs.mkdir(path,function (err) {
-            if(err){
+        fs.mkdir(path, function (err) {
+            if (err) {
                 reject(err)
             }
             resolve("ok!")
@@ -268,7 +317,7 @@ function mkdirForChip(path) {
 }
 
 function mkdirsSync(dirname) {
-    return  new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         if (fs.existsSync(dirname)) {
             resolve(0)
             //return true;
