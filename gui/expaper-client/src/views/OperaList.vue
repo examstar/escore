@@ -4,12 +4,9 @@
         <section class="form_container">
             <div class="manage_tip">
                 <span class="title"> Expaper List </span>
-
                 <el-table
                         :data="pagelist"
                         style="width: 100%" class="listTable">
-
-
                     <el-table-column
                             label="试卷名字"
                             width="180">
@@ -23,8 +20,6 @@
                             </el-popover>
                         </template>
                     </el-table-column>
-
-
                     <el-table-column
                             label="试卷类型"
                             width="180">
@@ -33,7 +28,6 @@
                             <span style="margin-left: 10px">{{ scope.row.class }}</span>
                         </template>
                     </el-table-column>
-
                     <el-table-column
                             label="命题人"
                             width="180">
@@ -42,7 +36,6 @@
                             <span style="margin-left: 10px">{{ scope.row.teacher }}</span>
                         </template>
                     </el-table-column>
-
                     <el-table-column
                             label="日期"
                             width="180">
@@ -51,26 +44,18 @@
                             <span style="margin-left: 10px">{{ scope.row.created_at }}</span>
                         </template>
                     </el-table-column>
-
                     <el-table-column label="操作">
                         <template slot-scope="scope">
-                            <el-button
+                            <el-button v-if="isChild"
                                     size="mini"
-                                    @click="handleSplit(scope.row.id, scope.row)">分割
+                                    @click="handleToFather(scope.row.id, scope.row)">{{buttonText}}
                             </el-button>
-<!--                            <el-button-->
-<!--                                    size="mini"-->
-<!--                                    @click="handleEdit(scope.row.id, scope.row)">编辑-->
-<!--                            </el-button>-->
-<!--                            <el-button-->
-<!--                                    size="mini"-->
-<!--                                    type="danger"-->
-<!--                                    @click="handleDelete(scope.row.id, scope.row)">删除-->
-<!--                            </el-button>-->
+                            <el-button v-else="isChild"
+                                       size="mini"
+                                       @click="handleSplit(scope.row.id, scope.row)">分割
+                            </el-button>
                         </template>
                     </el-table-column>
-
-
                 </el-table>
 
             </div>
@@ -87,7 +72,6 @@
                     </el-pagination>
                 </div>
             </el-col>
-
         </section>
     </div>
 
@@ -95,8 +79,13 @@
 
 <script>
     export default {
+        props:['buttonText','isChild'],
         data() {
             return {
+
+                //DefaultText:this.buttonText || "分割",
+
+
                 list: [],
                 pagelist: [],
                 paginations: {
@@ -134,6 +123,10 @@
             handleSplit(index, row) {
                 document.documentElement.scrollTop=0;
                 this.$router.push("/cuttingcanvas"+index);
+            },
+
+            handleToFather(index,row){
+                this.$emit('toFather',index)
             },
             handleDelete(index, row) {
 

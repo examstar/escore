@@ -1,5 +1,7 @@
 <template>
     <div class="container">
+        <dialogItems :dialog="dialog" @toFather="getExpaperId"></dialogItems>
+        <el-button type="text" @click="handleAdd">选择模板</el-button><a style="font-size: small"> 当前选择的索引：{{data.Id}}</a>
         <el-upload
                 :limit="500"
                 class="upload-img"
@@ -18,14 +20,20 @@
             <el-button style="margin-left: 10px;" size="small" type="primary" @click="clearFiles">清空</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
         </el-upload>
+
+
     </div>
 </template>
 
 
 <script>
+    import dialogItems from '../../components/handler/SelectItems.vue'
     export default {
         data() {
             return {
+                dialog:{
+                    show:false
+                },
                 fileList: [{
                     name: '试卷.jpeg',
                     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
@@ -59,19 +67,31 @@
             handleBefore() {
 
 
+            }, handleAdd() {
+                this.dialog.show=true;
+
+                console.log(this.dialog)
+
+            },
+            getExpaperId(data){
+                this.data.Id=data
             },
             clearFiles() {
                 this.$refs.upload.clearFiles()
             }
+        },
+        components:{
+            dialogItems
         }
     }
 </script>
 <style scoped>
     .container {
-        width: 60%;
-        height: 60%;
-        top: 20%;
-        left: 20%;
+        width: 30%;
+        min-width: 100px;
+        height: 40%;
+        top: 10%;
+        left: 15%;
         position: absolute;
         /*text-align: center;*/
         /*border: 1px solid #000;*/
