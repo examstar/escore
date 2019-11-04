@@ -54,10 +54,10 @@
 
                     <el-table-column label="操作">
                         <template slot-scope="scope">
-                            <el-button
-                                    size="mini"
-                                    @click="handleSplit(scope.row.id, scope.row)">分割
-                            </el-button>
+<!--                            <el-button-->
+<!--                                    size="mini"-->
+<!--                                    @click="handleSplit(scope.row.id, scope.row)">分割-->
+<!--                            </el-button>-->
                             <el-button
                                     size="mini"
                                     @click="handleEdit(scope.row.id, scope.row)">编辑
