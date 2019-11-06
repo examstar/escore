@@ -19,7 +19,7 @@
             </div>
         </template>
 <!--        右侧添加题目导航栏-->
-        <template>
+        <template v-if="showright">
             <div class="rightmeun">
                 <a> Header</a>
                 <div style="text-align: center;margin: 10px 30px 40px 10px;border: seagreen">
@@ -86,6 +86,12 @@
     import point from '../components/small/point'
 
     export default {
+        props:{
+            'showright':{
+                default:true
+            }
+        }
+        ,
         components: {
            // 'rightmenu': rightmenu,
             questions,

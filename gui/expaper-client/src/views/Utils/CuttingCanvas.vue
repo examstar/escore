@@ -3,7 +3,7 @@
     <!-- 把需要生成截图的元素放在一个元素容器里,设置一个ref -->
     <div class="image_tofile" ref="imageTofile" style="text-align: center">
 <!--        <excreate></excreate>-->
-        <exedit cutting="true"></exedit>
+        <exedit :showright="false"></exedit>
         <button @click="toImage"> aaaaaa</button>
     </div>
 
