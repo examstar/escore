@@ -32,7 +32,8 @@
         },
         data () {
             return {
-                htmlUrl: ''
+                htmlUrl: '',
+                scalingrate:(window.screen.width/1920).toFixed(4),
             }
         },
 
@@ -69,6 +70,7 @@
                 const formData = new FormData();
                 formData.append('base64', this.htmlUrl);
                 formData.append('Id',this.$route.params.id);
+                formData.append('Scalingrate',this.scalingrate);
                 formData.append('pathName', 'pdf');
                 // this.$ajax({
                 //     url: apiPath.common.uploadBase,
@@ -91,7 +93,7 @@
                         console.log(formData)
 
                     });
-                this.$router.push('/expaperlist');
+                this.$router.push('/operating');
 
             }
         }

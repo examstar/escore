@@ -1,3 +1,4 @@
+
 <template>
     <div class="background">
 <!--        <rightmenu ref="rightmenu"></rightmenu>-->
@@ -270,6 +271,35 @@
 
 
             },
+
+            //中文数字转换
+            toChies:function(values){//形参
+                values=values.toString();
+                var len=values.length;   //统计出长度
+
+                var arr=[];
+
+                //var chin_list=['零','壹','贰','叁','肆','伍','陆','柒','捌','玖']; //所有的数值对应的汉字
+                var chin_list=['零','一','二','三','四','五','六','七','八','九']; //所有的数值对应的汉字
+
+                //var chin_lisp=['仟','佰','拾','亿','仟','佰','拾','万','仟','佰','拾']; //进制
+                var chin_lisp=['仟','佰','拾','亿','仟','佰','拾','万','千','百','十']; //进制
+
+                for(var i=0;i<len;i++){
+                    arr.push(parseInt(values[i]));		//输入的数据按下标存进去   存进去的只是数字
+                    arr[i]=chin_list[arr[i]]			//是根据我们输入的输入的数字，对应着我们的chin_list这个数组
+                }//123['壹','佰','贰','拾','叁']
+
+                for(var i=len-1,j=1;i>0;i--){//i =2	1		//倒序		为了添加进制，方便我们去观看
+                    arr.splice(i,0,chin_lisp[chin_lisp.length-j++])	//j=2
+                }
+                //console.log(arr)
+
+                arr=arr.join('')
+                if(len>=1){
+                }
+                return arr
+            },
             getItemById(){
                 this.$axios.get('/api/expaper_detail?id='+this.$route.params.id).then(result => {
                     this.newData.mytitles = result.data;
@@ -288,6 +318,7 @@
         },
         mounted(){
            // this.mytitles[0].titles[0].header.teacher=this.user.username;
+            this.formLabelAlign.t1=this.toChies(this.getQuestionIndex());
 
 
 

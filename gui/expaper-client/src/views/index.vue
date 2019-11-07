@@ -1,5 +1,6 @@
 <template>
     <div class="index">
+
         <headnav></headnav>
         <leftmenu>
         </leftmenu>

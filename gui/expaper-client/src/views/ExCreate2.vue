@@ -19,8 +19,8 @@
             </div>
         </template>
         <!--        右侧添加题目导航栏-->
-        <template  >
-            <div class="rightmeun" >
+        <template>
+            <div class="rightmeun">
                 <a> Header</a>
                 <div style="text-align: center;margin: 10px 30px 40px 10px;border: seagreen">
                     <el-form label-width="100px" :model="mytitles[0].titles[0].header">
@@ -55,7 +55,9 @@
                             <el-input v-model="formLabelAlign.t1" placeholder="示例：三"></el-input>
                         </el-form-item>
                         <el-form-item label="小题：">
-                            <el-input v-model="formLabelAlign.t2" placeholder="示例：16-20"></el-input>
+                            <a> 从第<el-input v-model="formLabelAlign.from" placeholder="示例：16-20" style="width: 30%"></el-input>题到
+                                第<el-input v-model="formLabelAlign.fromto" placeholder="示例：16-20" style="width: 30%"></el-input>题</a>
+
                         </el-form-item>
                         <el-form-item label="每道题得分:">
                             <el-input v-model="formLabelAlign.score" placeholder="示例：3"></el-input>
@@ -86,7 +88,7 @@
     import point from '../components/small/point'
 
     export default {
-        props:['cutting'],
+
         components: {
             // 'rightmenu': rightmenu,
             questions,
@@ -98,18 +100,19 @@
                 return this.$store.getters.user;
             }
         },
-        watch: {
-
-        },
+        watch: {},
         data() {
             return {
 
                 formLabelAlign: {
                     t1: '',
+                    //t2: '' + "浏览器状态" + window.innerHeight + "-----" + window.innerWidth+"\n"+"h:"+document.body.clientWidth +"w:"+document.body.clientHeight,
                     t2: '',
                     t3: '',
                     score: '',
-                    index: ''
+                    index: '',
+                    from:'',
+                    fromto:'',
                 },
                 itemposition: {},
                 paperpages: 2,
@@ -158,6 +161,7 @@
                                 "absent": "",
                                 "note": "this is note",
                                 "barcode": "jahdj4h5h5jn45bh43b",
+                                "scalingrate": (window.screen.width / 1920).toFixed(4),
                             }
                         },
 
@@ -212,7 +216,8 @@
                     //     ]
                     // }
 
-                ]
+                ],
+
             }
         },
         methods: {
@@ -224,8 +229,8 @@
                     title: form.t1,
                     questions: []
                 };
-                var count = form.t2.split("-")[0];
-                var max = form.t2.split("-")[1];
+                var count =form.from; // form.t2.split("-")[0];
+                var max =form.fromto; // form.t2.split("-")[1];
                 var exp = [];           //期望的答案
                 var score = form.score; //本题分数
 
@@ -277,17 +282,34 @@
                 //到这里还不算，需要判断插入的数据是否正确。需要在update中判断。
 
 
+                //更新列表
+                this.formLabelAlign.t1 = this.toChies(this.getQuestionIndex());
+                this.formLabelAlign.from = this.getTinyIndex() + "-";
             },
             //获取当前的题目数
-            getQuestionIndex:function(){
-                var countQ=0;
+            getQuestionIndex: function () {
+                var countQ = 0;
                 for (var indexT in this.mytitles) {
-                    for (var indexQ in this.mytitles[indexT].titles ){
-                        countQ=countQ+1;
+                    for (var indexQ in this.mytitles[indexT].titles) {
+                        countQ = countQ + 1;
                     }
                 }
                 //console.log("索引为---------"+countQ);
                 return countQ;
+            },
+            getTinyIndex: function () {
+                var countQ = 0;
+                for (var indexT in this.mytitles) {
+
+                    for (var indexQ in this.mytitles[indexT].titles) {
+
+                        for (var index in this.mytitles[indexT].titles[indexQ].questions) {
+                            countQ = countQ + 1;
+                        }
+                    }
+                }
+                //console.log("索引为---------"+countQ);
+                return countQ + 1;
             },
             //删除题目
             deletepop: function () {
@@ -297,6 +319,9 @@
                 if (this.mytitles[this.mytitles.length - 1].titles.length === 0) {
                     this.mytitles.pop();
                 }
+
+                this.formLabelAlign.t1 = this.toChies(this.getQuestionIndex());
+                this.formLabelAlign.from = this.getTinyIndex() + "-";
             },
             //判断是否成功
             isFail: function () {
@@ -333,44 +358,50 @@
                     });
 
 
-
             },
 
             //中文数字转换
-            toChies:function(values){//形参
-                values=values.toString();
-                var len=values.length;   //统计出长度
+            toChies: function (values) {//形参
+                values = values.toString();
+                var len = values.length;   //统计出长度
 
-                var arr=[];
+                var arr = [];
 
                 //var chin_list=['零','壹','贰','叁','肆','伍','陆','柒','捌','玖']; //所有的数值对应的汉字
-                var chin_list=['零','一','二','三','四','五','六','七','八','九']; //所有的数值对应的汉字
+                var chin_list = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九']; //所有的数值对应的汉字
 
                 //var chin_lisp=['仟','佰','拾','亿','仟','佰','拾','万','仟','佰','拾']; //进制
-                var chin_lisp=['仟','佰','拾','亿','仟','佰','拾','万','千','百','十']; //进制
+                var chin_lisp = ['仟', '佰', '拾', '亿', '仟', '佰', '拾', '万', '千', '百', '十']; //进制
 
-                for(var i=0;i<len;i++){
+                for (var i = 0; i < len; i++) {
                     arr.push(parseInt(values[i]));		//输入的数据按下标存进去   存进去的只是数字
-                    arr[i]=chin_list[arr[i]]			//是根据我们输入的输入的数字，对应着我们的chin_list这个数组
+                    arr[i] = chin_list[arr[i]]			//是根据我们输入的输入的数字，对应着我们的chin_list这个数组
                 }//123['壹','佰','贰','拾','叁']
 
-                for(var i=len-1,j=1;i>0;i--){//i =2	1		//倒序		为了添加进制，方便我们去观看
-                    arr.splice(i,0,chin_lisp[chin_lisp.length-j++])	//j=2
+                for (var i = len - 1, j = 1; i > 0; i--) {//i =2	1		//倒序		为了添加进制，方便我们去观看
+                    arr.splice(i, 0, chin_lisp[chin_lisp.length - j++])	//j=2
                 }
                 //console.log(arr)
 
-                arr=arr.join('')
-                if(len>=1){
+                arr = arr.join('')
+                if (len >= 1) {
                 }
                 return arr
             },
         },
         updated() {
             this.isFail();
+
+
         },
+
         mounted() {
             this.mytitles[0].titles[0].header.teacher = this.user.username;
-            this.formLabelAlign.t1=this.toChies(this.getQuestionIndex());
+            this.formLabelAlign.t1 = this.toChies(this.getQuestionIndex());
+            this.formLabelAlign.from = this.getTinyIndex() + "";
+
+
+            //console.log("浏览器状态"+window.innerHeight+"-----"+window.innerWidth)
 
 
         },
