@@ -49,6 +49,8 @@ function cropImg(srcImg,destImg,width, height, x, y) {
 
 //cropCurrentImg("../../public/aa.png","../../public/dest.jpg",100,100,50,50);
 
+
+
 /**
  * 缩放图片
  * @param srcImg    待缩放的图片路径
@@ -108,6 +110,47 @@ function addWaterMark(srcImg,watermarkImg,destImg,alpha,position){
     });
 }
 
+
+/**
+ * 缩放图片
+ * @param srcImg    待缩放的图片路径
+ * @param size      缩放后的图片大小(长宽均为size)
+ */
+function resizeCurrentImgpersent(srcImg, size) {
+    getImgSize(srcImg)
+        .then(Imgsize=>{
+            return setImgSize(srcImg,Imgsize,size)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+}
+
+function setImgSize(srcImg, Imgsize,size) {
+    return new Promise((resolve, reject) => {
+        console.log(size+"---"+Imgsize.width+"---"+Imgsize.height);
+        var width=size*Imgsize.width;
+        var height=size*Imgsize.height;
+        gm(srcImg).resize(width, height).write(srcImg.substring(0,srcImg.length-5)+"aa.png", function (err) {
+            if (err) {
+                reject("修改大小错误"+err);
+            }
+            resolve("ok!")
+        })
+    })
+}
+
+function getImgSize(srcImg) {
+    return new Promise((resolve, reject) => {
+        gm(srcImg)
+            .size(function (err, Imgsize) {
+                if (err){
+                    reject("获取大小错误"+err);
+                }
+                resolve(Imgsize)
+            });
+    })
+}
 function handler(msg){
     console.log(msg)
 }
@@ -119,3 +162,6 @@ exports.resizeImgWithFullArgs = resizeImgWithFullArgs;
 exports.cropCurrentImg = cropCurrentImg;
 exports.cropImg = cropImg;
 exports.addWaterMark = addWaterMark;
+exports.resizeCurrentImgpersent = resizeCurrentImgpersent;
+exports.getImgSize = getImgSize;
+exports.setImgSize = setImgSize;

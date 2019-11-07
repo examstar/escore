@@ -148,6 +148,7 @@ module.exports.postImgApi = function (req, res) {
 
     var lists;  //试卷数据
     var Srcpath = ''; //源文件路径
+    console.log("--------------------缩放比率:"+req.body.Scalingrate);
     sqlhandler.getOneCommentSql(req.body.Id, res)
         .then(item => {
             return readOneData(item.content_path)
@@ -261,8 +262,25 @@ function writeChip(req, res, srcpath, lists) {
 
                 var width = lists[paperindex].titles[titlesindex].xx;
                 var height = lists[paperindex].titles[titlesindex].yy;
-                var x = lists[paperindex].titles[titlesindex].x1 - 45;
-                var y = lists[paperindex].titles[titlesindex].y1 - 94 - rate;
+                var x = lists[paperindex].titles[titlesindex].x1;
+                var y = lists[paperindex].titles[titlesindex].y1;
+
+                if (req.body.Scalingrate!=1&&req.body.Scalingrate!=1.0000) {
+                    //   width=width*req.body.Scalingrate;
+                     //  height=height*req.body.Scalingrate;
+                    x=x*req.body.Scalingrate+70;
+                    y=y*req.body.Scalingrate-60-rate;
+                    rate+=50;
+
+                }else {
+                    x+=10;
+                    y+=70;
+
+                }
+
+           //   x= x +10;
+           //   y= y- 70;
+
 
 
                 var sqlmsg = {
@@ -272,15 +290,16 @@ function writeChip(req, res, srcpath, lists) {
                     content_path: path.join(config.dataPathDir, 'paperpoint', 'paperpoint' + req.body.Id, '' + lists[0].titles[0].header.name + req.body.Id + paperindex + '' + titlesindex + '.png'),
                 };
 
+
                 imghandler.cropImg(srcpath, sqlmsg.content_path, width, height, x, y);
                 sqlhandler.addImgChim(req, res, context.imgChip(sqlmsg));
                 Safetyrate++;
-                rate += 8;
+
                 if (Safetyrate > 1000) {
                     throw "安全指数到达上限，可能程序陷入死循环！"
                 }
             }
-            //rate+=40;
+
         }
 
     })
