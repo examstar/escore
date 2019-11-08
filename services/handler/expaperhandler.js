@@ -7,6 +7,7 @@ var context = require('../config/main/jsonconfig.js');
 var imghandler = require('./imghandler.js');
 const crypto = require('crypto');
 var multiparty = require('multiparty');
+
 //const formidable = require('express');  //图片、视频处理
 
 var gm = require("gm");
@@ -166,7 +167,7 @@ module.exports.postImgApi = function (req, res) {
         })
         .then(srcpath => {
             Srcpath = srcpath;
-            return writeChip(req, res, srcpath, lists);
+           return writeChip(req, res, srcpath, lists);
         })
         //.then(()=>fs.unlinkSync(Srcpath))          //完成后需要删除temp里的文件
         .then(res.json("ok"))
@@ -205,6 +206,7 @@ module.exports.postImageApi = function (req, res) {
         })
         .then(targetFilepath => {
             Srcpath = targetFilepath;
+
         })
         .then(() => {
             return writeChip(req, res, Srcpath, lists);
@@ -266,15 +268,14 @@ function writeChip(req, res, srcpath, lists) {
                 var y = lists[paperindex].titles[titlesindex].y1;
 
                 if (req.body.Scalingrate!=1&&req.body.Scalingrate!=1.0000) {
-                    //   width=width*req.body.Scalingrate;
-                     //  height=height*req.body.Scalingrate;
-                    x=x*req.body.Scalingrate+70;
-                    y=y*req.body.Scalingrate-60-rate;
-                    rate+=50;
+                 width=width*(1-0.05);
+                 height=height*(1-0.05);
+                 x=x*(1-0.05);
+                 y=y*(1-0.05)-95*req.body.Scalingrate;
 
                 }else {
-                    x+=10;
-                    y+=70;
+                   x+=5;
+                   y-=72;
 
                 }
 
@@ -315,7 +316,13 @@ function writeSrc(req) {
                 console.log(err);
                 reject(err)
             } else {
-                //console.log('写入成功！');
+                // //console.log('写入成功！');
+                // gm(srcpath).resize(1860).write(srcpath.substring(0,srcpath.length-10)+"abc.png",function (err) {
+                //     if(err){
+                //         reject("writeSrc,重设失败"+err)
+                //     }
+                //     resolve(srcpath.substring(0,srcpath.length-10)+"abc.png")
+                // });
                 resolve(srcpath)
             }
         });

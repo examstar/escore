@@ -284,7 +284,8 @@
 
                 //更新列表
                 this.formLabelAlign.t1 = this.toChies(this.getQuestionIndex());
-                this.formLabelAlign.from = this.getTinyIndex() + "-";
+                this.formLabelAlign.from = this.getTinyIndex() + "";
+                this.formLabelAlign.fromto = this.getTinyIndex() + 5;
             },
             //获取当前的题目数
             getQuestionIndex: function () {
@@ -321,7 +322,8 @@
                 }
 
                 this.formLabelAlign.t1 = this.toChies(this.getQuestionIndex());
-                this.formLabelAlign.from = this.getTinyIndex() + "-";
+                this.formLabelAlign.from = this.getTinyIndex() + "";
+                this.formLabelAlign.fromto = this.getTinyIndex() + 5;
             },
             //判断是否成功
             isFail: function () {
@@ -399,6 +401,7 @@
             this.mytitles[0].titles[0].header.teacher = this.user.username;
             this.formLabelAlign.t1 = this.toChies(this.getQuestionIndex());
             this.formLabelAlign.from = this.getTinyIndex() + "";
+            this.formLabelAlign.fromto = this.getTinyIndex() + 5;
 
 
             //console.log("浏览器状态"+window.innerHeight+"-----"+window.innerWidth)

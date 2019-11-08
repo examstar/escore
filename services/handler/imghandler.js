@@ -40,11 +40,14 @@ function cropCurrentImg(srcImg,width, height, x, y) {
  * @param y         y坐标
  */
 function cropImg(srcImg,destImg,width, height, x, y) {
-    gm(srcImg).crop(width, height, x, y).write(destImg, function (err) {
-        if (err) {
-            return handler(err);
-        }
-    });
+   return new Promise((resolve, reject) => {
+       gm(srcImg).crop(width, height, x, y).write(destImg, function (err) {
+           if (err) {
+               reject("裁剪文件错误"+err)
+           }
+           resolve(srcImg);
+       });
+   })
 }
 
 //cropCurrentImg("../../public/aa.png","../../public/dest.jpg",100,100,50,50);
@@ -155,6 +158,14 @@ function handler(msg){
     console.log(msg)
 }
 
+
+function regulateImg(srcImg, width,height) {
+    gm(srcImg).resize(width).write(srcImg, function (err) {
+        if (err) {
+            return handler("重设图片错误："+err);
+        }
+    });
+}
 exports.config = config;
 exports.resizeCurrentImg = resizeCurrentImg;
 exports.resizeImgWithArgs = resizeImgWithArgs;
@@ -162,6 +173,7 @@ exports.resizeImgWithFullArgs = resizeImgWithFullArgs;
 exports.cropCurrentImg = cropCurrentImg;
 exports.cropImg = cropImg;
 exports.addWaterMark = addWaterMark;
+exports.regulateImg = regulateImg;
 exports.resizeCurrentImgpersent = resizeCurrentImgpersent;
 exports.getImgSize = getImgSize;
 exports.setImgSize = setImgSize;

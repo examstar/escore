@@ -105,8 +105,8 @@
    + 定位
      ![Image text](storage/publicimg/1570800122.jpg)
    + 创建试卷雏形
-     ![Image text](storage/publicimg/1570716648(1).jpg)
-     ![Image text](storage/publicimg/1570717075(1).jpg)
+     ![Image text](storage/publicimg/1570716648(1).jpgx)
+     ![Image text](storage/publicimg/1570717075(1).jpgx)
     
      
    + 列表雏形

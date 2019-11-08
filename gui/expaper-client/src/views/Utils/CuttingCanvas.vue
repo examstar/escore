@@ -1,17 +1,17 @@
 <template>
-    <div>
+
     <!-- 把需要生成截图的元素放在一个元素容器里,设置一个ref -->
     <div class="image_tofile" ref="imageTofile" style="text-align: center">
 <!--        <excreate></excreate>-->
         <exedit :showright="false"></exedit>
-        <button @click="toImage"> aaaaaa</button>
+<!--        <button @click="toImage"> aaaaaa</button>-->
     </div>
 
 
 
-    <!-- 如果需要展示截取的图片,给一个img标签 -->
-    <img style="text-align: center" alt="无法显示" :src="htmlUrl"/>
-    </div>
+<!--    &lt;!&ndash; 如果需要展示截取的图片,给一个img标签 &ndash;&gt;-->
+<!--    <img style="text-align: center" alt="无法显示" :src="htmlUrl"/>-->
+
 </template>
 
 <script>
