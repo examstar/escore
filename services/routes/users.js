@@ -91,6 +91,7 @@ router.post('/login', (req, res) => {
         };
         jwt.sign(rule, keys.secretOrKey, { expiresIn: 3600 }, (err, token) => {
           if (err) throw err;
+          UpdateTime(user.id);
           res.json({
             success: true,
             token: 'Bearer ' + token
@@ -120,6 +121,29 @@ router.get(
     }
 );
 
+router.get(
+    '/getall',
+
+    (req, res) => {
+      User.findAll().then(function (msg) {
+        res.json(msg);
+      })
+    }
+);
+
+
+ function UpdateTime(userID){
+  return new Promise((resolve, reject) => {
+  User.update(
+        {last_login:new Date()},
+        {
+          where: {
+            id:userID
+          }
+        }
+    )
+  })
+};
 
 
 module.exports = router;

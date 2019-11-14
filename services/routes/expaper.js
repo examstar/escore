@@ -47,10 +47,17 @@ router.post('/api/postimg',multipartMiddleware ,function (req, res, next) {
     handler.postImgApi(req,res)
 });
 
-/** 提交图片的接口 openCV**/
+/** 提交图片的接口 openCV 批量添加**/
 router.post('/api/postimage',multipartMiddleware ,function (req, res, next) {
     handler.postImageApi(req,res)
 });
+
+/**  试图增加一个jsonp函数 **/
+router.get('/api/getPaperChip', function (req, res, next) {
+    handler.getChipImgApi(req, res)
+});
+
+
 
 router.get('/del_msg', function (req, res, next) {
     res.send(req);

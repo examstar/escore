@@ -47,6 +47,18 @@ module.exports.getAll = function (req, res, callback) {
     });
 };
 
+/**  查找全部试卷碎片条目  **/
+module.exports.getAllChip = function (req, res, callback) {
+    CutMeta.findAll().then(function (msgs) {
+        var result = {
+            status: 200,
+            tips: "请求正常！",
+            data: msgs
+        };
+        callback(result);
+    });
+};
+
 module.exports.delSql = function (req, res, callback) {
     //如果没有id字段,返回404
     if (req.query.id == undefined || req.query.id == '') {

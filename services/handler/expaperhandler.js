@@ -137,6 +137,20 @@ module.exports.editExpaperApi = function (req, res) {
         })
 };
 
+/** json函数业务，从数据库选择全部数据给前端 (需要设置跨域请求)**/
+module.exports.getChipImgApi = function (req, res) {
+    sqlhandler.getAllChip(req, res, function (data) {
+
+        res.send(data)
+    });
+    console.log(HashCode("192.168.1.1"));
+    console.log(HashCode("192.168.1.2"));
+    console.log(HashCode("192.168.1.3"));
+    console.log(HashCode("192.168.1.4"));
+    console.log(HashCode("192.168.1.5"));
+};
+
+
 /** 接受图片，此业务需要执行以下几个操作！
  * 1.从数据库里面根据前端id查找文件路径
  * 2.拿到试卷数据，坐标
@@ -297,7 +311,7 @@ function writeChip(req, res, srcpath, lists) {
                 Safetyrate++;
 
                 if (Safetyrate > 1000) {
-                    throw "安全指数到达上限，可能程序陷入死循环！"
+                    throw "安全系数到达上限，可能程序陷入死循环！"
                 }
             }
 
@@ -458,6 +472,18 @@ function writeNewDate(data) {
             }
         });
     });
+}
+
+function HashCode(str){
+    var hash=0,i,chr,len;
+    if(str.length===0) return hash;
+    for(i=0,len=str.length;i<len;i++){
+        chr=str.charCodeAt(i);
+        hash=((hash<<5)-hash)+chr;
+        hash|=0;  //Convert to 32bit integer
+    }
+    return hash;
+
 }
 
 

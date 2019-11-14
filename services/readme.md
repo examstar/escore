@@ -5,8 +5,12 @@
   - /api/add_expaper（get）
   - /api/expaper_detail
   - /api/edit_expaper
+  - /api/getPaperChip
+  
   - /api/user/register
   - /api/user/login
+  - /api/user/getall
+  - /api/user/deluser
 
 + page(无效，用于后端测试)
   - /
