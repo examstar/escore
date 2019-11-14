@@ -2,56 +2,57 @@
     <div class="list">
         <section class="form_container">
             <div class="manage_tip">
-                <span class="title"> Expaper List </span>
+                <span class="title"> User List </span>
                 <el-table
                         :data="pagelist"
                         style="width: 100%" class="listTable">
                     <el-table-column
-                            label="试卷名字"
+                            label="用户名"
                             width="180">
                         <template slot-scope="scope">
                             <el-popover trigger="hover" placement="top">
-                                <p>试卷名字: {{ scope.row.name }}</p>
+                                <p>用户名: {{ scope.row.email }}</p>
                                 <p>描述: {{ scope.row.description }}</p>
                                 <div slot="reference" class="name-wrapper">
-                                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
+                                    <el-tag size="medium">{{ scope.row.username }}</el-tag>
                                 </div>
                             </el-popover>
                         </template>
                     </el-table-column>
                     <el-table-column
-                            label="试卷类型"
+                            label="邮箱"
                             width="180">
                         <template slot-scope="scope">
                             <i class="el-icon-time"></i>
-                            <span style="margin-left: 10px">{{ scope.row.class }}</span>
+                            <span style="margin-left: 10px">{{ scope.row.email }}</span>
                         </template>
                     </el-table-column>
                     <el-table-column
-                            label="命题人"
+                            label="身份"
                             width="180">
                         <template slot-scope="scope">
                             <i class="el-icon-time"></i>
-                            <span style="margin-left: 10px">{{ scope.row.teacher }}</span>
+                            <span style="margin-left: 10px">{{ scope.row.identity }}</span>
                         </template>
                     </el-table-column>
                     <el-table-column
-                            label="日期"
+                            label="上次登录时间"
                             width="180">
                         <template slot-scope="scope">
                             <i class="el-icon-time"></i>
-                            <span style="margin-left: 10px">{{ scope.row.created_at }}</span>
+                            <span style="margin-left: 10px">{{ scope.row.last_login }}</span>
                         </template>
                     </el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="scope">
-                            <el-button v-if="isChild"
-                                    size="mini"
-                                    @click="handleToFather(scope.row.id, scope.row)">{{buttonText}}
-                            </el-button>
-                            <el-button v-else="isChild"
+                            <el-button
                                        size="mini"
-                                       @click="handleSplit(scope.row.id, scope.row)">分割
+                                       @click="handleSplit(scope.row.id, scope.row)">编辑
+                            </el-button>
+                            <el-button
+                                    size="mini"
+                                    type="danger"
+                                    @click="handleDelete(scope.row.id, scope.row)">删除
                             </el-button>
                         </template>
                     </el-table-column>
@@ -114,11 +115,13 @@
         methods: {
 
             handleEdit(index, row) {
-                this.$router.push("/exedit"+index);
+                //this.$router.push("/exedit"+index);
+                console.log("handleEdit")
             },
             handleSplit(index, row) {
                 document.documentElement.scrollTop=0;
-                this.$router.push("/cuttingcanvas"+index);
+                //this.$router.push("/cuttingcanvas"+index);
+                console.log("handleSplit")
             },
 
             handleToFather(index,row){
@@ -126,17 +129,18 @@
             },
             handleDelete(index, row) {
 
-                this.$axios.get('/api/del_expaper', {params: {id: index}}).then(result => {
-
-                    console.log(result);
-                    this.getAllList();
-                });
+                // this.$axios.get('/api/del_expaper', {params: {id: index}}).then(result => {
+                //     console.log(result);
+                //     this.getAllList();
+                // });
+                console.log("handleDelete")
 
             },
             getAllList() {
-                this.$axios.get('/api/getscript').then(result => {
-                    this.list = result.data.data
-                    console.log(result.data.data)
+                this.$axios.get('/api/user/getall').then(result => {
+                    console.log(result.data)
+                    this.list = result.data
+
                     this.setPaginations()
                 })
             },

@@ -2,17 +2,45 @@
 
     <div v-if="item.header" class="question" id="question" :ref="eachrefs">
         <div style="text-align: center"><a style= "font-size: 25px">{{item.header.name}}</a></div>
-        <div style="float: left; margin: 0px 0px 0px 10px"> 姓名：________________</div><br>
-        <div style="float: left; margin: 0px 0px 0px 10px"> 学校：________________</div><br>
-        <div style="float: left; margin: 0px 0px 0px 10px"> 学号：________________</div><br>
-        <div style="float: left; margin: 0px 0px 0px 10px"> barcode：<div style="border: 1px #1f2d3d solid;width: 80px;height: 20px"></div></div><br>
-        <br>
+<a >
+        <div class="infodiv">
+            <div style="float: left; margin: 10px 0px 0px 10px"> 姓名：________________</div>
+            <div style="float: left; margin: 0px 0px 0px 10px"> 学校：________________</div>
+            <div style="float: left; margin: 0px 0px 0px 10px"> 学号：________________</div>
+            <div style="float: left; margin: 0px 0px 0px 10px"> 缺考：[是] [否]</div>
+            <div style="float: left; margin: 5px 0px 0px 10px"> barcode：<div style="border: 1px #1f2d3d solid;width: 160px;height: 40px;"></div></div>
+        </div>
+        <div class="stunum"><div>
+
+            <div class="stunumheader" style="border: 0px solid #000;width: 100%; text-align: left;margin-left: 2px">
+                学号：
+            </div>
+            <table class="stunumbody" style=";margin-left: 25px">
+                <tr><td></td><td>  </td><td>[0]</td><td>[0]</td><td>[0]</td><td>[0]</td><td>[0]</td><td>[0]</td><td>[0]</td><td>[0]</td><td>[0]</td><td>[0]</td></tr>
+                <tr><td></td><td>  </td><td>[1]</td><td>[1]</td><td>[1]</td><td>[1]</td><td>[1]</td><td>[1]</td><td>[1]</td><td>[1]</td><td>[1]</td><td>[1]</td></tr>
+                <tr><td></td><td>  </td><td>[2]</td><td>[2]</td><td>[2]</td><td>[2]</td><td>[2]</td><td>[2]</td><td>[2]</td><td>[2]</td><td>[2]</td><td>[2]</td></tr>
+                <tr><td></td><td>  </td><td>[3]</td><td>[3]</td><td>[3]</td><td>[3]</td><td>[3]</td><td>[3]</td><td>[3]</td><td>[3]</td><td>[3]</td><td>[3]</td></tr>
+                <tr><td></td><td>  </td><td>[4]</td><td>[4]</td><td>[4]</td><td>[4]</td><td>[4]</td><td>[4]</td><td>[4]</td><td>[4]</td><td>[4]</td><td>[4]</td></tr>
+                <tr><td></td><td>  </td><td>[5]</td><td>[5]</td><td>[5]</td><td>[5]</td><td>[5]</td><td>[5]</td><td>[5]</td><td>[5]</td><td>[5]</td><td>[5]</td></tr>
+
+            </table>
+        </div> </div>
+</a>
+
+
     </div>
     <div v-else-if="item.questions.length===1" class="question" id="question" :ref="eachrefs">
         <div class="title"><strong><a>第{{item.title}}大题：</a></strong></div>
         <br>
         <template v-for="(question,qindex) in item.questions">
             <div class="tiny"> {{question.id}}、</div>
+        </template>
+    </div>
+    <div v-else-if="item.questions[0].tinytype=='select'" class="question" id="question" :ref="eachrefs">
+        <div class="titleselect"><strong><a>第{{item.title}}大题：</a></strong></div>
+        <br>
+        <template v-for="(question,qindex) in item.questions">
+            <div class="tinyselect"> {{question.id}}、[A] [B] [C] [D]</div>
         </template>
     </div>
     <div v-else class="question" id="question" :ref="eachrefs">
@@ -121,7 +149,38 @@
         border: 1px solid #000;
     }
 
+    .stunum {
+        width: 280px;
+        min-height: 110px;
+        float: right;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        border: 1px solid #000;
+        position:relative;
+    }
 
+    .stunumheader.td{
+        border: 1px solid #000;
+    }
+
+  table{
+      border: 0px solid #000;
+      margin: 0;
+  }
+
+  td{
+      margin: 0;
+
+  }
+
+    .infodiv {
+        width: 200px;
+        min-height: 110px;
+        float: left;
+
+        position:relative;
+    }
     .tiny {
         float: left;
         margin: 5px;
@@ -132,6 +191,17 @@
         float: left;
         margin: 5px;
         padding: 5px;
+    }
+
+    .titleselect {
+        float: left;
+        margin: 0px;
+        padding: 0px;
+    }
+    .tinyselect {
+        float: left;
+        margin: 2px;
+        padding: 2px;
     }
 
     .pointball {

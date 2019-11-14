@@ -57,11 +57,21 @@
                         <el-form-item label="小题：">
                             <a> 从第<el-input v-model="formLabelAlign.from" placeholder="示例：16-20" style="width: 30%"></el-input>题到
                                 第<el-input v-model="formLabelAlign.fromto" placeholder="示例：16-20" style="width: 30%"></el-input>题</a>
+                        </el-form-item>
 
-                        </el-form-item>
-                        <el-form-item label="每道题得分:">
-                            <el-input v-model="formLabelAlign.score" placeholder="示例：3"></el-input>
-                        </el-form-item>
+                            <el-form-item label="题目类型" >
+                                <a>
+                                <el-select v-model="formLabelAlign.tinytype" placeholder="请选题目类型" style="width: 35%">
+                                    <el-option label="选择题" value="select"></el-option>
+                                    <el-option label="填空题" value="blank"></el-option>
+                                    <el-option label="解答题" value="answer"></el-option>
+                                </el-select>
+                                每道题得分<el-input v-model="formLabelAlign.score" placeholder="示例：3" style="width: 35%"></el-input></a>
+                            </el-form-item>
+
+
+
+
                         <el-form-item label="答案：">
                             <el-input v-model="formLabelAlign.t3" placeholder="示例：B-A-ABC-C-BC"></el-input>
                         </el-form-item>
@@ -72,7 +82,7 @@
                     <el-button type="primary" @click="deletepop(formLabelAlign.index)">删除</el-button>
 
                 </div>
-                <div style="text-align: center;margin: 80px 30px 10px 10px">
+                <div style="text-align: center;margin: 20px 30px 10px 10px">
                     <el-button type="primary" @click="submitForm(mytitles)">保存</el-button>
                 </div>
 
@@ -113,6 +123,7 @@
                     index: '',
                     from:'',
                     fromto:'',
+                    tinytype:'',
                 },
                 itemposition: {},
                 paperpages: 2,
@@ -126,9 +137,10 @@
 
                     {
                         title: '一', questions: [
-                            {id: 1, e: 'A'},
-                            {id: 2, e: 'A'},
-                            {id: 3, e: 'A'},
+                            {id: 1, e: 'A',tinytype:'select'},
+                            {id: 2, e: 'A',tinytype:'select'},
+                            {id: 3, e: 'A',tinytype:'select'},
+                            {id: 4, e: 'A',tinytype:'select'},
                         ], x1: '', x2: '', y1: '', y2: ''
                     },
 
@@ -167,15 +179,22 @@
 
                         {
                             title: '一', questions: [
-                                {id: 1, e: 'A', score: ''},
-                                {id: 2, e: 'A', score: ''},
-                                {id: 3, e: 'A', score: ''},
+                                {id: 1, e: 'A', score: '',tinytype:'select'},
+                                {id: 2, e: 'A', score: '',tinytype:'select'},
+                                {id: 3, e: 'A', score: '',tinytype:'select'},
+                                {id: 4, e: 'A', score: '',tinytype:'select'},
+                                {id: 5, e: 'A', score: '',tinytype:'select'},
+                                {id: 6, e: 'A', score: '',tinytype:'select'},
+                                {id: 7, e: 'A', score: '',tinytype:'select'},
+                                {id: 8, e: 'A', score: '',tinytype:'select'},
+                                {id: 9, e: 'A', score: '',tinytype:'select'},
+                                {id: 10, e: 'A', score: '',tinytype:'select'},
                             ], x1: '', x2: '', y1: '', y2: ''
                         },
 
                         {
                             title: '二', questions: [
-                                {id: 4, e: 'A', score: ''},
+
                                 {id: 5, e: 'A', score: ''},
                                 {id: 6, e: 'A', score: ''},
                                 {id: 7, e: 'A', score: ''},
@@ -233,6 +252,7 @@
                 var max =form.fromto; // form.t2.split("-")[1];
                 var exp = [];           //期望的答案
                 var score = form.score; //本题分数
+                var tinytype = form.tinytype; //本题分数
 
                 /** 数据打包！ 正确答案数据**/
                 if (max != undefined) {
@@ -241,11 +261,11 @@
                         exp.push(e)
                     }
                     for (var i = count; i < max; i++) {
-                        title.questions.push({id: i, e: exp, score: score})
+                        title.questions.push({id: i, e: exp, score: score,tinytype:tinytype})
                     }
                 } else {
                     exp.push(form.t3);
-                    title.questions.push({id: count, e: exp, score: score})
+                    title.questions.push({id: count, e: exp, score: score,tinytype:tinytype})
                 }
                 if (title.title === '' || title.title === undefined) {
                     alert("空数据");

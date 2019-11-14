@@ -61,9 +61,22 @@
                             {path:'operating',name:'分割试卷'},
                             {path:'uplodeimg',name:'上传图片'}
                         ]},
+                    {icon:'fa-asterike',name:'学生管理',path:'stud',children:[
+                            {path:'stulist',name:'学生列表'},
+                            {path:'uplodeimg',name:'其他'}
+                        ]},
                 ]
             }
-        }
+        },
+       mounted() {
+           if (this.$store.getters.identity==="manager") {
+               var info={path:'userslist',name:'用户列表'};
+               this.items[1].children.push(info)
+           }else{
+               var info={path:'userslist',name:'用户列表'};
+               this.items[1].children.push(info)
+           }
+       }
     }
 </script>
 

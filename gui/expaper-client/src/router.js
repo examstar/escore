@@ -6,6 +6,7 @@ import login from './views/login.vue'
 import notfound from './views/404.vue'
 import expapercreate from './views/ExpaperCreate.vue'
 import expaperlist from './views/ExpaperList.vue'
+import userlist from './views/infopages/userslist.vue'
 import testpage from './views/testpage.vue'
 import excreate from './views/ExCreate.vue'
 import Home from './views/Home.vue'
@@ -46,6 +47,7 @@ const router =new Router({
         {path:'/mypaper',name:"mypaper",component:mypaper,},
         {path:'/exedit:id',name:"exedit",component:exedit,},
         {path:'/cuttingcanvas:id',name:"cuttingcanvas",component:cuttingcanvas,},
+        {path:'/userslist',name:"userlist",component:userlist,},
 
       ]
     },{
