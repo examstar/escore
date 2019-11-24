@@ -1,16 +1,16 @@
 + 已提供API列表
-  - /api/getscript
-  - /api/del_expaper
-  - /api/add_expaper（post）
-  - /api/add_expaper（get）
-  - /api/expaper_detail
-  - /api/edit_expaper
-  - /api/getPaperChip
+  - GET /api/getscript
+  - GET /api/del_expaper
+  - POST /api/add_expaper
+  - GET /api/add_expaper
+  - GET /api/expaper_detail
+  - POST /api/edit_expaper
+  - GET /api/getPaperChip
   
-  - /api/user/register
-  - /api/user/login
-  - /api/user/getall
-  - /api/user/deluser
+  - POST /api/user/register
+  - POST /api/user/login
+  - GET /api/user/getall
+  - GET /api/user/deluser
 
 + page(无效，用于后端测试)
   - /

@@ -11,7 +11,7 @@ router.get('/api/getscript', function (req, res, next) {
     handler.getscript(req, res)
 });
 
-/**  接口 **/
+/**  接口  应该是没用了 **/
 router.get('/api/add_expaper', function (req, res, next) {
     handler.addExpaperApi(req, res);
 });
@@ -23,12 +23,22 @@ router.post('/api/add_expaper', function (req, res, next) {
 });
 
 /**  删除api！ **/
-router.get('/api/del_expaper', function (req, res, next) {
+// router.get('/api/del_expaper', function (req, res, next) {
+//     handler.delExpaperApi(req, res);
+// });
+
+/**  删除api！ **/
+router.get('/api/del_expaper/:id', function (req, res, next) {
     handler.delExpaperApi(req, res);
 });
 
+// /**  查看详情！ **/
+// router.get('/api/expaper_detail', function (req, res, next) {
+//     handler.getExpaperApi(req, res);
+// });
+
 /**  查看详情！ **/
-router.get('/api/expaper_detail', function (req, res, next) {
+router.get('/api/expaper_detail/:id', function (req, res, next) {
     handler.getExpaperApi(req, res);
 });
 

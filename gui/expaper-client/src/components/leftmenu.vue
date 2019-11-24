@@ -63,7 +63,8 @@
                         ]},
                     {icon:'fa-asterike',name:'学生管理',path:'stud',children:[
                             {path:'stulist',name:'学生列表'},
-                            {path:'uplodeimg',name:'其他'}
+                            {path:'uplodeimg',name:'其他'},
+                            {path:'testpages',name:'测试'},
                         ]},
                 ]
             }

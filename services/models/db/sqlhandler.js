@@ -61,7 +61,7 @@ module.exports.getAllChip = function (req, res, callback) {
 
 module.exports.delSql = function (req, res, callback) {
     //如果没有id字段,返回404
-    if (req.query.id == undefined || req.query.id == '') {
+    if (req.params.id == undefined || req.params.id == '') {
         var result = {
             status: 500,
             tips: "请求失败！",
@@ -73,7 +73,7 @@ module.exports.delSql = function (req, res, callback) {
     //先查找,再调用删除,最后返回首页
     Expaper.findOne({
         where: {
-            id: req.query.id
+            id: req.params.id
         }
     }).then(function (msg) {
         callback(msg.content_path);
@@ -119,7 +119,7 @@ module.exports.delSql = function (req, res, callback) {
 module.exports.getOneSql = function (req, res, callback) {
     return new Promise((resolve,reject)=>{
         //如果没有id字段,返回404
-        if (req.query.id == undefined || req.query.id == '') {
+        if (req.params.id == undefined || req.params.id == '') {
             var result = {
                 status: 500,
                 tips: "请求失败！",
@@ -130,9 +130,14 @@ module.exports.getOneSql = function (req, res, callback) {
         //先查找,把值返回
         Expaper.findOne({
             where: {
-                id: req.query.id
+                id: req.params.id
             }
         }).then(function (msg) {
+            var result = {
+                status: 200,
+                tips: "请求成功！",
+                data: msg
+            };
             resolve(msg);
         });
     })

@@ -84,7 +84,11 @@ module.exports.getExpaperApi = function (req, res) {
         .then((item) => {
             return readOneData(item.content_path)
         })
-        .then(data => res.json(data))
+        .then(data => res.json({
+            status: 200,
+            tips: "请求成功！",
+            data: data
+        }))
         .catch(err => {
             res.json(err)
         })

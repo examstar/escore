@@ -126,8 +126,8 @@
             },
             handleDelete(index, row) {
 
-                this.$axios.get('/api/del_expaper', {params: {id: index}}).then(result => {
-
+                //this.$axios.get('/api/del_expaper', {params: {id: index}}).then(result => {
+                this.$axios.get('/api/del_expaper/'+index).then(result => {
                     console.log(result);
                     this.getAllList();
                 });

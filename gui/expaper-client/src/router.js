@@ -18,6 +18,8 @@ import operating from './views/OperaList.vue'
 import uplodeimg from './views/Utils/UplodeImg.vue'
 
 import cuttingcanvas from './views/Utils/CuttingCanvas.vue'
+import testpages from './views/Utils/testPage.vue'
+
 
 Vue.use(Router);
 
@@ -48,6 +50,8 @@ const router =new Router({
         {path:'/exedit:id',name:"exedit",component:exedit,},
         {path:'/cuttingcanvas:id',name:"cuttingcanvas",component:cuttingcanvas,},
         {path:'/userslist',name:"userlist",component:userlist,},
+        {path:'/userslist',name:"userlist",component:userlist,},
+        {path:'/testpages',name:"testpages",component:testpages,},
 
       ]
     },{

@@ -301,8 +301,9 @@
                 return arr
             },
             getItemById(){
-                this.$axios.get('/api/expaper_detail?id='+this.$route.params.id).then(result => {
-                    this.newData.mytitles = result.data;
+                this.$axios.get('/api/expaper_detail/'+this.$route.params.id).then(result => {
+                    console.log(result.data.data);
+                    this.newData.mytitles = result.data.data;
                     if(this.newData.mytitles[0]===""||this.newData.mytitles[0]==undefined){
                         alert("读取错误：SQL数据已找到，但没有找到相应的json数据或json数据格式错误！");
                         this.$router.push("/expaperlist")
